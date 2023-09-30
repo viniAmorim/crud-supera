@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const FooterWrapper = styled.div`
   background-color: #333;
   color: #fff;
-  padding: 3em;
+  padding: 0.5em;
   text-align: center;
   position: fixed;
   bottom: 0;
