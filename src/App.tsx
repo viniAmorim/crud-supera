@@ -5,12 +5,13 @@ import { useQuery } from 'react-query'
 import Linearprogress from '@material-ui/core/LinearProgress'
 
 import { Wrapper } from './App.styles'
-import UsersTable from './Table/Table'
-
+import UsersTable from './UsersTable/UsersTable'
 
 import PageWithPagination from './TableWithPagination/PageWithPagination'
 import AddUser from './AddUser/AddUser';
 import EditUser from './EditUser/EditUser';
+import Navbar from './components/layout/Navbar/Navbar';
+import Footer from './components/layout/Footer/Footer';
 
 export type UserItemType = {
   id: number;
@@ -24,13 +25,15 @@ export type UserItemType = {
 const App = () => {
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route path="/" element={<UsersTable />} />
         <Route path="/add-user" element={<AddUser />} />
         <Route path="/edit-user" element={<EditUser />} />
       </Routes>
+      <Footer />
     </Router>
-  );
+  )
 }
 
 export default App;

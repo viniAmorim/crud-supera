@@ -8,6 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { LinearProgress } from '@material-ui/core';
 import { useQuery } from 'react-query';
+import Welcome from '../Welcome/Welcome';
 
 export type UserItemType = {
   id: number;
@@ -38,6 +39,8 @@ const UsersTable = () => {
 
   return (
     <TableContainer component={Paper}>
+
+      <Welcome />
       <Table>
         <TableHead>
           <TableRow>
