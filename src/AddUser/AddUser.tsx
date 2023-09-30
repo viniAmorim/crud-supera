@@ -48,10 +48,10 @@ export default function SimpleContainer() {
 
   const mutation = useMutation(createUser, {
     onSuccess: () => {
-      queryClient.invalidateQueries('users');
+      queryClient.invalidateQueries('users')
       reset();
     },
-  });
+  })
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     mutation.mutate(data);
