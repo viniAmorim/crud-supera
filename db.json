@@ -1,0 +1,52 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Vinicius",
+      "email": "vinicius@mail.com",
+      "profile": "Admin",
+      "phone": "9999999999",
+      "age": 55
+    },
+    {
+      "id": 2,
+      "name": "Maria",
+      "email": "maria@mail.com",
+      "profile": "User",
+      "phone": "8888888888",
+      "age": 68
+    },
+    {
+      "id": 3,
+      "name": "José",
+      "email": "jose@mail.com",
+      "profile": "User",
+      "phone": "9999999999",
+      "age": 34
+    },
+    {
+      "id": 2,
+      "name": "Pedro",
+      "email": "pedro@mail.com",
+      "profile": "User",
+      "phone": "7777777777",
+      "age": 22
+    },
+    {
+      "id": 1,
+      "name": "João",
+      "email": "joão@mail.com",
+      "profile": "User",
+      "phone": "55555555555",
+      "age": 19
+    },
+    {
+      "id": 2,
+      "name": "Gabriel",
+      "email": "gariel@mail.com",
+      "profile": "User",
+      "phone": "44444444444",
+      "age": 48
+    }
+  ]
+}
