@@ -7,7 +7,7 @@ import Linearprogress from '@material-ui/core/LinearProgress'
 import { Wrapper } from './App.styles'
 import UsersTable from './UsersTable/UsersTable'
 
-import PageWithPagination from './TableWithPagination/PageWithPagination'
+import PageWithPagination from './TableWithPagination/TableWithPagination'
 import AddUser from './AddUser/AddUser';
 import EditUser from './EditUser/EditUser';
 import Navbar from './components/layout/Navbar/Navbar';
@@ -27,11 +27,10 @@ const App = () => {
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<UsersTable />} />
+        <Route path="/" element={<PageWithPagination />} />
         <Route path="/add-user" element={<AddUser />} />
         <Route path="/edit-user" element={<EditUser />} />
       </Routes>
-      <Footer />
     </Router>
   )
 }

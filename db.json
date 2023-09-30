@@ -25,7 +25,7 @@
       "age": 34
     },
     {
-      "id": 2,
+      "id": 4,
       "name": "Pedro",
       "email": "pedro@mail.com",
       "profile": "User",
@@ -33,7 +33,7 @@
       "age": 22
     },
     {
-      "id": 1,
+      "id": 5,
       "name": "João",
       "email": "joão@mail.com",
       "profile": "User",
@@ -41,20 +41,12 @@
       "age": 19
     },
     {
-      "id": 2,
+      "id": 6,
       "name": "Gabriel",
       "email": "gariel@mail.com",
       "profile": "User",
       "phone": "44444444444",
       "age": 48
-    },
-    {
-      "name": "teste",
-      "email": "teste@teste.com.br",
-      "profile": "Admin",
-      "phone": "66666666",
-      "age": "55",
-      "id": 4
     }
   ]
 }

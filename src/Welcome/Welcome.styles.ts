@@ -22,6 +22,7 @@ export const Wrapper = styled.div`
 
   p {
     margin-bottom: 1.5em;
+    margin-left: 45px;
     color: #7b7b7b;
   }
 `
