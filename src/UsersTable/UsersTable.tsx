@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import { LinearProgress } from '@material-ui/core';
 import { useQuery } from 'react-query';
 import Welcome from '../Welcome/Welcome';
+import axios from 'axios';
 
 export type UserItemType = {
   id: number;
@@ -19,8 +20,14 @@ export type UserItemType = {
   age: number;
 }
 
-const getUsers = async (): Promise<UserItemType[]> =>
-  await(await fetch('http://localhost:5000/users')).json()
+const getUsers = async (): Promise<UserItemType[]> => {
+  try {
+    const response = await axios.get('http://localhost:5000/users');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
 
 const UsersTable = () => {
   const { data, isLoading, error } = useQuery<UserItemType[]>(

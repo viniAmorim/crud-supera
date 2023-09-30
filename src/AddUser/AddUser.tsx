@@ -5,25 +5,47 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { FormControl, FormLabel, MenuItem, Select } from '@mui/material';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { useMutation, useQueryClient } from 'react-query';
+import axios from 'axios'; // Importe o Axios
 
 import { Wrapper, Title, FormWrapper } from './AddUser.styles';
 
 type FormValues = {
   name: string;
   email: string;
+  profile: string;
   age: number;
   phone: string;
 };
+
+async function createUser(data: FormValues) {
+  try {
+    const response = await axios.post('http://localhost:5000/users', data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
 
 export default function SimpleContainer() {
   const {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormValues>();
 
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(createUser, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('users');
+      reset();
+    },
+  });
+
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
+    mutation.mutate(data);
   };
 
   return (
@@ -54,16 +76,15 @@ export default function SimpleContainer() {
                 />
                 {errors.email && <span>This field is required</span>}
 
-                <FormLabel>Age</FormLabel>
+                <FormLabel>Profile</FormLabel>
                 <Controller
-                  name="age"
+                  name="profile"
                   control={control}
-                  defaultValue={10}
+                  defaultValue=""
                   render={({ field }) => (
-                    <Select {...field} label="Age">
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                    <Select {...field} label="profile">
+                      <MenuItem value={'Admin'}>Admin</MenuItem>
+                      <MenuItem value={'User'}>User</MenuItem>
                     </Select>
                   )}
                 />
@@ -77,7 +98,22 @@ export default function SimpleContainer() {
                 />
                 {errors.phone && <span>This field is required</span>}
 
-                <Button type="submit">Submit</Button>
+                <FormLabel>Age</FormLabel>
+                <Controller
+                  name="age"
+                  control={control}
+                  defaultValue={0}
+                  render={({ field }) => <TextField {...field} />}
+                />
+                {errors.phone && <span>This field is required</span>}
+                
+                <Button>
+                  Back
+                </Button>
+
+                <Button type="submit" disabled={mutation.isLoading}>
+                  {mutation.isLoading ? 'Sending...' : 'Save'}
+                </Button>
               </FormControl>
             </form>
           </FormWrapper>

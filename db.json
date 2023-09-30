@@ -47,6 +47,14 @@
       "profile": "User",
       "phone": "44444444444",
       "age": 48
+    },
+    {
+      "name": "teste",
+      "email": "teste@teste.com.br",
+      "profile": "Admin",
+      "phone": "66666666",
+      "age": "55",
+      "id": 4
     }
   ]
 }
