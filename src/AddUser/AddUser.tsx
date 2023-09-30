@@ -1,14 +1,15 @@
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { FormControl, FormLabel, MenuItem, Select } from '@mui/material';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { useMutation, useQueryClient } from 'react-query';
-import axios from 'axios'; // Importe o Axios
+import * as React from 'react'
+import CssBaseline from '@mui/material/CssBaseline'
+import Container from '@mui/material/Container'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import { FormControl, FormLabel, MenuItem, Select } from '@mui/material'
+import { useForm, SubmitHandler, Controller } from 'react-hook-form'
+import { useMutation, useQueryClient } from 'react-query'
+import axios from 'axios'
+import * as yup from 'yup' 
 
-import { Wrapper, Title, FormWrapper } from './AddUser.styles';
+import { Wrapper, Title, FormWrapper } from './AddUser.styles'
 
 type FormValues = {
   name: string;
@@ -16,7 +17,15 @@ type FormValues = {
   profile: string;
   age: number;
   phone: string;
-};
+}
+
+const userSchema = yup.object().shape({
+  name: yup.string().required('Name is required'),
+  email: yup.string().email('Invalid email').required('Email is required'),
+  profile: yup.string().oneOf(['Admin', 'User'], 'Invalid profile').required('Profile is required'),
+  phone: yup.string().required('Phone is required'),
+  age: yup.number().positive('Age must be a positive number').required('Age is required'),
+})
 
 async function createUser(data: FormValues) {
   try {
@@ -46,7 +55,7 @@ export default function SimpleContainer() {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     mutation.mutate(data);
-  };
+  }
 
   return (
     <React.Fragment>
