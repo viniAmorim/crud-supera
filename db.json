@@ -1,11 +1,11 @@
 {
   "users": [
     {
-      "name": "Vinicius Amorim",
-      "email": "vinicius@mail.com",
-      "profile": "Admin",
-      "age": 55,
+      "age": null,
       "phone": "9999999999",
+      "profile": "Admin",
+      "email": "vinicius@mail.com",
+      "name": "Vinicius Amorim",
       "id": 1
     },
     {
@@ -129,12 +129,20 @@
       "id": 16
     },
     {
+      "name": "Vinicius Amorim",
+      "email": "teste2@teste.com.br",
+      "profile": "User",
       "age": 55,
       "phone": "4564646464",
-      "profile": "User",
-      "email": "teste2@teste.com.br",
-      "name": "Vinicius Amorim",
       "id": 17
+    },
+    {
+      "age": 98,
+      "phone": "4564646464",
+      "profile": "User",
+      "email": "pedroa@teste.com.br",
+      "name": "Vinicius Amorim da Silva",
+      "id": 18
     }
   ]
 }

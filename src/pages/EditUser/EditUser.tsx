@@ -46,11 +46,13 @@ const editSchema = yup.object().shape({
   age: yup
     .number()
     .positive('Age must be a positive number')
-    .nullable(), 
+    .nullable()
+    .transform((value, originalValue) => (originalValue === '' ? null : value)),
 })
 
 export default function EditUser() {
-  const location = useLocation();
+  const navigate = useNavigate()
+  const location = useLocation()
   const userToEdit = location.state?.user
 
   async function editUser(data: FormValues) {
@@ -70,11 +72,9 @@ export default function EditUser() {
       profile: userToEdit?.profile || 'User',
       age: userToEdit?.age || 0,
       phone: userToEdit?.phone || '',
-    };
-  };
+    }
+  }
 
-  console.log(userToEdit)
-  const navigate = useNavigate()
   const {
     control,
     handleSubmit,
@@ -90,14 +90,13 @@ export default function EditUser() {
   const mutation = useMutation(editUser, {
     onSuccess: () => {
       queryClient.invalidateQueries('users')
-      reset();
+      reset()
       toast.success('User edited successfully')
       navigate('/')
     },
   })
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data)
     mutation.mutate(data)
   }
 
@@ -158,7 +157,7 @@ export default function EditUser() {
                   defaultValue={null}
                   render={({ field }) => <TextField style={{width: '100px'}} {...field} />}
                 />
-                {errors.phone && <span style={{color: 'red'}}>This field is required</span>}
+                {errors.age && <span style={{color: 'red'}}>This field has to be a positive number</span>}
                 
                 <ButtonWrapper>
                   <Button onClick={() => navigate('/')}>
