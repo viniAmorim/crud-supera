@@ -27,7 +27,7 @@ export const StyledLabel = styled(FormLabel)`
   margin-bottom: 5px;
 `
 
-export const FormWrapper = styled.form`
+export const FormWrapper = styled.div`
   margin: 20px 20px 20px 80px;
 
   input {
