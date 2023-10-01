@@ -1,15 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import {NavbarWrapper} from './Navbar.styles';
+import {NavbarWrapper, StyledButton} from './Navbar.styles';
 
 function Navbar() {
+  const navigate = useNavigate()
   return (
     <NavbarWrapper>
       <nav>
         <Link to="/"><img src={"/images/logo.svg"} alt="welcome" /></Link>
         <ul>
-          <li><Link to="/users-list">ADD USERS</Link></li>
+          <li><StyledButton onClick={() => navigate('/add-user')}>Add User</StyledButton></li>
         </ul>
       </nav>
     </NavbarWrapper>

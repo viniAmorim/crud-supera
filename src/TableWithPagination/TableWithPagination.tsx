@@ -25,7 +25,7 @@ const getUsers = async (): Promise<UserItemType[]> => {
   }
 };
 
-const deleteUser = async (id: any) => {
+const deleteUser = async (id: number) => {
   try {
     const response = await axios.delete(`http://localhost:5000/users/${id}`);
     return response.data;
@@ -52,7 +52,7 @@ const columns = [
     headerName: 'Actions',
     sortable: false,
     width: 160,
-    renderCell: (params: { row: { id: any } }) => (
+    renderCell: (params: { row: { id: number } }) => (
       <div>
         <Button
           variant="outlined"
@@ -60,14 +60,14 @@ const columns = [
           onClick={() => handleEdit(params.row.id)}
           style={{ margin: '5px' }}
         >
-          <FaEdit />
+          <FaEdit/>
         </Button>
         <Button
           variant="outlined"
           color="secondary"
-          onClick={() => handleDeleteUser(params.row.id)} // Usar handleDeleteUser aqui
+          onClick={() => handleDeleteUser(params.row.id)}
         >
-          <FaTrash />
+          <FaTrash style={{ color: 'red' }}/>
         </Button>
       </div>
     ),
@@ -87,7 +87,7 @@ const columns = [
     },
   });
 
-  const handleDeleteUser = (id: any) => { // Renomeado para handleDeleteUser
+  const handleDeleteUser = (id: number) => { 
     deleteUserMutation.mutate(id);
   };
 

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import CssBaseline from '@mui/material/CssBaseline'
 import Container from '@mui/material/Container'
 import TextField from '@mui/material/TextField'
@@ -9,7 +9,7 @@ import { useMutation, useQueryClient } from 'react-query'
 import axios from 'axios'
 import * as yup from 'yup' 
 
-import { Wrapper, Title, FormWrapper } from './AddUser.styles'
+import { Wrapper, Title, FormWrapper, StyledLabel, ButtonWrapper, StyledTextField } from './AddUser.styles'
 
 type FormValues = {
   name: string;
@@ -62,30 +62,30 @@ export default function SimpleContainer() {
       <CssBaseline />
       <Container maxWidth="sm">
         <Wrapper>
-          <Title>Add User</Title>
+          <Title>Add <span>User</span></Title>
 
           <FormWrapper>
             <form onSubmit={handleSubmit(onSubmit)}>
               <FormControl>
-                <FormLabel>Name</FormLabel>
+                <StyledLabel>Name</StyledLabel>
                 <Controller
                   name="name"
                   control={control}
                   defaultValue=""
-                  render={({ field }) => <TextField {...field} />}
+                  render={({ field }) => <StyledTextField placeholder="name" {...field} />}
                 />
                 {errors.name && <span>This field is required</span>}
 
-                <FormLabel>Email</FormLabel>
+                <StyledLabel>Email</StyledLabel>
                 <Controller
                   name="email"
                   control={control}
                   defaultValue=""
-                  render={({ field }) => <TextField {...field} />}
+                  render={({ field }) => <StyledTextField placeholder="email" {...field} />}
                 />
                 {errors.email && <span>This field is required</span>}
 
-                <FormLabel>Profile</FormLabel>
+                <StyledLabel >Profile</StyledLabel>
                 <Controller
                   name="profile"
                   control={control}
@@ -98,31 +98,33 @@ export default function SimpleContainer() {
                   )}
                 />
 
-                <FormLabel>Phone</FormLabel>
+                <StyledLabel>Phone</StyledLabel>
                 <Controller
                   name="phone"
                   control={control}
                   defaultValue=""
-                  render={({ field }) => <TextField {...field} />}
+                  render={({ field }) => <StyledTextField placeholder="(XX) XX XXXX-XXX" {...field} />}
                 />
                 {errors.phone && <span>This field is required</span>}
 
-                <FormLabel>Age</FormLabel>
+                <StyledLabel>Age</StyledLabel>
                 <Controller
                   name="age"
                   control={control}
                   defaultValue={0}
-                  render={({ field }) => <TextField {...field} />}
+                  render={({ field }) => <TextField style={{width: '100px'}} {...field} />}
                 />
                 {errors.phone && <span>This field is required</span>}
                 
-                <Button>
-                  Back
-                </Button>
+                <ButtonWrapper>
+                  <Button>
+                    Back
+                  </Button>
 
-                <Button type="submit" disabled={mutation.isLoading}>
-                  {mutation.isLoading ? 'Sending...' : 'Save'}
-                </Button>
+                  <Button type="submit" disabled={mutation.isLoading}>
+                    {mutation.isLoading ? 'Sending...' : 'Save'}
+                  </Button>
+                </ButtonWrapper>
               </FormControl>
             </form>
           </FormWrapper>

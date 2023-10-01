@@ -36,3 +36,16 @@ export const NavbarWrapper = styled.div`
     margin-right: 20px;
   }
 `;
+
+export const StyledButton = styled.button`
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #fe7e00;
+  }
+`;
