@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
 
   margin-top: 20px;
 
-  border: 1px solid #f4f4f4;
+  border: 1px solid #c4c4c4;
   border-radius: 5px;
 `;
 
@@ -71,4 +71,4 @@ export const StyledInputMask = styled(InputMask)`
   border: solid 1px #c4c4c4;
   padding: 16px;
   border-radius: 4px;
-`
+  `
