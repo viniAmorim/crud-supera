@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Button, LinearProgress } from '@mui/material';
 import { Wrapper } from './TableWithPagination.styles';
 import Welcome from '../Welcome/Welcome';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -47,7 +47,7 @@ export default function TableWithPagination() {
       field: 'actions',
       headerName: 'Actions',
       sortable: false,
-      width: 160,
+      width: 240,
       renderCell: (params: { row: { id: number } }) => (
         <div>
           <Button
@@ -62,8 +62,17 @@ export default function TableWithPagination() {
             variant="outlined"
             color="secondary"
             onClick={() => handleDeleteUser(params.row.id)}
+            style={{ margin: '5px' }}
           >
             <FaTrash style={{ color: 'red' }}/>
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => handleViewUser(params.row.id)}
+            style={{ margin: '5px' }}
+          >
+            <FaEye style={{ color: 'green' }}/>
           </Button>
         </div>
       ),
@@ -82,6 +91,13 @@ export default function TableWithPagination() {
       queryClient.invalidateQueries('users');
     },
   })
+
+  const handleViewUser = (id: number) => {
+    const userToView = data?.find((user) => user.id === id);
+    if (userToView) {
+      navigate('/view-user', { state: { user: userToView } });
+    }
+  }
 
   const navigate = useNavigate()
   const handleEdit = (id: number) => {

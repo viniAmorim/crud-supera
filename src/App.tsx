@@ -12,6 +12,7 @@ import AddUser from './AddUser/AddUser';
 import EditUser from './EditUser/EditUser';
 import Navbar from './components/layout/Navbar/Navbar';
 import Footer from './components/layout/Footer/Footer';
+import ViewUser from './ViewUser/ViewUser';
 
 export type UserItemType = {
   id: number;
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/" element={<PageWithPagination />} />
         <Route path="/add-user" element={<AddUser />} />
         <Route path="/edit-user" element={<EditUser />} />
+        <Route path="/view-user" element={<ViewUser />} />
       </Routes>
     </Router>
   )
