@@ -40,7 +40,7 @@ export const NavbarWrapper = styled.div`
 export const StyledButton = styled.button`
   background-color: black;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 60px;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;

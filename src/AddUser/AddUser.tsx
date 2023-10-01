@@ -9,7 +9,10 @@ import { useMutation, useQueryClient } from 'react-query'
 import axios from 'axios'
 import * as yup from 'yup' 
 
+import { toast } from 'react-toastify'
+
 import { Wrapper, Title, FormWrapper, StyledLabel, ButtonWrapper, StyledTextField } from './AddUser.styles'
+import { useNavigate } from 'react-router-dom'
 
 type FormValues = {
   name: string;
@@ -37,6 +40,8 @@ async function createUser(data: FormValues) {
 }
 
 export default function SimpleContainer() {
+
+  const navigate = useNavigate()
   const {
     control,
     handleSubmit,
@@ -50,6 +55,7 @@ export default function SimpleContainer() {
     onSuccess: () => {
       queryClient.invalidateQueries('users')
       reset();
+      toast.success('User added successfully');
     },
   })
 
@@ -117,7 +123,7 @@ export default function SimpleContainer() {
                 {errors.phone && <span>This field is required</span>}
                 
                 <ButtonWrapper>
-                  <Button>
+                  <Button onClick={() => navigate('/')}>
                     Back
                   </Button>
 
