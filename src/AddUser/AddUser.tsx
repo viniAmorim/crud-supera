@@ -42,7 +42,7 @@ async function createUser(data: FormValues) {
   }
 }
 
-export default function SimpleContainer() {
+export default function AddUser() {
 
   const navigate = useNavigate()
   const {

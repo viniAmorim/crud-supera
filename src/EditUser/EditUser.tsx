@@ -33,7 +33,7 @@ const editSchema = yup.object().shape({
   age: yup.number().positive('Age must be a positive number').required('Age is required'),
 })
 
-export default function SimpleContainer() {
+export default function EditUser() {
   const location = useLocation();
   const userToEdit = location.state?.user;
 
