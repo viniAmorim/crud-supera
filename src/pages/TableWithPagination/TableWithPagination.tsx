@@ -1,12 +1,19 @@
-import React from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import { Button, LinearProgress } from '@mui/material';
-import { Wrapper } from './TableWithPagination.styles';
-import Welcome from '../Welcome/Welcome';
-import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
-import axios from 'axios';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+
+import { DataGrid } from '@mui/x-data-grid'
+import { Button, LinearProgress } from '@mui/material'
+
+import Welcome from '../Welcome/Welcome'
+
+import { Wrapper } from './TableWithPagination.styles'
+import { FaEdit, FaTrash, FaEye } from 'react-icons/fa'
+
+import InputMask from 'react-input-mask'
+
+import { toast } from 'react-toastify'
 
 export type UserItemType = {
   id: number;
@@ -22,7 +29,7 @@ const getUsers = async (): Promise<UserItemType[]> => {
     const response = await axios.get('http://localhost:5000/users');
     return response.data;
   } catch (error) {
-    throw error;
+    throw error
   }
 };
 
@@ -31,6 +38,7 @@ const deleteUser = async (id: number) => {
     const response = await axios.delete(`http://localhost:5000/users/${id}`);
     return response.data;
   } catch (error) {
+    toast.error('Something is wrong')
     throw error;
   }
 };
@@ -42,7 +50,23 @@ export default function TableWithPagination() {
     { field: 'email', headerName: 'Email', width: 150 },
     { field: 'age', headerName: 'Age', type: 'number', width: 50 },
     { field: 'profile', headerName: 'Profile', type: 'number', width: 100 },
-    { field: 'phone', headerName: 'Phone', type: 'number', width: 120 },
+    {
+      field: 'phone',
+      headerName: 'Phone',
+      type: 'string',
+      width: 120,
+      renderCell: (params: { row: { id: number; phone: string } }) => (
+        <div>
+          <InputMask
+            mask="(99) 99 9999-9999" 
+            maskChar=" "
+            value={params.row.phone}
+            disabled
+          >
+          </InputMask>
+        </div>
+      ),
+    },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -112,8 +136,7 @@ export default function TableWithPagination() {
   };
 
   if (isLoading) return <LinearProgress />;
-  if (error) return <div>Something went wrong ...</div>;
-  console.log(data);
+  if (error) return <div>Something went wrong ...</div>
 
   return (
     <Wrapper>

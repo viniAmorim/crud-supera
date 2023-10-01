@@ -76,7 +76,7 @@ export default function AddUser() {
   const mutation = useMutation(createUser, {
     onSuccess: () => {
       queryClient.invalidateQueries('users')
-      reset();
+      reset()
       toast.success('User added successfully')
       navigate('/')
     },
