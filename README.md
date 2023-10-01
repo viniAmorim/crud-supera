@@ -6,7 +6,11 @@
 Technical test for Supera. Simple CRUD using json-server.
 </h3>
 
-## :computer: Tecnologias
+<div>
+  <img src="https://user-images.githubusercontent.com/70040371/271838923-a380a0f3-5ba6-48fb-afb2-76c280461d46.png" width="700px" />
+</div>
+
+## :computer: Technologies
 
 - [React.js](https://pt-br.reactjs.org/)
 - [Typescript](https://www.typescriptlang.org/)
