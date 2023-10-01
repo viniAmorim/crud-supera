@@ -135,6 +135,14 @@
       "email": "teste@teste.com.br",
       "name": "teste",
       "id": 17
+    },
+    {
+      "age": 22,
+      "phone": "(22) 22 2222-2222",
+      "profile": "Admin",
+      "email": "pedroa@teste.com.br",
+      "name": "Vinicius Amorim da Silva",
+      "id": 18
     }
   ]
 }

@@ -16,7 +16,7 @@ import axios from 'axios'
 import * as yup from 'yup' 
 import { toast } from 'react-toastify'
 
-import { Wrapper, Title, FormWrapper, StyledLabel, ButtonWrapper, StyledTextField } from './EditUser.styles'
+import { Wrapper, Title, FormWrapper, StyledLabel, ButtonWrapper, StyledTextField, StyledInputMask } from './EditUser.styles'
 
 type FormValues = {
   name: string;
@@ -146,7 +146,15 @@ export default function EditUser() {
                   name="phone"
                   control={control}
                   defaultValue=""
-                  render={({ field }) => <StyledTextField placeholder="(XX) XX XXXX-XXX" {...field} />}
+                  render={({ field }) => 
+                  <div>
+                    <StyledInputMask
+                      mask="(99) 99 9999-9999" 
+                      maskChar=" "
+                      {...field}
+                    >
+                    </StyledInputMask>
+                  </div>}
                 />
                 {errors.phone && <span style={{color: 'red'}}>This field is required</span>}
 

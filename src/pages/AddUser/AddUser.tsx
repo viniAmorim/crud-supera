@@ -19,8 +19,6 @@ import { toast } from 'react-toastify'
 
 import { Wrapper, Title, FormWrapper, StyledLabel, ButtonWrapper, StyledTextField, StyledInputMask } from './AddUser.styles'
 
-import InputMask from 'react-input-mask'
-
 type FormValues = {
   name: string;
   email: string;

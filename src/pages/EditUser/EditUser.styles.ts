@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
-import { FormControl, FormLabel, MenuItem, Select, TextField } from '@mui/material'
+import { FormLabel, TextField,  } from '@mui/material'
+
+import InputMask from 'react-input-mask'
 
 export const Wrapper = styled.div`
   display: 'flex';
@@ -64,3 +66,9 @@ export const StyledTextField = styled(TextField)`
   width: 350px;
 `
 
+export const StyledInputMask = styled(InputMask)`
+  width: 100%;
+  border: solid 1px #c4c4c4;
+  padding: 16px;
+  border-radius: 4px;
+`
