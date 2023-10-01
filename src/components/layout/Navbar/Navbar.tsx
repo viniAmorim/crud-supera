@@ -9,7 +9,7 @@ function Navbar() {
       <nav>
         <Link to="/"><img src={"/images/logo.svg"} alt="welcome" /></Link>
         <ul>
-          <li><StyledButton onClick={() => navigate('/add-user')}>Add User</StyledButton></li>
+          <li><StyledButton onClick={() => navigate('/add-user')}>ADD USER</StyledButton></li>
         </ul>
       </nav>
     </NavbarWrapper>
