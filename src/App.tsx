@@ -1,18 +1,12 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useState } from 'react'
-import { useQuery } from 'react-query'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
-import Linearprogress from '@material-ui/core/LinearProgress'
-
-import { Wrapper } from './App.styles'
-import UsersTable from './UsersTable/UsersTable'
-
-import PageWithPagination from './TableWithPagination/TableWithPagination'
-import AddUser from './AddUser/AddUser';
-import EditUser from './EditUser/EditUser';
-import Navbar from './components/layout/Navbar/Navbar';
-import Footer from './components/layout/Footer/Footer';
-import ViewUser from './ViewUser/ViewUser';
+import UsersTable from './pages/UsersTable/UsersTable'
+import PageWithPagination from './pages/TableWithPagination/TableWithPagination'
+import AddUser from './pages/AddUser/AddUser'
+import EditUser from './pages/EditUser/EditUser'
+import Navbar from './components/layout/Navbar/Navbar'
+import Footer from './components/layout/Footer/Footer'
+import ViewUser from './pages/ViewUser/ViewUser'
 
 export type UserItemType = {
   id: number;
@@ -37,4 +31,4 @@ const App = () => {
   )
 }
 
-export default App;
+export default App
