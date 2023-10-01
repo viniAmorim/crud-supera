@@ -87,6 +87,22 @@
       "age": 55,
       "phone": "9999999999",
       "id": 11
+    },
+    {
+      "age": 55,
+      "phone": "(97) 3497-7236",
+      "profile": "Admin",
+      "email": "teste@teste.com.br",
+      "name": "teste teste",
+      "id": 12
+    },
+    {
+      "age": 33,
+      "phone": "(97) 3497-7236",
+      "profile": "User",
+      "email": "pedroa@teste.com.br",
+      "name": "Vinicius Amorim",
+      "id": 13
     }
   ]
 }

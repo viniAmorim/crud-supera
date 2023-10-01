@@ -26,19 +26,35 @@ type FormValues = {
 }
 
 const userSchema = yup.object().shape({
-  name: yup.string().required('Name is required'),
-  email: yup.string().email('Invalid email').required('Email is required'),
-  profile: yup.string().oneOf(['Admin', 'User'], 'Invalid profile').required('Profile is required'),
-  phone: yup.string().required('Phone is required'),
-  age: yup.number().positive('Age must be a positive number').required('Age is required'),
+  name: yup
+    .string()
+    .min(3, 'Name must have at least 3 characters')
+    .max(100, 'Name must have a maximum of 100 characters')
+    .required('Name is required'),
+  email: yup
+    .string()
+    .email('Invalid email')
+    .required('Email is required'),
+  profile: yup
+    .string()
+    .oneOf(['Admin', 'User'], 'Invalid profile')
+    .required('Profile is required'),
+  phone: yup
+    .string()
+    .required('Phone is required'),
+  age: yup
+    .number()
+    .positive('Age must be a positive number')
+    .required('Age is required'),
 })
 
 async function createUser(data: FormValues) {
   try {
-    const response = await axios.post('http://localhost:5000/users', data);
+    const response = await axios.post('http://localhost:5000/users', data)
     return response.data;
   } catch (error) {
-    throw error;
+    toast.error('Something is wrong')
+    throw error
   }
 }
 
@@ -60,12 +76,13 @@ export default function AddUser() {
     onSuccess: () => {
       queryClient.invalidateQueries('users')
       reset();
-      toast.success('User added successfully');
+      toast.success('User added successfully')
+      navigate('/')
     },
   })
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    mutation.mutate(data);
+    mutation.mutate(data)
   }
 
   return (
