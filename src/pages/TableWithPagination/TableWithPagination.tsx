@@ -112,7 +112,8 @@ export default function TableWithPagination() {
 
   const deleteUserMutation = useMutation(deleteUser, {
     onSuccess: () => {
-      queryClient.invalidateQueries('users');
+      queryClient.invalidateQueries('users')
+      toast.success('User deleted')
     },
   })
 

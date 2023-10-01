@@ -127,22 +127,6 @@
       "phone": "(97) 3497-7236",
       "age": null,
       "id": 16
-    },
-    {
-      "name": "Vinicius Amorim",
-      "email": "teste2@teste.com.br",
-      "profile": "User",
-      "age": 55,
-      "phone": "4564646464",
-      "id": 17
-    },
-    {
-      "age": 98,
-      "phone": "4564646464",
-      "profile": "User",
-      "email": "pedroa@teste.com.br",
-      "name": "Vinicius Amorim da Silva",
-      "id": 18
     }
   ]
 }
