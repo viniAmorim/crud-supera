@@ -1,27 +1,29 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import CssBaseline from '@mui/material/CssBaseline'
 import Container from '@mui/material/Container'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { FormControl, FormLabel, MenuItem, Select } from '@mui/material'
+import { FormControl, MenuItem, Select } from '@mui/material'
+
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
+
 import axios from 'axios'
 
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import * as yup from 'yup' 
 
 import { toast } from 'react-toastify'
 
 import { Wrapper, Title, FormWrapper, StyledLabel, ButtonWrapper, StyledTextField } from './AddUser.styles'
-import { useNavigate } from 'react-router-dom'
 
 type FormValues = {
   name: string;
   email: string;
   profile: 'Admin' | 'User'; 
-  age: number;
+  age: number | null; 
   phone: string;
 }
 
@@ -45,7 +47,7 @@ const userSchema = yup.object().shape({
   age: yup
     .number()
     .positive('Age must be a positive number')
-    .required('Age is required'),
+    .nullable(), 
 })
 
 async function createUser(data: FormValues) {
@@ -59,7 +61,6 @@ async function createUser(data: FormValues) {
 }
 
 export default function AddUser() {
-
   const navigate = useNavigate()
   const {
     control,
@@ -67,7 +68,7 @@ export default function AddUser() {
     formState: { errors },
     reset,
   } = useForm<FormValues>({
-    resolver: yupResolver(userSchema),
+    resolver: yupResolver(userSchema) as any, 
   });
 
   const queryClient = useQueryClient();
@@ -139,10 +140,10 @@ export default function AddUser() {
                 <Controller
                   name="age"
                   control={control}
-                  defaultValue={0}
+                  defaultValue={null}
                   render={({ field }) => <TextField style={{width: '100px'}} {...field} />}
                 />
-                {errors.phone && <span style={{color: 'red'}}>This field is required</span>}
+                {errors.age && <span style={{color: 'red'}}>This field has to be a positive number</span>}
                 
                 <ButtonWrapper>
                   <Button onClick={() => navigate('/')}>
