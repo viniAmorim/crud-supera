@@ -7,6 +7,9 @@ import { FormControl, FormLabel, MenuItem, Select } from '@mui/material'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import axios from 'axios'
+
+import { yupResolver } from '@hookform/resolvers/yup';
+
 import * as yup from 'yup' 
 
 import { toast } from 'react-toastify'
@@ -17,7 +20,7 @@ import { useNavigate } from 'react-router-dom'
 type FormValues = {
   name: string;
   email: string;
-  profile: string;
+  profile: 'Admin' | 'User'; 
   age: number;
   phone: string;
 }
@@ -47,7 +50,9 @@ export default function SimpleContainer() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({
+    resolver: yupResolver(userSchema),
+  });
 
   const queryClient = useQueryClient();
 
@@ -80,7 +85,7 @@ export default function SimpleContainer() {
                   defaultValue=""
                   render={({ field }) => <StyledTextField placeholder="name" {...field} />}
                 />
-                {errors.name && <span>This field is required</span>}
+                {errors.name && <span style={{color: 'red'}}>This field is required</span>}
 
                 <StyledLabel>Email</StyledLabel>
                 <Controller
@@ -89,13 +94,12 @@ export default function SimpleContainer() {
                   defaultValue=""
                   render={({ field }) => <StyledTextField placeholder="email" {...field} />}
                 />
-                {errors.email && <span>This field is required</span>}
+                {errors.email && <span style={{color: 'red'}}>This field is required</span>}
 
                 <StyledLabel >Profile</StyledLabel>
                 <Controller
                   name="profile"
                   control={control}
-                  defaultValue=""
                   render={({ field }) => (
                     <Select {...field} label="profile">
                       <MenuItem value={'Admin'}>Admin</MenuItem>
@@ -103,6 +107,7 @@ export default function SimpleContainer() {
                     </Select>
                   )}
                 />
+                {errors.profile && <span style={{color: 'red'}}>This field is required</span>}
 
                 <StyledLabel>Phone</StyledLabel>
                 <Controller
@@ -111,7 +116,7 @@ export default function SimpleContainer() {
                   defaultValue=""
                   render={({ field }) => <StyledTextField placeholder="(XX) XX XXXX-XXX" {...field} />}
                 />
-                {errors.phone && <span>This field is required</span>}
+                {errors.phone && <span style={{color: 'red'}}>This field is required</span>}
 
                 <StyledLabel>Age</StyledLabel>
                 <Controller
@@ -120,7 +125,7 @@ export default function SimpleContainer() {
                   defaultValue={0}
                   render={({ field }) => <TextField style={{width: '100px'}} {...field} />}
                 />
-                {errors.phone && <span>This field is required</span>}
+                {errors.phone && <span style={{color: 'red'}}>This field is required</span>}
                 
                 <ButtonWrapper>
                   <Button onClick={() => navigate('/')}>
