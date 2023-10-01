@@ -43,4 +43,9 @@ Technical test for Supera. Simple CRUD using json-server.
 - Run ```npm run backend``` to start json-server
 - Run ```npm start``` to run the server
 
+### Improvements
 
+- [ ] Mask on phone inputs;
+- [ ] Create a custom hook to http requests;
+- [ ] Create a userContext to share user data;
+- [ ] Create more tests for the pages;
