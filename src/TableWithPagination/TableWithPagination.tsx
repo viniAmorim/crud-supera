@@ -6,6 +6,7 @@ import Welcome from '../Welcome/Welcome';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export type UserItemType = {
   id: number;
@@ -34,45 +35,40 @@ const deleteUser = async (id: number) => {
   }
 };
 
-const handleEdit = (id: any) => {
-  console.log(`Editar item com ID ${id}`);
-};
-
 export default function TableWithPagination() {
-  
-const columns = [
-  { field: 'id', headerName: 'ID', width: 50 },
-  { field: 'name', headerName: 'Name', width: 130 },
-  { field: 'email', headerName: 'Email', width: 150 },
-  { field: 'age', headerName: 'Age', type: 'number', width: 50 },
-  { field: 'profile', headerName: 'Profile', type: 'number', width: 100 },
-  { field: 'phone', headerName: 'Phone', type: 'number', width: 120 },
-  {
-    field: 'actions',
-    headerName: 'Actions',
-    sortable: false,
-    width: 160,
-    renderCell: (params: { row: { id: number } }) => (
-      <div>
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => handleEdit(params.row.id)}
-          style={{ margin: '5px' }}
-        >
-          <FaEdit/>
-        </Button>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() => handleDeleteUser(params.row.id)}
-        >
-          <FaTrash style={{ color: 'red' }}/>
-        </Button>
-      </div>
-    ),
-  },
-];
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 50 },
+    { field: 'name', headerName: 'Name', width: 130 },
+    { field: 'email', headerName: 'Email', width: 150 },
+    { field: 'age', headerName: 'Age', type: 'number', width: 50 },
+    { field: 'profile', headerName: 'Profile', type: 'number', width: 100 },
+    { field: 'phone', headerName: 'Phone', type: 'number', width: 120 },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      sortable: false,
+      width: 160,
+      renderCell: (params: { row: { id: number } }) => (
+        <div>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => handleEdit(params.row.id)}
+            style={{ margin: '5px' }}
+          >
+            <FaEdit/>
+          </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => handleDeleteUser(params.row.id)}
+          >
+            <FaTrash style={{ color: 'red' }}/>
+          </Button>
+        </div>
+      ),
+    },
+  ];
 
   const queryClient = useQueryClient();
 
@@ -85,7 +81,15 @@ const columns = [
     onSuccess: () => {
       queryClient.invalidateQueries('users');
     },
-  });
+  })
+
+  const navigate = useNavigate()
+  const handleEdit = (id: number) => {
+    const userToEdit = data?.find((user) => user.id === id);
+    if (userToEdit) {
+      navigate('/edit-user', { state: { user: userToEdit } });
+    }
+  }
 
   const handleDeleteUser = (id: number) => { 
     deleteUserMutation.mutate(id);
