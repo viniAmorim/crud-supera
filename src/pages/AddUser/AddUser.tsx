@@ -17,7 +17,9 @@ import * as yup from 'yup'
 
 import { toast } from 'react-toastify'
 
-import { Wrapper, Title, FormWrapper, StyledLabel, ButtonWrapper, StyledTextField } from './AddUser.styles'
+import { Wrapper, Title, FormWrapper, StyledLabel, ButtonWrapper, StyledTextField, StyledInputMask } from './AddUser.styles'
+
+import InputMask from 'react-input-mask'
 
 type FormValues = {
   name: string;
@@ -132,7 +134,15 @@ export default function AddUser() {
                   name="phone"
                   control={control}
                   defaultValue=""
-                  render={({ field }) => <StyledTextField placeholder="(XX) XX XXXX-XXX" {...field} />}
+                  render={({ field }) => 
+                  <div>
+                    <StyledInputMask
+                      mask="(99) 99 9999-9999" 
+                      maskChar=" "
+                      {...field}
+                    >
+                    </StyledInputMask>
+                  </div>}
                 />
                 {errors.phone && <span style={{color: 'red'}}>This field is required</span>}
 
