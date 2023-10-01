@@ -1,48 +1,65 @@
 import React from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+
 import CssBaseline from '@mui/material/CssBaseline'
 import Container from '@mui/material/Container'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { FormControl, MenuItem, Select } from '@mui/material'
+
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation, useQueryClient } from 'react-query'
+
 import axios from 'axios'
 
-import { yupResolver } from '@hookform/resolvers/yup';
-
 import * as yup from 'yup' 
-
 import { toast } from 'react-toastify'
 
 import { Wrapper, Title, FormWrapper, StyledLabel, ButtonWrapper, StyledTextField } from './EditUser.styles'
-import { useLocation, useNavigate } from 'react-router-dom'
 
 type FormValues = {
   name: string;
   email: string;
   profile: 'Admin' | 'User'; 
-  age: number;
+  age: number | null;
   phone: string;
 }
 
 const editSchema = yup.object().shape({
-  name: yup.string().required('Name is required'),
-  email: yup.string().email('Invalid email').required('Email is required'),
-  profile: yup.string().oneOf(['Admin', 'User'], 'Invalid profile').required('Profile is required'),
-  phone: yup.string().required('Phone is required'),
-  age: yup.number().positive('Age must be a positive number').required('Age is required'),
+  name: yup
+    .string()
+    .min(3, 'Name must have at least 3 characters')
+    .max(100, 'Name must have a maximum of 100 characters')
+    .required('Name is required'),
+  email: yup
+    .string()
+    .email('Invalid email')
+    .required('Email is required'),
+  profile: yup
+    .string()
+    .oneOf(['Admin', 'User'], 'Invalid profile')
+    .required('Profile is required'),
+  phone: yup
+    .string()
+    .required('Phone is required'),
+  age: yup
+    .number()
+    .positive('Age must be a positive number')
+    .nullable(), 
 })
 
 export default function EditUser() {
   const location = useLocation();
-  const userToEdit = location.state?.user;
+  const userToEdit = location.state?.user
 
   async function editUser(data: FormValues) {
     try {
-      const response = await axios.put(`http://localhost:5000/users/${userToEdit.id}`, data);
-      return response.data;
+      const response = await axios.put(`http://localhost:5000/users/${userToEdit.id}`, data)
+      return response.data
     } catch (error) {
-      throw error;
+      toast.error('Something is wrong')
+      throw error
     }
   }
 
@@ -64,7 +81,7 @@ export default function EditUser() {
     formState: { errors },
     reset,
   } = useForm<FormValues>({
-    resolver: yupResolver(editSchema),
+    resolver: yupResolver(editSchema) as any,
     defaultValues: getDefaultValues(userToEdit)
   });
 
@@ -74,13 +91,14 @@ export default function EditUser() {
     onSuccess: () => {
       queryClient.invalidateQueries('users')
       reset();
-      toast.success('User edited successfully');
+      toast.success('User edited successfully')
+      navigate('/')
     },
   })
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data)
-    mutation.mutate(data);
+    mutation.mutate(data)
   }
 
   return (
@@ -137,7 +155,7 @@ export default function EditUser() {
                 <Controller
                   name="age"
                   control={control}
-                  defaultValue={0}
+                  defaultValue={null}
                   render={({ field }) => <TextField style={{width: '100px'}} {...field} />}
                 />
                 {errors.phone && <span style={{color: 'red'}}>This field is required</span>}
@@ -157,5 +175,5 @@ export default function EditUser() {
         </Wrapper>
       </Container>
     </React.Fragment>
-  );
+  )
 }
