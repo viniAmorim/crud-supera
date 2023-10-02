@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { DataGrid } from '@mui/x-data-grid'
 import { Button, LinearProgress } from '@mui/material'
+import Container from '@mui/material/Container'
 
 import Welcome from '../Welcome/Welcome'
 
@@ -142,16 +143,18 @@ export default function TableWithPagination() {
   return (
     <Wrapper>
       <Welcome />
-      <DataGrid
-        rows={data ? data : []}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-      />
+      <Container maxWidth="md">
+        <DataGrid
+          rows={data ? data : []}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+        />
+      </Container>
     </Wrapper>
   );
 }
