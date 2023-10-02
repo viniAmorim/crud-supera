@@ -49,3 +49,4 @@ Technical test for Supera. Simple CRUD using json-server.
 - [ ] Create a custom hook to http requests;
 - [ ] Create a userContext to share user data;
 - [ ] Create more tests for the pages;
+- [ ] Open Edit and View User with Modal;
