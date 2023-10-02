@@ -17,7 +17,7 @@ type FormValues = {
   name: string;
   email: string;
   profile: 'Admin' | 'User'; 
-  age: number;
+  age: number | null;
   phone: string;
 }
 
@@ -50,7 +50,6 @@ export default function ViewUser() {
     formState: { errors },
     reset,
   } = useForm<FormValues>({
-    resolver: yupResolver(editSchema),
     defaultValues: getDefaultValues(userToView)
   });
 
@@ -71,7 +70,6 @@ export default function ViewUser() {
                   defaultValue=""
                   render={({ field }) => <StyledTextField disabled placeholder="name" {...field} />}
                 />
-                {errors.name && <span style={{color: 'red'}}>This field is required</span>}
 
                 <StyledLabel>Email</StyledLabel>
                 <Controller
@@ -80,7 +78,6 @@ export default function ViewUser() {
                   defaultValue=""
                   render={({ field }) => <StyledTextField disabled placeholder="email" {...field} />}
                 />
-                {errors.email && <span style={{color: 'red'}}>This field is required</span>}
 
                 <StyledLabel >Profile</StyledLabel>
                 <Controller
@@ -94,13 +91,13 @@ export default function ViewUser() {
                     </Select>
                   )}
                 />
-                {errors.profile && <span style={{color: 'red'}}>This field is required</span>}
 
                 <StyledLabel>Phone</StyledLabel>
                 <Controller
                   name="phone"
                   control={control}
                   defaultValue=""
+                  disabled
                   render={({ field }) => 
                   <div>
                     <StyledInputMask
@@ -111,7 +108,15 @@ export default function ViewUser() {
                     </StyledInputMask>
                   </div>}
                 />
-                {errors.phone && <span style={{color: 'red'}}>This field is required</span>}
+
+                <StyledLabel>Age</StyledLabel>
+                <Controller
+                  name="age"
+                  control={control}
+                  disabled
+                  defaultValue={null}
+                  render={({ field }) => <TextField style={{width: '100px'}} {...field} />}
+                />
                 
                 <ButtonWrapper>
                   <Button onClick={() => navigate('/')}>
