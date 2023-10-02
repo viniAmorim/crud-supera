@@ -8,6 +8,8 @@ import Navbar from './components/layout/Navbar/Navbar'
 import Footer from './components/layout/Footer/Footer'
 import ViewUser from './pages/ViewUser/ViewUser'
 
+import GlobalStyle from "./styles/global"
+
 export type UserItemType = {
   id: number;
   name: string;
@@ -27,6 +29,7 @@ const App = () => {
         <Route path="/edit-user" element={<EditUser />} />
         <Route path="/view-user" element={<ViewUser />} />
       </Routes>
+      <GlobalStyle />
     </Router>
   )
 }
