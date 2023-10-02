@@ -10,7 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import * as yup from 'yup' 
 
-import { Wrapper, Title, FormWrapper, StyledLabel, ButtonWrapper, StyledTextField } from './ViewUser.styles'
+import { Wrapper, Title, FormWrapper, StyledLabel, ButtonWrapper, StyledTextField, StyledInputMask } from './ViewUser.styles'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 type FormValues = {
@@ -101,16 +101,15 @@ export default function ViewUser() {
                   name="phone"
                   control={control}
                   defaultValue=""
-                  render={({ field }) => <StyledTextField disabled placeholder="(XX) XX XXXX-XXX" {...field} />}
-                />
-                {errors.phone && <span style={{color: 'red'}}>This field is required</span>}
-
-                <StyledLabel>Age</StyledLabel>
-                <Controller
-                  name="age"
-                  control={control}
-                  defaultValue={0}
-                  render={({ field }) => <TextField disabled style={{width: '100px'}} {...field} />}
+                  render={({ field }) => 
+                  <div>
+                    <StyledInputMask
+                      mask="(99) 99 9999-9999" 
+                      maskChar=" "
+                      {...field}
+                    >
+                    </StyledInputMask>
+                  </div>}
                 />
                 {errors.phone && <span style={{color: 'red'}}>This field is required</span>}
                 
