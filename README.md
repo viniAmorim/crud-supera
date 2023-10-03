@@ -45,7 +45,7 @@ Technical test for Supera. Simple CRUD using json-server.
 
 ### Improvements
 
-- [X] Mask on phone inputs;
+- [ ] Mask on phone inputs;
 - [ ] Create a custom hook to http requests;
 - [ ] Create a userContext to share user data;
 - [ ] Create more tests for the pages;
