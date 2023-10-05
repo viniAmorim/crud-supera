@@ -17,6 +17,7 @@ import {
   StyledInputMask,
   StyledInput
 } from './ViewUser.styles'
+import { UserForm } from '../../components/layout/Form/UserForm'
 
 type FormValues = {
   name: string;
@@ -48,76 +49,12 @@ export const ViewUser = () => {
     <React.Fragment>
       <Container maxWidth="sm">
         <Wrapper>
-          <Title>Add <span>User</span></Title>
+          <Title>View <span>User</span></Title>
 
-          <FormWrapper>
-            <form>
-              <FormControl>
-                <StyledLabel>Name</StyledLabel>
-                <Controller
-                  name="name"
-                  control={control}
-                  defaultValue=""
-                  disabled
-                  render={({ field }) => <StyledInput type="text" placeholder="name" {...field} />}
-                />
+         
+            <UserForm defaultValues={user} isDisabled={true} />
 
-                <StyledLabel>Email</StyledLabel>
-                <Controller
-                  name="email"
-                  control={control}
-                  defaultValue=""
-                  disabled
-                  render={({ field }) => <StyledInput type="text" placeholder="email" {...field} />}
-                />
-
-                <StyledLabel>Profile</StyledLabel>
-                <Controller
-                  name="profile"
-                  control={control}
-                  disabled
-                  render={({ field }) => (
-                    <Select {...field}>
-                      <option value={'Admin'}>Admin</option>
-                      <option value={'User'}>User</option>
-                    </Select>
-                  )}
-                />
-                <StyledLabel>Phone</StyledLabel>
-                <Controller
-                  name="phone"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => 
-                  <div>
-                    <StyledInputMask
-                      mask="(99) 9 9999-9999" 
-                      disabled
-                      maskChar=" "
-                      type="tel"
-                      {...field}
-                    >
-                    </StyledInputMask>
-                  </div>}
-                />
-                <StyledLabel>Age</StyledLabel>
-                <Controller
-                  name="age"
-                  control={control}
-                  defaultValue={null}
-                  disabled
-                  render={({ field }) => (
-                    <Input type="number" {...field} value={field.value !== null ? String(field.value) : ''} />
-                  )}
-                />                
-                <ButtonWrapper>
-                  <Button onClick={() => navigate('/')}>
-                    Back
-                  </Button>
-                </ButtonWrapper>
-              </FormControl>
-            </form>
-          </FormWrapper>
+            
         </Wrapper>
       </Container>
     </React.Fragment>
