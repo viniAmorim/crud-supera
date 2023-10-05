@@ -1,64 +1,54 @@
 import React from 'react'
-import CssBaseline from '@mui/material/CssBaseline'
-import Container from '@mui/material/Container'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import { FormControl, MenuItem, Select } from '@mui/material'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { 
+  Container,
+  Input, 
+  Button, 
+  FormControl, 
+  Select 
+} from '@chakra-ui/react'
 import { useForm, Controller } from 'react-hook-form'
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import * as yup from 'yup' 
-
-import { Wrapper, Title, FormWrapper, StyledLabel, ButtonWrapper, StyledTextField, StyledInputMask } from './ViewUser.styles'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { 
+  Wrapper,
+  Title, 
+  FormWrapper, 
+  StyledLabel, 
+  ButtonWrapper, 
+  StyledInputMask,
+  StyledInput
+} from './ViewUser.styles'
 
 type FormValues = {
   name: string;
   email: string;
   profile: 'Admin' | 'User'; 
-  age: number | null;
+  age: number | null; 
   phone: string;
 }
 
-const editSchema = yup.object().shape({
-  name: yup.string().required('Name is required'),
-  email: yup.string().email('Invalid email').required('Email is required'),
-  profile: yup.string().oneOf(['Admin', 'User'], 'Invalid profile').required('Profile is required'),
-  phone: yup.string().required('Phone is required'),
-  age: yup.number().positive('Age must be a positive number').required('Age is required'),
-})
-
-export default function ViewUser() {
-  const location = useLocation();
-  const userToView = location.state?.user;
-
-  const getDefaultValues = (userToEdit: FormValues) => {
-    return {
-      name: userToEdit?.name || '',
-      email: userToEdit?.email || '',
-      profile: userToEdit?.profile || 'User',
-      age: userToEdit?.age || 0,
-      phone: userToEdit?.phone || '',
-    };
-  };
-
+export const ViewUser = () => {
   const navigate = useNavigate()
+  const location = useLocation()
+  const user = location.state?.user
+
   const {
     control,
-    handleSubmit,
-    formState: { errors },
     reset,
   } = useForm<FormValues>({
-    defaultValues: getDefaultValues(userToView)
-  });
+    defaultValues: {
+      name: user?.name || '',
+      email: user?.email || '',
+      profile: user?.profile || 'User',
+      age: user?.age || null,
+      phone: user?.phone || '',
+    }
+  })
 
   return (
     <React.Fragment>
-      <CssBaseline />
       <Container maxWidth="sm">
         <Wrapper>
-          <Title>View <span>User</span> {userToView?.name}</Title>
+          <Title>Add <span>User</span></Title>
 
           <FormWrapper>
             <form>
@@ -68,7 +58,8 @@ export default function ViewUser() {
                   name="name"
                   control={control}
                   defaultValue=""
-                  render={({ field }) => <StyledTextField disabled placeholder="name" {...field} />}
+                  disabled
+                  render={({ field }) => <StyledInput type="text" placeholder="name" {...field} />}
                 />
 
                 <StyledLabel>Email</StyledLabel>
@@ -76,48 +67,49 @@ export default function ViewUser() {
                   name="email"
                   control={control}
                   defaultValue=""
-                  render={({ field }) => <StyledTextField disabled placeholder="email" {...field} />}
+                  disabled
+                  render={({ field }) => <StyledInput type="text" placeholder="email" {...field} />}
                 />
 
-                <StyledLabel >Profile</StyledLabel>
+                <StyledLabel>Profile</StyledLabel>
                 <Controller
                   name="profile"
                   control={control}
                   disabled
                   render={({ field }) => (
-                    <Select {...field} label="profile">
-                      <MenuItem value={'Admin'}>Admin</MenuItem>
-                      <MenuItem value={'User'}>User</MenuItem>
+                    <Select {...field}>
+                      <option value={'Admin'}>Admin</option>
+                      <option value={'User'}>User</option>
                     </Select>
                   )}
                 />
-
                 <StyledLabel>Phone</StyledLabel>
                 <Controller
                   name="phone"
                   control={control}
                   defaultValue=""
-                  disabled
                   render={({ field }) => 
                   <div>
                     <StyledInputMask
-                      mask="(99) 99 9999-9999" 
+                      mask="(99) 9 9999-9999" 
+                      disabled
                       maskChar=" "
+                      type="tel"
                       {...field}
                     >
                     </StyledInputMask>
                   </div>}
                 />
-
                 <StyledLabel>Age</StyledLabel>
                 <Controller
                   name="age"
                   control={control}
-                  disabled
                   defaultValue={null}
-                  render={({ field }) => <TextField style={{width: '100px'}} {...field} />}
-                />
-                
+                  disabled
+                  render={({ field }) => (
+                    <Input type="number" {...field} value={field.value !== null ? String(field.value) : ''} />
+                  )}
+                />                
                 <ButtonWrapper>
                   <Button onClick={() => navigate('/')}>
                     Back

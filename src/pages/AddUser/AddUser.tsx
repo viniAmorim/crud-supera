@@ -1,25 +1,30 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-
-import CssBaseline from '@mui/material/CssBaseline'
-import Container from '@mui/material/Container'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import { FormControl, MenuItem, Select } from '@mui/material'
-
+import { 
+  Container,
+  Input, 
+  Button, 
+  FormControl, 
+  Select 
+} from '@chakra-ui/react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
-
-import axios from 'axios'
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup' 
-
 import { toast } from 'react-toastify'
-
-import { Wrapper, Title, FormWrapper, StyledLabel, ButtonWrapper, StyledTextField, StyledInputMask } from './AddUser.styles'
+import { 
+  Wrapper,
+  Title, 
+  FormWrapper, 
+  StyledLabel, 
+  ButtonWrapper, 
+  StyledInputMask,
+  StyledInput
+} from './AddUser.styles'
+import { createUser } from '../../services/http/user'
 
 type FormValues = {
+  id: number;
   name: string;
   email: string;
   profile: 'Admin' | 'User'; 
@@ -42,25 +47,14 @@ const userSchema = yup.object().shape({
     .oneOf(['Admin', 'User'], 'Invalid profile')
     .required('Profile is required'),
   phone: yup
-    .string()
-    .required('Phone is required'),
+    .string(),
   age: yup
     .number()
     .positive('Age must be a positive number')
     .nullable(), 
 })
 
-async function createUser(data: FormValues) {
-  try {
-    const response = await axios.post('http://localhost:5000/users', data)
-    return response.data;
-  } catch (error) {
-    toast.error('Something is wrong')
-    throw error
-  }
-}
-
-export default function AddUser() {
+export const AddUser = () => {
   const navigate = useNavigate()
   const {
     control,
@@ -80,6 +74,9 @@ export default function AddUser() {
       toast.success('User added successfully')
       navigate('/')
     },
+    onError: error => {
+      toast.error('Something is wrong')
+    }
   })
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -88,7 +85,6 @@ export default function AddUser() {
 
   return (
     <React.Fragment>
-      <CssBaseline />
       <Container maxWidth="sm">
         <Wrapper>
           <Title>Add <span>User</span></Title>
@@ -101,7 +97,7 @@ export default function AddUser() {
                   name="name"
                   control={control}
                   defaultValue=""
-                  render={({ field }) => <StyledTextField placeholder="name" {...field} />}
+                  render={({ field }) => <StyledInput type="text" placeholder="name" {...field} />}
                 />
                 {errors.name && <span style={{color: 'red'}}>This field is required</span>}
 
@@ -110,18 +106,19 @@ export default function AddUser() {
                   name="email"
                   control={control}
                   defaultValue=""
-                  render={({ field }) => <StyledTextField placeholder="email" {...field} />}
+                  render={({ field }) => <StyledInput type="text" placeholder="email" {...field} />}
                 />
                 {errors.email && <span style={{color: 'red'}}>This field is required</span>}
 
-                <StyledLabel >Profile</StyledLabel>
+                <StyledLabel>Profile</StyledLabel>
                 <Controller
                   name="profile"
                   control={control}
                   render={({ field }) => (
-                    <Select {...field} label="profile">
-                      <MenuItem value={'Admin'}>Admin</MenuItem>
-                      <MenuItem value={'User'}>User</MenuItem>
+                    <Select {...field}>
+                      <option value=''></option>
+                      <option value={'Admin'}>Admin</option>
+                      <option value={'User'}>User</option>
                     </Select>
                   )}
                 />
@@ -135,8 +132,9 @@ export default function AddUser() {
                   render={({ field }) => 
                   <div>
                     <StyledInputMask
-                      mask="(99) 99 9999-9999" 
+                      mask="(99) 9 9999-9999" 
                       maskChar=" "
+                      type="tel"
                       {...field}
                     >
                     </StyledInputMask>
@@ -149,9 +147,11 @@ export default function AddUser() {
                   name="age"
                   control={control}
                   defaultValue={null}
-                  render={({ field }) => <TextField style={{width: '100px'}} {...field} />}
+                  render={({ field }) => (
+                    <Input type="number" {...field} value={field.value !== null ? String(field.value) : ''} />
+                  )}
                 />
-                {errors.age && <span style={{color: 'red'}}>This field has to be a positive number</span>}
+                  {errors.age && <span style={{color: 'red'}}>This field has to be a positive number</span>}
                 
                 <ButtonWrapper>
                   <Button onClick={() => navigate('/')}>

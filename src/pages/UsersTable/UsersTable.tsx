@@ -1,18 +1,32 @@
-import * as React from 'react'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableContainer from '@material-ui/core/TableContainer'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import Paper from '@material-ui/core/Paper'
-import { Button, LinearProgress } from '@material-ui/core'
-import { useQuery } from 'react-query'
-import Welcome from '../Welcome/Welcome'
-import axios from 'axios'
-
-import { FaEdit, FaTrash } from 'react-icons/fa';
-import { Wrapper, StyledTable, TableWrapper, StyledTableCell  } from './UsersTable.styles'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableContainer,
+  CircularProgress,
+  ButtonGroup,
+  Button
+} from '@chakra-ui/react'
+import {
+  Pagination,
+  usePagination,
+  PaginationNext,
+  PaginationPage,
+  PaginationPrevious,
+  PaginationContainer,
+  PaginationPageGroup,
+} from "@ajna/pagination";
+import { Welcome } from '../Welcome/Welcome'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
+import { SyledContainer, StyledTable, TableWrapper, StyledTableCell  } from './UsersTable.styles'
+import { getUsers, deleteUser } from '../../services/http/user'
+import { routes } from '../../routes/routes'
+import { toast } from 'react-toastify'
 
 export type UserItemType = {
   id: number;
@@ -23,74 +37,117 @@ export type UserItemType = {
   age: number;
 }
 
-const getUsers = async (): Promise<UserItemType[]> => {
-  try {
-    const response = await axios.get('http://localhost:5000/users');
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-}
+export const UsersTable = () => {
+  const { page } = useParams()
+  const location = useLocation()
+  const queryClient = useQueryClient()
+  const usersPerPage = 5
+  const parsedPage = typeof page === 'string' ? parseInt(page, 10) : 1
 
-const UsersTable = () => {
   const { data, isLoading, error } = useQuery<UserItemType[]>(
-    'users', 
-    getUsers
-  )
+    ['users', parsedPage],
+    () => getUsers(parsedPage, usersPerPage),
+    {
+      initialData: [],
+    }
+  );
+  
+  const handleDeleteUser = (id: number) => { 
+    deleteUserMutation.mutate(id)
+  }
 
-  const getTotalUsers = () => null
+  const deleteUserMutation = useMutation(deleteUser, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('users')
+      toast.success('User deleted')
+    },
+  })
 
-  const handleAddUser = () => null
+  const navigate = useNavigate()
+  const handleEdit = (id: number) => {
+    const userToEdit = data?.find((user) => user.id === id)
+    if (userToEdit) {
+      navigate(`${routes.EDIT}/${id}`, { state: { user: userToEdit } })
+    }
+  }
 
-  if(isLoading) return <LinearProgress />
+  const handleViewUser = (id: number) => {
+    const userToView = data?.find((user) => user.id === id);
+    if (userToView) {
+      navigate(`${routes.VIEW}/${id}`, { state: { user: userToView } });
+    }
+  }
+
+   const {
+    currentPage,
+    setCurrentPage,
+    pagesCount,
+    pages
+  } = usePagination({
+    pagesCount: 12,
+    initialState: { currentPage: 1 },
+  });
+
+
+  if(isLoading) return <CircularProgress />
   if(error) return <div>Something went wrong ...</div>
 
-  console.log(data)
-
   return (
-    <Wrapper>
+    <SyledContainer maxW='1100px'>
       <Welcome />
-      <TableWrapper>
-        <TableContainer component={Paper}>
-          <StyledTable>
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>ID</StyledTableCell>
-                <StyledTableCell align="right">Name</StyledTableCell>
-                <StyledTableCell align="right">Email</StyledTableCell>
-                <StyledTableCell align="right">Profile</StyledTableCell>
-                <StyledTableCell align="right">Phone</StyledTableCell>
-                <StyledTableCell align="right">Age</StyledTableCell>
-                <StyledTableCell align="right">Actions</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data?.map((user) => (
-                <TableRow key={user.name}>
-                  <StyledTableCell component="th" scope="row">
-                    {user.id}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{user.name}</StyledTableCell>
-                  <StyledTableCell align="right">{user.email}</StyledTableCell>
-                  <StyledTableCell align="right">{user.profile}</StyledTableCell>
-                  <StyledTableCell align="right">{user.phone}</StyledTableCell>
-                  <StyledTableCell align="right">{user.age}</StyledTableCell>
-                  <StyledTableCell align="right">
-                    <Button variant="outlined" color="primary">
-                      <FaEdit />
-                    </Button>
-                    <Button variant="outlined" color="secondary">
-                      <FaTrash />
-                    </Button>
-                  </StyledTableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </StyledTable>
-        </TableContainer>
-      </TableWrapper>
-    </Wrapper>
-  );
-}
+      <TableContainer maxWidth={'100%'}>
 
-export default UsersTable
+      <Table size='md' variant='simple'>
+        <Thead>
+          <Tr>
+            <Th>ID</Th>
+            <Th>Name</Th>
+            <Th>Email</Th>
+            <Th>Phone</Th>
+            <Th>Age</Th>
+            <Th>profile</Th>
+            <Th>Actions</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {data?.map((user) => (
+            <Tr key={user.id}>
+              <Td>{user.id}</Td>
+              <Td>{user.name}</Td>
+              <Td>{user.email}</Td>
+              <Td>{user.phone}</Td>
+              <Td>{user.age !== null ? user.age : 'N/A'}</Td>
+              <Td>{user.profile}</Td>
+              <Td>
+                <ButtonGroup>
+                  <Button onClick={() => handleEdit(user.id)}><FaEdit /></Button>
+                  <Button onClick={() => handleDeleteUser(user.id)}><FaTrash /></Button>
+                  <Button onClick={() => handleViewUser(user.id)}><FaEye /></Button>
+                </ButtonGroup>
+              </Td>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
+       <Pagination
+        pagesCount={pagesCount}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      >
+        <PaginationContainer>
+          <PaginationPrevious>Previous</PaginationPrevious>
+          <PaginationPageGroup>
+            {pages.map((page: number) => (
+              <PaginationPage 
+                key={`pagination_page_${page}`} 
+                page={page} 
+              />
+            ))}
+          </PaginationPageGroup>
+          <PaginationNext>Next</PaginationNext>
+        </PaginationContainer>
+      </Pagination>
+    </TableContainer>
+    </SyledContainer>
+  )
+}

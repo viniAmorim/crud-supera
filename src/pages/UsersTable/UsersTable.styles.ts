@@ -1,13 +1,11 @@
 import styled from 'styled-components'
-import Table from '@material-ui/core/Table'
-import TableCell from '@material-ui/core/TableCell'
+import { Container, Table } from '@chakra-ui/react'
 
-export const Wrapper = styled.div`
+export const SyledContainer = styled(Container)`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 16px;
 `;
 
 export const TableWrapper = styled.div`
@@ -20,6 +18,6 @@ export const StyledTable = styled(Table)`
   min-width: 650px;
 `;
 
-export const StyledTableCell = styled(TableCell)`
+export const StyledTableCell = styled.div`
   font-weight: bold;
 `;

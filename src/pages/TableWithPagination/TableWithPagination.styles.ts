@@ -1,6 +1,4 @@
 import styled from 'styled-components'
-import Table from '@material-ui/core/Table'
-import TableCell from '@material-ui/core/TableCell'
 
 export const Wrapper = styled.div`
   display: flex;
@@ -17,10 +15,10 @@ export const TableWrapper = styled.div`
   overflow-x: auto;
 `;
 
-export const StyledTable = styled(Table)`
+export const StyledTable = styled.div`
   min-width: 650px;
 `;
 
-export const StyledTableCell = styled(TableCell)`
+export const StyledTableCell = styled.div`
   font-weight: bold;
 `;

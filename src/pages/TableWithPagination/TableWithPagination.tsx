@@ -1,13 +1,13 @@
-import { Navigate, useNavigate } from 'react-router-dom'
+/*import { Navigate, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { DataGrid } from '@mui/x-data-grid'
-import { Button, LinearProgress } from '@mui/material'
-import Container from '@mui/material/Container'
 
-import Welcome from '../Welcome/Welcome'
+import { Container, Button, CircularProgress } from '@chakra-ui/react'
+
+import { Welcome } from '../Welcome/Welcome'
 
 import { Wrapper } from './TableWithPagination.styles'
 import { FaEdit, FaTrash, FaEye } from 'react-icons/fa'
@@ -137,7 +137,7 @@ export default function TableWithPagination() {
     deleteUserMutation.mutate(id);
   };
 
-  if (isLoading) return <LinearProgress />;
+  if (isLoading) return <CircularProgress />;
   if (error) return <div>Something went wrong ...</div>
 
   return (
@@ -158,3 +158,6 @@ export default function TableWithPagination() {
     </Wrapper>
   );
 }
+*/
+
+export {};
