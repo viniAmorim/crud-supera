@@ -22,6 +22,8 @@ import {
   StyledInput
 } from './EditUser.styles'
 import { editUser } from '../../services/http/user'
+import { InputField } from '../../components/layout/Form/InputField'
+import { ProfileSelectField } from '../../components/layout/Form/ProfileSelectedField'
 
 type FormValues = {
   id: number;
@@ -110,75 +112,16 @@ export const EditUser = () =>  {
           <FormWrapper>
             <form onSubmit={handleSubmit(onSubmit)}>
               <FormControl>
-                <StyledLabel>Name</StyledLabel>
-                <Controller
-                  name="name"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => <StyledInput type="text" placeholder="name" {...field} />}
-                />
-                {errors.name && <span style={{color: 'red'}}>This field is required</span>}
+                <InputField name="name" control={control} placeholder="Name" type="text" error={errors.name?.message} />
+                <InputField name="email" control={control} placeholder="Email" type="text" error={errors.email?.message} />
+                <ProfileSelectField name="profile" control={control} error={errors.profile?.message} />
+                <InputField name="phone" control={control} placeholder="Phone" type="text" error={errors.phone?.message} />
+                <InputField name="age" control={control} placeholder="Age" type="number" error={errors.age?.message} />
 
-                <StyledLabel>Email</StyledLabel>
-                <Controller
-                  name="email"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => <StyledInput type="text" placeholder="email" {...field} />}
-                />
-                {errors.email && <span style={{color: 'red'}}>This field is required</span>}
-
-                <StyledLabel>Profile</StyledLabel>
-                <Controller
-                  name="profile"
-                  control={control}
-                  render={({ field }) => (
-                    <Select {...field}>
-                      <option value=''></option>
-                      <option value={'Admin'}>Admin</option>
-                      <option value={'User'}>User</option>
-                    </Select>
-                  )}
-                />
-                {errors.profile && <span style={{color: 'red'}}>This field is required</span>}
-
-                <StyledLabel>Phone</StyledLabel>
-                <Controller
-                  name="phone"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => 
-                  <div>
-                    <StyledInputMask
-                      mask="(99) 9 9999-9999" 
-                      maskChar=" "
-                      type="tel"
-                      {...field}
-                    >
-                    </StyledInputMask>
-                  </div>}
-                />
-                {errors.phone && <span style={{color: 'red'}}>This field is required</span>}
-
-                <StyledLabel>Age</StyledLabel>
-                <Controller
-                  name="age"
-                  control={control}
-                  defaultValue={null}
-                  render={({ field }) => (
-                    <Input type="number" {...field} value={field.value !== null ? String(field.value) : ''} />
-                  )}
-                />
-                  {errors.age && <span style={{color: 'red'}}>This field has to be a positive number</span>}
-                
                 <ButtonWrapper>
-                  <Button onClick={() => navigate('/')}>
-                    Back
-                  </Button>
+                  <Button onClick={() => navigate('/')}>Back</Button>
 
-                  <Button type="submit" disabled={mutation.isLoading}>
-                    {mutation.isLoading ? 'Sending...' : 'Save'}
-                  </Button>
+                  <Button type="submit">Save</Button>
                 </ButtonWrapper>
               </FormControl>
             </form>

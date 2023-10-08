@@ -5,7 +5,7 @@ import { EditUser } from './pages/EditUser/EditUser'
 import { Navbar } from './components/layout/Navbar/Navbar'
 import { ViewUser } from './pages/ViewUser/ViewUser'
 import GlobalStyle from "./styles/global"
-import TableComponent from './pages/Table4/Table4'
+import TableComponent from './pages/UsersTable/UsersTable'
 
 export type UserItemType = {
   id: number;

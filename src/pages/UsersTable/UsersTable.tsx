@@ -1,5 +1,5 @@
-/*import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import {
   Table,
   Thead,
@@ -10,171 +10,170 @@ import {
   TableContainer,
   CircularProgress,
   ButtonGroup,
-  Button
+  Button,
+  Input,
 } from '@chakra-ui/react'
-import {
-  Pagination,
-  usePagination,
-  PaginationNext,
-  PaginationPage,
-  PaginationPrevious,
-  PaginationContainer,
-  PaginationPageGroup,
-} from "@ajna/pagination";
-import { Welcome } from '../Welcome/Welcome'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
-import { SyledContainer, StyledTable, TableWrapper, StyledTableCell  } from './UsersTable.styles'
-import { getUsers, deleteUser } from '../../services/http/user'
-import { routes } from '../../routes/routes'
+import { FaEdit, FaTrash, FaEye, FaSearch } from 'react-icons/fa'
+import { deleteUser, getUsers } from '../../services/http/user'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+import { routes } from '../../routes/routes'
+import { SyledContainer } from './UsersTable.styles'
+import { Welcome } from '../Welcome/Welcome'
 
-export type UserItemType = {
+type User = {
   id: number;
   name: string;
   email: string;
-  profile: string;
   phone: string;
-  age: number;
+  profile: string;
 }
 
-export const UsersTable = () => {
-  const { page } = useParams()
-  const location = useLocation()
+const TableComponent: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState(1)
+  const pageSize = 5
   const queryClient = useQueryClient()
-  const usersPerPage = 5
-  const [parsedPage, setParsedPage] = useState(1);
+  const [searchName, setSearchName] = useState('')
+  const [searchEmail, setSearchEmail] = useState('')
 
-  const { data, isLoading, error } = useQuery<UserItemType[]>(
-    ['users', parsedPage],
-    () => getUsers(parsedPage, usersPerPage),
+  const { data = [], isLoading, isError } = useQuery<User[], Error>(
+    ['users', currentPage],
+    () => getUsers(currentPage, pageSize, searchName, searchEmail),
     {
-      initialData: [],
-      enabled: !!parsedPage,
+      retry: 1,
     }
   );
-  
-  const handleDeleteUser = (id: number) => { 
+
+  const handleDeleteUser = (id: number) => {
     deleteUserMutation.mutate(id)
-  }
+  };
 
   const deleteUserMutation = useMutation(deleteUser, {
     onSuccess: () => {
       queryClient.invalidateQueries('users')
       toast.success('User deleted')
     },
-  })
+  });
 
   const navigate = useNavigate()
+
   const handleEdit = (id: number) => {
-    const userToEdit = data?.find((user) => user.id === id)
+    const userToEdit = data?.find((user) => user.id === id);
     if (userToEdit) {
-      navigate(`${routes.EDIT}/${id}`, { state: { user: userToEdit } })
+      navigate(`${routes.EDIT}/${id}`, { state: { user: userToEdit } });
     }
-  }
+  };
 
   const handleViewUser = (id: number) => {
     const userToView = data?.find((user) => user.id === id);
     if (userToView) {
       navigate(`${routes.VIEW}/${id}`, { state: { user: userToView } });
     }
+  };
+
+  const totalPages = Math.ceil(data.length / pageSize);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handleSearch = () => {
+    queryClient.invalidateQueries(['usersSearch', currentPage, searchName, searchEmail]);
+  };
+
+  const { data: searchData = [], isLoading: isSearchLoading } = useQuery<User[], Error>(
+    ['usersSearch', currentPage, searchName, searchEmail],
+    () => getUsers(currentPage, pageSize, searchName, searchEmail),
+    {
+      retry: 1,
+      enabled: !!searchName || !!searchEmail,
+    }
+  );
+
+  if (isLoading) {
+    return <div><CircularProgress /></div>;
   }
 
-   const {
-    currentPage,
-    setCurrentPage,
-    pagesCount,
-    pages
-  } = usePagination({
-    pagesCount: 12,
-    initialState: { currentPage: parsedPage },
-  });
-
-  useEffect(() => {
-    getUsers(parsedPage, usersPerPage)
-      .then((data) => {
-        // Atualiza a data da consulta
-        queryClient.setQueryData(['users', parsedPage], data);
-      })
-      .catch((error) => {
-        // Lida com erros
-        console.error('Error fetching data:', error);
-      });
-  }, [parsedPage, usersPerPage, queryClient]);
-
-  useEffect(() => {
-    // Certifique-se de que o valor de 'page' seja uma string e, em seguida, analise-o para um número.
-    const parsedPageValue = typeof page === 'string' ? parseInt(page, 10) : 1;
-    setParsedPage(parsedPageValue);
-  }, [page]);
-
-
-  if(isLoading) return <CircularProgress />
-  if(error) return <div>Something went wrong ...</div>
+  if (isError) {
+    return <div>Error fetching data</div>;
+  }
 
   return (
     <SyledContainer maxW='1100px'>
       <Welcome />
       <TableContainer maxWidth={'100%'}>
-
-      <Table size='md' variant='simple'>
-        <Thead>
-          <Tr>
-            <Th>ID</Th>
-            <Th>Name</Th>
-            <Th>Email</Th>
-            <Th>Phone</Th>
-            <Th>Age</Th>
-            <Th>profile</Th>
-            <Th>Actions</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {data?.map((user) => (
-            <Tr key={user.id}>
-              <Td>{user.id}</Td>
-              <Td>{user.name}</Td>
-              <Td>{user.email}</Td>
-              <Td>{user.phone}</Td>
-              <Td>{user.age !== null ? user.age : 'N/A'}</Td>
-              <Td>{user.profile}</Td>
-              <Td>
-                <ButtonGroup>
-                  <Button onClick={() => handleEdit(user.id)}><FaEdit /></Button>
-                  <Button onClick={() => handleDeleteUser(user.id)}><FaTrash /></Button>
-                  <Button onClick={() => handleViewUser(user.id)}><FaEye /></Button>
-                </ButtonGroup>
-              </Td>
+        <div>
+          <Input
+            width="200px"
+            placeholder="Search by name"
+            value={searchName}
+            onChange={(e) => setSearchName(e.target.value)}
+            style={{margin: '5px'}}
+          />
+          <Input
+            width="200px"
+            placeholder="Search by email"
+            value={searchEmail}
+            onChange={(e) => setSearchEmail(e.target.value)}
+          />
+          <Button
+            onClick={handleSearch}
+            leftIcon={<FaSearch />}
+            style={{margin: '5px'}}
+          >
+            Search
+          </Button>
+        </div>
+        <Table>
+          <Thead>
+            <Tr>
+              <Th>ID</Th>
+              <Th>Name</Th>
+              <Th>Email</Th>
+              <Th>Phone</Th>
+              <Th>profile</Th>
+              <Th>Actions</Th>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
-      <Pagination
-        pagesCount={pagesCount}
-        currentPage={currentPage}
-        onPageChange={(pageNumber: number) => {
-          // Insira um console.log para verificar se o onPageChange está sendo chamado
-          console.log('Changing to page', pageNumber);
-          setCurrentPage(pageNumber);
-        }}
-        >
-        <PaginationContainer>
-          <PaginationPrevious>Previous</PaginationPrevious>
-          <PaginationPageGroup>
-            {pages.map((pageNumber: number) => (
-              <PaginationPage
-                key={`pagination_page_${pageNumber}`}
-                page={pageNumber}
-              />
-            ))}
-          </PaginationPageGroup>
-          <PaginationNext>Next</PaginationNext>
-        </PaginationContainer>
-        </Pagination>
-    </TableContainer>
+          </Thead>
+          <Tbody>
+            {(searchName || searchEmail ? searchData : data)
+              .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+              .map((user) => (
+                <Tr key={user.id}>
+                  <Td>{user.id}</Td>
+                  <Td>{user.name}</Td>
+                  <Td>{user.email}</Td>
+                  <Td>{user.phone}</Td>
+                  <Td>{user.profile}</Td>
+                  <Td>
+                    <ButtonGroup>
+                      <Button onClick={() => handleEdit(user.id)}><FaEdit /></Button>
+                      <Button onClick={() => handleDeleteUser(user.id)}><FaTrash /></Button>
+                      <Button onClick={() => handleViewUser(user.id)}><FaEye /></Button>
+                    </ButtonGroup>
+                  </Td>
+                </Tr>
+              ))}
+          </Tbody>
+        </Table>
+        <div>
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <span>Page {currentPage} of {totalPages}</span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      </TableContainer>
     </SyledContainer>
-  )
-}
-*/
+  );
+};
 
-export {}
+export default TableComponent;
