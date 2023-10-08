@@ -2,20 +2,11 @@ import React from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { 
   Container,
-  Input, 
-  Button, 
-  FormControl, 
-  Select 
 } from '@chakra-ui/react'
 import { useForm, Controller } from 'react-hook-form'
 import { 
   Wrapper,
   Title, 
-  FormWrapper, 
-  StyledLabel, 
-  ButtonWrapper, 
-  StyledInputMask,
-  StyledInput
 } from './ViewUser.styles'
 import { UserForm } from '../../components/layout/Form/UserForm'
 
@@ -50,11 +41,7 @@ export const ViewUser = () => {
       <Container maxWidth="sm">
         <Wrapper>
           <Title>View <span>User</span></Title>
-
-         
             <UserForm defaultValues={user} isDisabled={true} />
-
-            
         </Wrapper>
       </Container>
     </React.Fragment>

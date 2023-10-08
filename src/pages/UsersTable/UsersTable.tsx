@@ -1,3 +1,4 @@
+/*import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import {
   Table,
@@ -42,13 +43,14 @@ export const UsersTable = () => {
   const location = useLocation()
   const queryClient = useQueryClient()
   const usersPerPage = 5
-  const parsedPage = typeof page === 'string' ? parseInt(page, 10) : 1
+  const [parsedPage, setParsedPage] = useState(1);
 
   const { data, isLoading, error } = useQuery<UserItemType[]>(
     ['users', parsedPage],
     () => getUsers(parsedPage, usersPerPage),
     {
       initialData: [],
+      enabled: !!parsedPage,
     }
   );
   
@@ -85,8 +87,26 @@ export const UsersTable = () => {
     pages
   } = usePagination({
     pagesCount: 12,
-    initialState: { currentPage: 1 },
+    initialState: { currentPage: parsedPage },
   });
+
+  useEffect(() => {
+    getUsers(parsedPage, usersPerPage)
+      .then((data) => {
+        // Atualiza a data da consulta
+        queryClient.setQueryData(['users', parsedPage], data);
+      })
+      .catch((error) => {
+        // Lida com erros
+        console.error('Error fetching data:', error);
+      });
+  }, [parsedPage, usersPerPage, queryClient]);
+
+  useEffect(() => {
+    // Certifique-se de que o valor de 'page' seja uma string e, em seguida, analise-o para um número.
+    const parsedPageValue = typeof page === 'string' ? parseInt(page, 10) : 1;
+    setParsedPage(parsedPageValue);
+  }, [page]);
 
 
   if(isLoading) return <CircularProgress />
@@ -129,25 +149,32 @@ export const UsersTable = () => {
           ))}
         </Tbody>
       </Table>
-       <Pagination
+      <Pagination
         pagesCount={pagesCount}
         currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      >
+        onPageChange={(pageNumber: number) => {
+          // Insira um console.log para verificar se o onPageChange está sendo chamado
+          console.log('Changing to page', pageNumber);
+          setCurrentPage(pageNumber);
+        }}
+        >
         <PaginationContainer>
           <PaginationPrevious>Previous</PaginationPrevious>
           <PaginationPageGroup>
-            {pages.map((page: number) => (
-              <PaginationPage 
-                key={`pagination_page_${page}`} 
-                page={page} 
+            {pages.map((pageNumber: number) => (
+              <PaginationPage
+                key={`pagination_page_${pageNumber}`}
+                page={pageNumber}
               />
             ))}
           </PaginationPageGroup>
           <PaginationNext>Next</PaginationNext>
         </PaginationContainer>
-      </Pagination>
+        </Pagination>
     </TableContainer>
     </SyledContainer>
   )
 }
+*/
+
+export {}

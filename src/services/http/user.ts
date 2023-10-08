@@ -20,6 +20,14 @@ export type UserItemType = {
   age: number;
 }
 
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  profile: string;
+}
+
 const baseUrl = process.env.REACT_APP_BASE_URL
 
 async function createUser(data: FormValues) {
@@ -32,14 +40,9 @@ async function createUser(data: FormValues) {
   }
 }
 
-async function getUsers(page: number, perPage: number) {
+const getUsers = async (page: number, pageSize: number): Promise<User[]> => {
   try {
-    const response = await axios.get(`${baseUrl}/users`, {
-      params: {
-        _page: page, 
-        _limit: perPage, 
-      },
-    });
+    const response = await axios.get(`${baseUrl}/users?page=${page}&pageSize=${pageSize}`)
     return response.data
   } catch (error) {
     toast.error('Something is wrong')
