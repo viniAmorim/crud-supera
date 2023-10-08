@@ -40,15 +40,27 @@ async function createUser(data: FormValues) {
   }
 }
 
-const getUsers = async (page: number, pageSize: number): Promise<User[]> => {
+const getUsers = async (page: number, pageSize: number, name: string, email: string): Promise<User[]> => {
   try {
-    const response = await axios.get(`${baseUrl}/users?page=${page}&pageSize=${pageSize}`)
-    return response.data
+    const queryParams = new URLSearchParams();
+    queryParams.append('page', page.toString());
+    queryParams.append('pageSize', pageSize.toString());
+
+    if (name) {
+      queryParams.append('name', name);
+    }
+    if (email) {
+      queryParams.append('email', email);
+    }
+
+    const response = await axios.get(`${baseUrl}/users?${queryParams.toString()}`);
+    return response.data;
   } catch (error) {
-    toast.error('Something is wrong')
+    toast.error('Something is wrong');
     throw error;
   }
-}
+};
+
 
 const deleteUser = async (id: number) => {
   try {
