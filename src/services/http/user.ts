@@ -40,7 +40,7 @@ async function createUser(data: FormValues) {
   }
 }
 
-const getUsers = async (page: number, pageSize: number, name: string, email: string): Promise<User[]> => {
+const getUsers = async (page: number, pageSize: number, name: string, email: string, profile: string | undefined): Promise<User[]> => {
   try {
     const queryParams = new URLSearchParams();
     queryParams.append('page', page.toString());
@@ -51,6 +51,9 @@ const getUsers = async (page: number, pageSize: number, name: string, email: str
     }
     if (email) {
       queryParams.append('email', email);
+    }
+    if (profile) {
+      queryParams.append('profile', profile);
     }
 
     const response = await axios.get(`${baseUrl}/users?${queryParams.toString()}`);

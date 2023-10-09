@@ -12,6 +12,7 @@ import {
   ButtonGroup,
   Button,
   Input,
+  Select,
 } from '@chakra-ui/react'
 import { FaEdit, FaTrash, FaEye, FaSearch } from 'react-icons/fa'
 import { deleteUser, getUsers } from '../../services/http/user'
@@ -36,10 +37,12 @@ export const UsersTable: React.FC = () => {
   const queryClient = useQueryClient()
   const [searchName, setSearchName] = useState('')
   const [searchEmail, setSearchEmail] = useState('')
+  const [selectedProfile, setSelectedProfile] = useState<string | undefined>(undefined);
+
 
   const { data = [], isLoading, isError } = useQuery<User[], Error>(
     ['users', currentPage],
-    () => getUsers(currentPage, pageSize, searchName, searchEmail),
+    () => getUsers(currentPage, pageSize, searchName, searchEmail, selectedProfile ),
     {
       retry: 1,
     }
@@ -70,26 +73,30 @@ export const UsersTable: React.FC = () => {
     if (userToView) {
       navigate(`${routes.VIEW}/${id}`, { state: { user: userToView } });
     }
-  };
+  }
 
   const totalPages = Math.ceil(data.length / pageSize);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-  };
+  }
 
   const handleSearch = () => {
-    queryClient.invalidateQueries(['usersSearch', currentPage, searchName, searchEmail]);
-  };
+    queryClient.invalidateQueries(['usersSearch', currentPage, searchName, searchEmail, selectedProfile]);
+  }
 
   const { data: searchData = [], isLoading: isSearchLoading } = useQuery<User[], Error>(
-    ['usersSearch', currentPage, searchName, searchEmail],
-    () => getUsers(currentPage, pageSize, searchName, searchEmail),
+    ['usersSearch', currentPage, searchName, searchEmail, selectedProfile],
+    () => getUsers(currentPage, pageSize, searchName, searchEmail, selectedProfile),
     {
       retry: 1,
       enabled: !!searchName || !!searchEmail,
     }
-  );
+  )
+
+  const handleProfileChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedProfile(event.target.value);
+  }
 
   if (isLoading) {
     return <div><CircularProgress /></div>;
@@ -117,6 +124,18 @@ export const UsersTable: React.FC = () => {
             value={searchEmail}
             onChange={(e) => setSearchEmail(e.target.value)}
           />
+          <Select
+            value={selectedProfile || ''}
+            onChange={handleProfileChange}
+            placeholder="Select Profile"
+            width="200px"
+            style={{ margin: '5px' }}
+          >
+            <option value="">All Profiles</option>
+            <option value="Admin">Admin</option>
+            <option value="User">User</option>
+          </Select>
+
           <Button
             onClick={handleSearch}
             leftIcon={<FaSearch />}
