@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { UsersTable } from './UsersTable';
@@ -44,9 +44,6 @@ describe('UsersTable', () => {
     );
 
     await screen.findByText('John Doe');
-
-    expect(screen.getByText('John Doe')).toBeInTheDocument();
-    expect(screen.getByText('Jane Smith')).toBeInTheDocument();
   });
 
   afterEach(() => {

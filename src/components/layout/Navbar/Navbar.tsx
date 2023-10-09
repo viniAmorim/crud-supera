@@ -1,9 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { routes } from '../../../routes/routes'
-import {NavbarWrapper, StyledButton} from './Navbar.styles'
+import { Link, useNavigate } from 'react-router-dom';
+import { routes } from '../../../routes/routes';
+import { NavbarWrapper, StyledButton } from './Navbar.styles';
 
-export const Navbar = () => {
-  const navigate = useNavigate()
+const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <NavbarWrapper>
       <nav>
@@ -13,10 +13,7 @@ export const Navbar = () => {
         </ul>
       </nav>
     </NavbarWrapper>
-  )
+  );
 }
 
-
-        
-       
-       
+export default Navbar
