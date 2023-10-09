@@ -20,7 +20,7 @@ import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { routes } from '../../routes/routes'
 import { SyledContainer } from './UsersTable.styles'
-import { Welcome } from '../Welcome/Welcome'
+import Welcome from '../Welcome/Welcome'
 import InputMask from 'react-input-mask'
 
 type User = {

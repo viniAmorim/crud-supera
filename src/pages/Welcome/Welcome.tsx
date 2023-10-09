@@ -1,6 +1,6 @@
-import {Wrapper} from './Welcome.styles'
+import { Wrapper } from './Welcome.styles';
 
-export const Welcome = () => {
+const Welcome = () => {
   return (
     <Wrapper>
       <section>
@@ -8,5 +8,7 @@ export const Welcome = () => {
         <p>Start managing your users right now!</p>
       </section>
     </Wrapper>
-  )
-}
+  );
+};
+
+export default Welcome
