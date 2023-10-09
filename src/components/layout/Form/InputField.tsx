@@ -23,6 +23,7 @@ export const InputField: React.FC<{
               mask="(99) 9 9999-9999"
               maskChar=" "
               type="tel"
+              data-testid="tel"
               placeholder={placeholder}
               {...field}
             />
