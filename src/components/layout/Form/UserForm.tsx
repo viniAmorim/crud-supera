@@ -1,8 +1,6 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { 
-  Container,
-  Input, 
   Button, 
   FormControl, 
   Select 
@@ -44,7 +42,7 @@ export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled })
           <InputField name="name" control={control} placeholder="Name" type="text" />
             <InputField name="email" control={control} placeholder="Email" type="text" />
             <ProfileSelectField name="profile" control={control} />
-            <InputField name="phone" control={control} placeholder="Phone" type="text" />
+            <InputField name="phone" control={control} placeholder="Phone" type="text" mask={true} />
             <InputField name="age" control={control} placeholder="Age" type="number" />
 
             <ButtonWrapper>

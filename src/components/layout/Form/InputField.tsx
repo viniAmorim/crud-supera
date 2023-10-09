@@ -1,8 +1,6 @@
+import React from 'react';
 import { Controller } from 'react-hook-form';
-import { 
-  StyledLabel, 
-  StyledInput
-} from '../../../pages/AddUser/AddUser.styles'
+import { StyledLabel, StyledInput, StyledInputMask } from '../../../pages/AddUser/AddUser.styles';
 
 export const InputField: React.FC<{
   name: string;
@@ -10,7 +8,8 @@ export const InputField: React.FC<{
   placeholder: string;
   type: string;
   error?: string | null;
-}> = ({ name, control, placeholder, type, error }) => (
+  mask?: boolean;
+}> = ({ name, control, placeholder, type, error, mask }) => (
   <div>
     <StyledLabel>{placeholder}</StyledLabel>
     <Controller
@@ -19,7 +18,17 @@ export const InputField: React.FC<{
       defaultValue=""
       render={({ field }) => (
         <>
-          <StyledInput type={type} placeholder={placeholder} {...field} />
+          {mask ? (
+            <StyledInputMask
+              mask="(99) 9 9999-9999"
+              maskChar=" "
+              type="tel"
+              placeholder={placeholder}
+              {...field}
+            />
+          ) : (
+            <StyledInput type={type} placeholder={placeholder} {...field} />
+          )}
           {error && <span style={{ color: 'red' }}>{error}</span>}
         </>
       )}

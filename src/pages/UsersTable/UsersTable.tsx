@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom'
 import { routes } from '../../routes/routes'
 import { SyledContainer } from './UsersTable.styles'
 import { Welcome } from '../Welcome/Welcome'
+import InputMask from 'react-input-mask'
 
 type User = {
   id: number;
@@ -29,7 +30,7 @@ type User = {
   profile: string;
 }
 
-const TableComponent: React.FC = () => {
+export const UsersTable: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const pageSize = 5
   const queryClient = useQueryClient()
@@ -143,7 +144,9 @@ const TableComponent: React.FC = () => {
                   <Td>{user.id}</Td>
                   <Td>{user.name}</Td>
                   <Td>{user.email}</Td>
-                  <Td>{user.phone}</Td>
+                  <Td>
+                    <InputMask mask="(99) 9 9999-9999" maskChar=" " disabled value={user.phone} />
+                  </Td>
                   <Td>{user.profile}</Td>
                   <Td>
                     <ButtonGroup>
@@ -176,4 +179,4 @@ const TableComponent: React.FC = () => {
   );
 };
 
-export default TableComponent;
+

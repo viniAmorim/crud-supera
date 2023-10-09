@@ -115,7 +115,7 @@ export const EditUser = () =>  {
                 <InputField name="name" control={control} placeholder="Name" type="text" error={errors.name?.message} />
                 <InputField name="email" control={control} placeholder="Email" type="text" error={errors.email?.message} />
                 <ProfileSelectField name="profile" control={control} error={errors.profile?.message} />
-                <InputField name="phone" control={control} placeholder="Phone" type="text" error={errors.phone?.message} />
+                <InputField name="phone" control={control} placeholder="Phone" type="text" error={errors.phone?.message} mask={true} />
                 <InputField name="age" control={control} placeholder="Age" type="number" error={errors.age?.message} />
 
                 <ButtonWrapper>

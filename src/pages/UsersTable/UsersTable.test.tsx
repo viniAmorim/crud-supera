@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import UsersTable from './UsersTable';
+import { UsersTable } from './UsersTable';
 import { getUsers, deleteUser } from '../../services/http/user';
 
 const queryClient = new QueryClient();
