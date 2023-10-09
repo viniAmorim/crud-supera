@@ -169,9 +169,9 @@ export const UsersTable: React.FC = () => {
                   <Td>{user.profile}</Td>
                   <Td>
                     <ButtonGroup>
-                      <Button onClick={() => handleEdit(user.id)}><FaEdit /></Button>
-                      <Button onClick={() => handleDeleteUser(user.id)}><FaTrash /></Button>
-                      <Button onClick={() => handleViewUser(user.id)}><FaEye /></Button>
+                      <Button onClick={() => handleEdit(user.id)}><FaEdit style={{ color: 'blue'}} /></Button>
+                      <Button onClick={() => handleDeleteUser(user.id)}><FaTrash style={{ color: 'red'}} /></Button>
+                      <Button onClick={() => handleViewUser(user.id)}><FaEye style={{ color: 'green'}}/></Button>
                     </ButtonGroup>
                   </Td>
                 </Tr>
