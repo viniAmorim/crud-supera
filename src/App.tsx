@@ -1,8 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-//import { UsersTable } from './pages/UsersTable/UsersTable'
 import  { AddUser } from './pages/AddUser/AddUser'
 import { EditUser } from './pages/EditUser/EditUser'
-import { Navbar } from './components/layout/Navbar/Navbar'
+import Navbar from './components/layout/Navbar/Navbar'
 import { ViewUser } from './pages/ViewUser/ViewUser'
 import GlobalStyle from "./styles/global"
 import { UsersTable } from './pages/UsersTable/UsersTable'
