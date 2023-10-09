@@ -62,8 +62,11 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.22.20",
     "@testing-library/react": "^14.0.0",
     "@types/react-input-mask": "^3.0.3",
+    "babel-jest": "^29.7.0",
     "jest": "^29.7.0"
   }
 }
