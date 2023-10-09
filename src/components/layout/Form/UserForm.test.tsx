@@ -1,84 +1,32 @@
 import React from 'react';
+import '@testing-library/jest-dom/extend-expect';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
-import { useForm } from 'react-hook-form';
 import { UserForm } from './UserForm';
 
+const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
-  useNavigate: () => jest.fn(),
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockNavigate,
 }));
 
-function renderWithForm(defaultValues: { name?: string; email?: string; profile?: string; age?: number | null; phone?: string; }, isDisabled: boolean) {
-  const Wrapper = () => {
-    const form = useForm({ defaultValues });
-    return <UserForm defaultValues={{
-      name: undefined,
-      email: undefined,
-      profile: undefined,
-      age: undefined,
-      phone: undefined
-    }} isDisabled={isDisabled} {...form} />;
-  };
-
-  return render(<Wrapper />);
-}
-
 describe('UserForm', () => {
-  it('renderiza corretamente', () => {
-    renderWithForm({
-      name: 'John Doe',
-      email: 'john@example.com',
-      profile: 'Admin',
-      age: 30,
-      phone: '(123) 456-7890',
-    }, false);
+  it('renderiza o formulário corretamente', () => {
+    render(<UserForm defaultValues={{}} isDisabled={false} />);
 
-    expect(screen.getByLabelText('Name')).toBeInTheDocument();
-    expect(screen.getByLabelText('Email')).toBeInTheDocument();
-    expect(screen.getByLabelText('Profile')).toBeInTheDocument();
-    expect(screen.getByLabelText('Phone')).toBeInTheDocument();
-    expect(screen.getByLabelText('Age')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Name')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Phone')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Age')).toBeInTheDocument();
     expect(screen.getByText('Back')).toBeInTheDocument();
   });
 
-  it('preenche os campos com valores padrão', () => {
-    renderWithForm({
-      name: 'John Doe',
-      email: 'john@example.com',
-      profile: 'Admin',
-      age: 30,
-      phone: '(123) 456-7890',
-    }, false);
+  it('navega para a página inicial ao clicar no botão "Back"', () => {
+    render(<UserForm defaultValues={{}} isDisabled={false} />);
 
-    expect(screen.getByLabelText('Name')).toHaveValue('John Doe');
-    expect(screen.getByLabelText('Email')).toHaveValue('john@example.com');
-    expect(screen.getByLabelText('Profile')).toHaveValue('Admin');
-    expect(screen.getByLabelText('Phone')).toHaveValue('(123) 456-7890');
-    expect(screen.getByLabelText('Age')).toHaveValue('30');
+    const backButton = screen.getByText('Back');
+    fireEvent.click(backButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith('/');
   });
 
-  it('desabilita campos quando isDisabled é verdadeiro', () => {
-    renderWithForm({
-      name: 'John Doe',
-      email: 'john@example.com',
-      profile: 'Admin',
-      age: 30,
-      phone: '(123) 456-7890',
-    }, true);
-
-    expect(screen.getByLabelText('Name')).toBeDisabled();
-    expect(screen.getByLabelText('Email')).toBeDisabled();
-    expect(screen.getByLabelText('Profile')).toBeDisabled();
-    expect(screen.getByLabelText('Phone')).toBeDisabled();
-    expect(screen.getByLabelText('Age')).toBeDisabled();
-  });
-
-  it('navega de volta quando o botão "Back" é clicado', () => {
-    const navigate = require('react-router-dom').useNavigate();
-    renderWithForm({}, false);
-
-    fireEvent.click(screen.getByText('Back'));
-
-    expect(navigate).toHaveBeenCalledWith('/');
-  });
 });

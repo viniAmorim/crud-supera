@@ -1,22 +1,16 @@
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import React from 'react'
+import { useForm } from 'react-hook-form'
 import { 
   Button, 
   FormControl, 
-  Select 
 } from '@chakra-ui/react'
 import { 
-  Wrapper,
-  Title, 
   FormWrapper, 
-  StyledLabel, 
   ButtonWrapper, 
-  StyledInputMask,
-  StyledInput
 } from './UserForm.styles'
-import { useNavigate } from 'react-router-dom';
-import { InputField } from './InputField';
-import { ProfileSelectField } from './ProfileSelectedField';
+import { useNavigate } from 'react-router-dom'
+import { InputField } from './InputField'
+import { ProfileSelectField } from './ProfileSelectedField'
 
 type UserFormProps = {
   defaultValues: {
@@ -27,13 +21,13 @@ type UserFormProps = {
     phone?: string;
   };
   isDisabled: boolean;
-};
+}
 
 export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled }) => {
   const navigate = useNavigate()
   const { control } = useForm({
     defaultValues,
-  });
+  })
 
   return (
     <FormWrapper>
@@ -51,6 +45,6 @@ export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled })
         </FormControl>
       </form>
     </FormWrapper>
-  );
-};
+  )
+}
 
