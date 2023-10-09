@@ -21,3 +21,8 @@ export const StyledTable = styled(Table)`
 export const StyledTableCell = styled.div`
   font-weight: bold;
 `;
+
+export const FilterWraper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;

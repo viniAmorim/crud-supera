@@ -25,10 +25,17 @@ export const InputField: React.FC<{
               type="tel"
               data-testid="tel"
               placeholder={placeholder}
+              style={{ lineHeight: 'normal', height: '30px', paddingTop: '25px',
+              verticalAlign: 'middle', paddingLeft: '10px'}}
               {...field}
             />
           ) : (
-            <StyledInput type={type} placeholder={placeholder} {...field} />
+            <StyledInput 
+              type={type} 
+              placeholder={placeholder} 
+              style={{ lineHeight: 'normal', height: '30px', paddingTop: '25px',
+              verticalAlign: 'middle', paddingLeft: '10px'}}
+              {...field} />
           )}
           {error && <span style={{ color: 'red' }}>{error}</span>}
         </>

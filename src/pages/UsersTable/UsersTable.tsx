@@ -19,7 +19,7 @@ import { deleteUser, getUsers } from '../../services/http/user'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { routes } from '../../routes/routes'
-import { SyledContainer } from './UsersTable.styles'
+import { FilterWraper, SyledContainer } from './UsersTable.styles'
 import Welcome from '../Welcome/Welcome'
 import InputMask from 'react-input-mask'
 
@@ -38,7 +38,6 @@ export const UsersTable: React.FC = () => {
   const [searchName, setSearchName] = useState('')
   const [searchEmail, setSearchEmail] = useState('')
   const [selectedProfile, setSelectedProfile] = useState<string | undefined>(undefined);
-
 
   const { data = [], isLoading, isError } = useQuery<User[], Error>(
     ['users', currentPage],
@@ -110,7 +109,7 @@ export const UsersTable: React.FC = () => {
     <SyledContainer maxW='1100px'>
       <Welcome />
       <TableContainer maxWidth={'100%'}>
-        <div>
+        <FilterWraper>
           <Input
             width="200px"
             placeholder="Search by name"
@@ -123,6 +122,7 @@ export const UsersTable: React.FC = () => {
             placeholder="Search by email"
             value={searchEmail}
             onChange={(e) => setSearchEmail(e.target.value)}
+            style={{margin: '5px'}}
           />
           <Select
             value={selectedProfile || ''}
@@ -139,11 +139,11 @@ export const UsersTable: React.FC = () => {
           <Button
             onClick={handleSearch}
             leftIcon={<FaSearch />}
-            style={{margin: '5px'}}
+            style={{marginLeft: '10px', marginTop: '5px'}}
           >
             Search
           </Button>
-        </div>
+        </FilterWraper>
         <Table>
           <Thead>
             <Tr>

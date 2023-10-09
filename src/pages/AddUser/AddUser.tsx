@@ -2,12 +2,10 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { 
   Container,
-  Input, 
   Button, 
   FormControl, 
-  Select 
 } from '@chakra-ui/react'
-import { useForm, SubmitHandler, Controller } from 'react-hook-form'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup' 
@@ -16,10 +14,7 @@ import {
   Wrapper,
   Title, 
   FormWrapper, 
-  StyledLabel, 
   ButtonWrapper, 
-  StyledInputMask,
-  StyledInput
 } from './AddUser.styles'
 import { createUser } from '../../services/http/user'
 import { InputField } from '../../components/layout/Form/InputField'
