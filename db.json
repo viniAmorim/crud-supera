@@ -9,12 +9,12 @@
       "id": 2
     },
     {
-      "id": 3,
-      "name": "José",
+      "name": "José de Abreu",
       "email": "jose@mail.com",
       "profile": "User",
+      "age": 34,
       "phone": "9999999999",
-      "age": 34
+      "id": 3
     },
     {
       "id": 4,

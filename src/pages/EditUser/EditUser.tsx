@@ -4,13 +4,13 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useMutation, useQueryClient } from 'react-query'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import * as yup from 'yup'
 import { InputField } from '../../components/layout/Form/InputField'
 import { ProfileSelectField } from '../../components/layout/Form/ProfileSelectedField'
-import { editUser } from '../../services/http/user'
+import { editUser, getUserById, User } from '../../services/http/user'
 import {
   ButtonWrapper, FormWrapper, Title, Wrapper
 } from './EditUser.styles'
@@ -23,7 +23,6 @@ type FormValues = {
   age: number | null; 
   phone: string;
 }
-
 
 const userSchema = yup.object().shape({
   name: yup
@@ -49,8 +48,13 @@ const userSchema = yup.object().shape({
 
 export const EditUser = () =>  {
   const navigate = useNavigate()
-  const location = useLocation()
-  const user = location.state?.user
+  const { id } = useParams()
+
+  const { data: user, isLoading, isError } = useQuery<User | null>(['user', id], () => getUserById(Number(id)), {
+    enabled: !!id,
+  })
+
+  console.log(user)
 
   const {
     control,
@@ -62,7 +66,7 @@ export const EditUser = () =>  {
     defaultValues: {
       name: user?.name || '',
       email: user?.email || '',
-      profile: user?.profile || 'User',
+      profile: user?.profile ? (user.profile as 'Admin' | 'User') : 'User',
       age: user?.age || null,
       phone: user?.phone || '',
     }
@@ -77,6 +81,9 @@ export const EditUser = () =>  {
       toast.success('User edited successfully')
       navigate('/')
     },
+    onError: error => {
+      toast.error('Something is wrong')
+    }
   })
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -86,6 +93,8 @@ export const EditUser = () =>  {
       };
 
       updatedData.id = user.id
+
+      console.log(updatedData)
   
       mutation.mutate(updatedData);
     }
