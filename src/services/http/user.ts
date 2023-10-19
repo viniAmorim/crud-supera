@@ -1,6 +1,5 @@
-import axios from 'axios'
-import {ENDPOINTS} from './endpoints'
-import { toast } from 'react-toastify'
+import axios from 'axios';
+import { ENDPOINTS } from './endpoints';
 
 type FormValues = {
   id: number;
@@ -30,64 +29,42 @@ type User = {
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-async function createUser(data: FormValues) {
-  try {
-    const response = await axios.post(`${baseUrl}/${ENDPOINTS.createUser}`, data)
-    return response.data;
-  } catch (error) {
-    toast.error('Something is wrong')
-    throw error
-  }
+export const getUserById = async (id: number): Promise<User | null> => {
+  const response = await axios.get(`${baseUrl}/users/${id}`);
+  return response.data;
+};
+
+export const createUser = async (data: FormValues) => {
+  const response = await axios.post(`${baseUrl}/${ENDPOINTS.createUser}`, data)
+  return response.data;
 }
 
-const getUsers = async (page: number, pageSize: number, name: string, email: string, profile: string | undefined): Promise<User[]> => {
-  try {
-    const queryParams = new URLSearchParams();
-    queryParams.append('page', page.toString());
-    queryParams.append('pageSize', pageSize.toString());
+export const getUsers = async (page: number, pageSize: number, name: string, email: string, profile: string | undefined): Promise<User[]> => {
+  const queryParams = new URLSearchParams();
+  queryParams.append('page', page.toString());
+  queryParams.append('pageSize', pageSize.toString());
 
-    if (name) {
-      queryParams.append('name', name);
-    }
-    if (email) {
-      queryParams.append('email', email);
-    }
-    if (profile) {
-      queryParams.append('profile', profile);
-    }
-
-    const response = await axios.get(`${baseUrl}/users?${queryParams.toString()}`);
-    return response.data;
-  } catch (error) {
-    toast.error('Something is wrong');
-    throw error;
+  if (name) {
+    queryParams.append('name', name);
   }
+  if (email) {
+    queryParams.append('email', email);
+  }
+  if (profile) {
+    queryParams.append('profile', profile);
+  }
+
+  const response = await axios.get(`${baseUrl}/users?${queryParams.toString()}`);
+  return response.data;
 };
 
 
-const deleteUser = async (id: number) => {
-  try {
-    const response = await axios.delete(`${baseUrl}/users/${id}`)
-    return response.data
-  } catch (error) {
-    toast.error('Something is wrong')
-    throw error;
-  }
+export const deleteUser = async (id: number) => {
+  const response = await axios.delete(`${baseUrl}/users/${id}`)
+  return response.data
 }
 
-async function editUser(data: FormValues) {
-  try {
-    const response = await axios.put(`${baseUrl}/users/${data.id}`, data)
-    return response.data;
-  } catch (error) {
-    toast.error('Something is wrong')
-    throw error
-  }
-}
-
-export { 
-  createUser, 
-  getUsers, 
-  deleteUser,
-  editUser 
+export const editUser = async (data: FormValues) => {
+  const response = await axios.put(`${baseUrl}/users/${data.id}`, data)
+  return response.data;
 }

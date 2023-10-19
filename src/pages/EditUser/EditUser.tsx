@@ -86,8 +86,6 @@ export const EditUser = () =>  {
       };
 
       updatedData.id = user.id
-
-      console.log(updatedData)
   
       mutation.mutate(updatedData);
     }
