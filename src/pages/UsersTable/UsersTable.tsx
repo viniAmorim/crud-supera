@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import {
   Table,
@@ -39,14 +39,23 @@ export const UsersTable: React.FC = () => {
   const [searchEmail, setSearchEmail] = useState('')
   const [selectedProfile, setSelectedProfile] = useState<string | undefined>(undefined);
 
+  const [users, setUsers] = useState<User[]>([]); 
+
   const { data = [], isLoading, isError } = useQuery<User[], Error>(
     ['users', currentPage],
-    () => getUsers(currentPage, pageSize, searchName, searchEmail, selectedProfile ),
+    () => getUsers(currentPage, pageSize, searchName, searchEmail, selectedProfile),
     {
       retry: 1,
     }
   );
 
+  useEffect(() => {
+    getUsers(currentPage, pageSize, searchName, searchEmail, selectedProfile).then((data) => {
+      setUsers(data);
+    });
+  }, [currentPage, searchName, searchEmail, selectedProfile]);
+  
+  
   const handleDeleteUser = (id: number) => {
     deleteUserMutation.mutate(id)
   };
@@ -61,17 +70,11 @@ export const UsersTable: React.FC = () => {
   const navigate = useNavigate()
 
   const handleEdit = (id: number) => {
-    const userToEdit = data?.find((user) => user.id === id);
-    if (userToEdit) {
-      navigate(`${routes.EDIT}/${id}`, { state: { user: userToEdit } });
-    }
-  };
+    navigate(`${routes.EDIT}/${id}`);
+  }
 
   const handleViewUser = (id: number) => {
-    const userToView = data?.find((user) => user.id === id);
-    if (userToView) {
-      navigate(`${routes.VIEW}/${id}`, { state: { user: userToView } });
-    }
+    navigate(`${routes.VIEW}/${id}`);
   }
 
   const totalPages = Math.ceil(data.length / pageSize);
@@ -156,9 +159,7 @@ export const UsersTable: React.FC = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {(searchName || searchEmail ? searchData : data)
-              .slice((currentPage - 1) * pageSize, currentPage * pageSize)
-              .map((user) => (
+          {(searchName || searchEmail ? searchData : users).map((user) => (
                 <Tr key={user.id}>
                   <Td>{user.id}</Td>
                   <Td>{user.name}</Td>
@@ -179,19 +180,19 @@ export const UsersTable: React.FC = () => {
           </Tbody>
         </Table>
         <div>
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            Previous
-          </button>
-          <span>Page {currentPage} of {totalPages}</span>
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            Next
-          </button>
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>Page {currentPage}</span>
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={users.length < pageSize}
+        >
+          Next
+        </button>
         </div>
       </TableContainer>
     </SyledContainer>
