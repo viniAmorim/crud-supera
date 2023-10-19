@@ -19,12 +19,13 @@ export type UserItemType = {
   age: number;
 }
 
-type User = {
+export type User = {
   id: number;
   name: string;
   email: string;
   phone: string;
   profile: string;
+  age?: number;
 }
 
 const baseUrl = process.env.REACT_APP_BASE_URL
