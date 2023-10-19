@@ -6,15 +6,6 @@ import { ViewUser } from './pages/ViewUser/ViewUser'
 import GlobalStyle from "./styles/global"
 import { UsersTable } from './pages/UsersTable/UsersTable'
 
-export type UserItemType = {
-  id: number;
-  name: string;
-  email: string;
-  profile: string;
-  phone: string;
-  age: number;
-}
-
 const App = () => {
   return (
     <Router>

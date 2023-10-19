@@ -10,19 +10,10 @@ import { toast } from 'react-toastify'
 import * as yup from 'yup'
 import { InputField } from '../../components/layout/Form/InputField'
 import { ProfileSelectField } from '../../components/layout/Form/ProfileSelectedField'
-import { editUser, getUserById, User } from '../../services/http/user'
+import { editUser, FormValues, getUserById, User } from '../../services/http/user'
 import {
   ButtonWrapper, FormWrapper, Title, Wrapper
 } from './EditUser.styles'
-
-type FormValues = {
-  id: number;
-  name: string;
-  email: string;
-  profile: 'Admin' | 'User'; 
-  age: number | null; 
-  phone: string;
-}
 
 const userSchema = yup.object().shape({
   name: yup

@@ -16,18 +16,9 @@ import {
   FormWrapper, 
   ButtonWrapper, 
 } from './AddUser.styles'
-import { createUser } from '../../services/http/user'
+import { createUser, FormValues } from '../../services/http/user'
 import { InputField } from '../../components/layout/Form/InputField'
 import { ProfileSelectField } from '../../components/layout/Form/ProfileSelectedField'
-
-type FormValues = {
-  id: number;
-  name: string;
-  email: string;
-  profile: 'Admin' | 'User'; 
-  age: number | null; 
-  phone: string;
-}
 
 const userSchema = yup.object().shape({
   name: yup
@@ -45,10 +36,14 @@ const userSchema = yup.object().shape({
     .required('Profile is required'),
   phone: yup
     .string(),
-  age: yup
+    age: yup
     .number()
     .positive('Age must be a positive number')
-    .nullable(), 
+    .typeError('Age must be a number')
+    .nullable()
+    .transform((value, originalValue) => {
+      return originalValue === null || originalValue === '' ? null : value;
+    }),
 })
 
 export const AddUser = () => {

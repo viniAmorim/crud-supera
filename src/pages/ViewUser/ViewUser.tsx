@@ -4,16 +4,8 @@ import { useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { UserForm } from '../../components/layout/Form/UserForm';
-import { getUserById, User } from '../../services/http/user';
+import { FormValues, getUserById, User } from '../../services/http/user';
 import { Title, Wrapper } from './ViewUser.styles';
-
-type FormValues = {
-  name: string;
-  email: string;
-  profile: 'Admin' | 'User'; 
-  age: number | null; 
-  phone: string;
-}
 
 export const ViewUser = () => {
   const { id } = useParams()
@@ -28,6 +20,7 @@ export const ViewUser = () => {
     profile: 'User',
     age: null,
     phone: '',
+    id: 0
   }
 
   if (user) {
