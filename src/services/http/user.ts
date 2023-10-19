@@ -58,8 +58,7 @@ export const getUsers = async (page: number, pageSize: number, name: string, ema
   queryParams.append('_limit', pageSize.toString());
 
   const response = await axios.get(`${baseUrl}/users?${queryParams.toString()}`);
-
-  console.log(response);
+  
   return response.data;
 };
 

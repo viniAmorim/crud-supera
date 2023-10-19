@@ -1,41 +1,12 @@
-import {
-  Button, Container, FormControl
-} from '@chakra-ui/react'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { Container } from '@chakra-ui/react'
 import React from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import * as yup from 'yup'
-import { InputField } from '../../components/layout/Form/InputField'
-import { ProfileSelectField } from '../../components/layout/Form/ProfileSelectedField'
+import { UserForm } from '../../components/layout/Form/UserForm'
 import { editUser, FormValues, getUserById, User } from '../../services/http/user'
-import {
-  ButtonWrapper, FormWrapper, Title, Wrapper
-} from './EditUser.styles'
-
-const userSchema = yup.object().shape({
-  name: yup
-    .string()
-    .min(3, 'Name must have at least 3 characters')
-    .max(100, 'Name must have a maximum of 100 characters')
-    .required('Name is required'),
-  email: yup
-    .string()
-    .email('Invalid email')
-    .required('Email is required'),
-  profile: yup
-    .string()
-    .oneOf(['Admin', 'User'], 'Invalid profile')
-    .required('Profile is required'),
-  phone: yup
-    .string(),
-  age: yup
-    .number()
-    .positive('Age must be a positive number')
-    .nullable(), 
-})
+import { FormWrapper, Title, Wrapper } from './EditUser.styles'
 
 export const EditUser = () =>  {
   const navigate = useNavigate()
@@ -45,30 +16,28 @@ export const EditUser = () =>  {
     enabled: !!id,
   })
 
-  console.log(user)
+  const defaultFormValues: FormValues = {
+    name: '',
+    email: '',
+    profile: 'User',
+    age: null,
+    phone: '',
+    id: 0
+  }
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<FormValues>({
-    resolver: yupResolver(userSchema) as any, 
-    defaultValues: {
-      name: user?.name || '',
-      email: user?.email || '',
-      profile: user?.profile ? (user.profile as 'Admin' | 'User') : 'User',
-      age: user?.age || null,
-      phone: user?.phone || '',
-    }
-  });
+  if (user) {
+    defaultFormValues.name = user.name || defaultFormValues.name;
+    defaultFormValues.email = user.email || defaultFormValues.email;
+    defaultFormValues.profile = user.profile as 'Admin' | 'User' || defaultFormValues.profile;
+    defaultFormValues.age = user.age || defaultFormValues.age;
+    defaultFormValues.phone = user.phone || defaultFormValues.phone;
+  }
 
   const queryClient = useQueryClient();
 
   const mutation = useMutation(editUser, {
     onSuccess: () => {
       queryClient.invalidateQueries('users')
-      reset()
       toast.success('User edited successfully')
       navigate('/')
     },
@@ -81,12 +50,8 @@ export const EditUser = () =>  {
     if (user?.id) {
       const updatedData = {
         ...data,
-      };
-
+      }
       updatedData.id = user.id
-
-      console.log(updatedData)
-  
       mutation.mutate(updatedData);
     }
   }
@@ -98,21 +63,7 @@ export const EditUser = () =>  {
           <Title>Edit <span>User</span></Title>
 
           <FormWrapper>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <FormControl>
-                <InputField name="name" control={control} placeholder="Name" type="text" error={errors.name?.message} />
-                <InputField name="email" control={control} placeholder="Email" type="text" error={errors.email?.message} />
-                <ProfileSelectField name="profile" control={control} error={errors.profile?.message} />
-                <InputField name="phone" control={control} placeholder="Phone" type="text" error={errors.phone?.message} mask={true} />
-                <InputField name="age" control={control} placeholder="Age" type="number" error={errors.age?.message} />
-
-                <ButtonWrapper>
-                  <Button onClick={() => navigate('/')}>Back</Button>
-
-                  <Button type="submit">Save</Button>
-                </ButtonWrapper>
-              </FormControl>
-            </form>
+            <UserForm defaultValues={defaultFormValues} isDisabled={false}  onSubmit={onSubmit} /> 
           </FormWrapper>
         </Wrapper>
       </Container>
