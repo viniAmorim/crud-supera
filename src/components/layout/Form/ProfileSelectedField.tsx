@@ -10,12 +10,14 @@ export const ProfileSelectField: React.FC<{
   name: string;
   control: any;
   error?: string | null;
-}> = ({ name, control, error }) => (
+  disabled?: boolean;
+}> = ({ name, control, error, disabled }) => (
   <div>
     <StyledLabel>Profile</StyledLabel>
     <Controller
       name={name}
       control={control}
+      disabled={disabled}
       render={({ field }) => (
         <>
           <Select {...field}>

@@ -33,15 +33,15 @@ export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled })
     <FormWrapper>
       <form>
         <FormControl>
-          <InputField name="name" control={control} placeholder="Name" type="text" />
-            <InputField name="email" control={control} placeholder="Email" type="text" />
-            <ProfileSelectField name="profile" control={control} />
-            <InputField name="phone" control={control} placeholder="Phone" type="text" mask={true} />
-            <InputField name="age" control={control} placeholder="Age" type="number" />
+          <InputField name="name" control={control} placeholder="Name" type="text" disabled={isDisabled} />
+          <InputField name="email" control={control} placeholder="Email" type="text" disabled={isDisabled} />
+          <ProfileSelectField name="profile" control={control} disabled={isDisabled} />
+          <InputField name="phone" control={control} placeholder="Phone" type="text" mask={true} disabled={isDisabled} />
+          <InputField name="age" control={control} placeholder="Age" type="number" disabled={isDisabled}/>
 
-            <ButtonWrapper>
-              <Button onClick={() => navigate('/')}>Back</Button>
-            </ButtonWrapper>
+          <ButtonWrapper>
+            <Button onClick={() => navigate('/')}>Back</Button>
+          </ButtonWrapper>
         </FormControl>
       </form>
     </FormWrapper>

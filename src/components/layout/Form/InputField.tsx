@@ -9,7 +9,8 @@ export const InputField: React.FC<{
   type: string;
   error?: string | null;
   mask?: boolean;
-}> = ({ name, control, placeholder, type, error, mask }) => (
+  disabled?: boolean;
+}> = ({ name, control, placeholder, type, error, mask, disabled }) => (
   <div>
     <StyledLabel>{placeholder}</StyledLabel>
     <Controller
@@ -25,6 +26,7 @@ export const InputField: React.FC<{
               type="tel"
               data-testid="tel"
               placeholder={placeholder}
+              disabled={disabled}
               style={{ lineHeight: 'normal', height: '30px', paddingTop: '25px',
               verticalAlign: 'middle', paddingLeft: '10px'}}
               {...field}
@@ -33,6 +35,7 @@ export const InputField: React.FC<{
             <StyledInput 
               type={type} 
               placeholder={placeholder} 
+              disabled={disabled}
               style={{ lineHeight: 'normal', height: '30px', paddingTop: '25px',
               verticalAlign: 'middle', paddingLeft: '10px'}}
               {...field} />
