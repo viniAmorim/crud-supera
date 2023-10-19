@@ -76,7 +76,6 @@ const deleteUser = async (id: number) => {
 }
 
 async function editUser(data: FormValues) {
-  console.log(data)
   try {
     const response = await axios.put(`${baseUrl}/users/${data.id}`, data)
     return response.data;

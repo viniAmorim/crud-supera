@@ -1,29 +1,19 @@
-import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { 
-  Container,
-  Input, 
-  Button, 
-  FormControl, 
-  Select 
+import {
+  Button, Container, FormControl
 } from '@chakra-ui/react'
-import { useForm, SubmitHandler, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import React from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup' 
+import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { 
-  Wrapper,
-  Title, 
-  FormWrapper, 
-  StyledLabel, 
-  ButtonWrapper, 
-  StyledInputMask,
-  StyledInput
-} from './EditUser.styles'
-import { editUser } from '../../services/http/user'
+import * as yup from 'yup'
 import { InputField } from '../../components/layout/Form/InputField'
 import { ProfileSelectField } from '../../components/layout/Form/ProfileSelectedField'
+import { editUser } from '../../services/http/user'
+import {
+  ButtonWrapper, FormWrapper, Title, Wrapper
+} from './EditUser.styles'
 
 type FormValues = {
   id: number;
