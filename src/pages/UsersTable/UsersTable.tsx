@@ -134,7 +134,6 @@ export const UsersTable: React.FC = () => {
             width="200px"
             style={{ margin: '5px' }}
           >
-            <option value="">All Profiles</option>
             <option value="Admin">Admin</option>
             <option value="User">User</option>
           </Select>
