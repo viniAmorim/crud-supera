@@ -25,7 +25,7 @@ export const EditUser = () =>  {
     id: 0
   }
 
-  if (user) {
+  if (user && !isLoading) {
     defaultFormValues.name = user.name || defaultFormValues.name;
     defaultFormValues.email = user.email || defaultFormValues.email;
     defaultFormValues.profile = user.profile as 'Admin' | 'User' || defaultFormValues.profile;
@@ -54,6 +54,18 @@ export const EditUser = () =>  {
       updatedData.id = user.id
       mutation.mutate(updatedData);
     }
+  }
+
+  if (id === undefined) {
+    return <div>ID não especificado.</div>
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Something is wrong... id not provided</div>
   }
 
   return (

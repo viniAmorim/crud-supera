@@ -23,12 +23,12 @@ export const ViewUser = () => {
     id: 0
   }
 
-  if (user) {
-    defaultFormValues.name = user.name || defaultFormValues.name;
-    defaultFormValues.email = user.email || defaultFormValues.email;
-    defaultFormValues.profile = user.profile as 'Admin' | 'User' || defaultFormValues.profile;
-    defaultFormValues.age = user.age || defaultFormValues.age;
-    defaultFormValues.phone = user.phone || defaultFormValues.phone;
+  if (user && !isLoading) {
+    defaultFormValues.name = user?.name || defaultFormValues.name;
+    defaultFormValues.email = user?.email || defaultFormValues.email;
+    defaultFormValues.profile = user?.profile as 'Admin' | 'User' || defaultFormValues.profile;
+    defaultFormValues.age = user?.age || defaultFormValues.age;
+    defaultFormValues.phone = user?.phone || defaultFormValues.phone;
   }
 
   const {
@@ -40,6 +40,10 @@ export const ViewUser = () => {
 
   if (id === undefined) {
     return <div>ID não especificado.</div>
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>
   }
 
   if (isError) {
