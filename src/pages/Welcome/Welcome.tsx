@@ -1,6 +1,6 @@
 import { Wrapper } from './Welcome.styles';
 
-const Welcome = () => {
+export const Welcome = () => {
   return (
     <Wrapper>
       <section>
@@ -10,5 +10,3 @@ const Welcome = () => {
     </Wrapper>
   );
 };
-
-export default Welcome

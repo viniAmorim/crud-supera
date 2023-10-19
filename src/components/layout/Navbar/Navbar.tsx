@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { routes } from '../../../routes/routes';
 import { NavbarWrapper, StyledButton } from './Navbar.styles';
 
-const Navbar = () => {
+export const Navbar = () => {
   const navigate = useNavigate();
   return (
     <NavbarWrapper>
@@ -16,4 +16,4 @@ const Navbar = () => {
   );
 }
 
-export default Navbar
+
