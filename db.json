@@ -3,7 +3,7 @@
     {
       "name": "Maria Aparecida",
       "email": "maria@mail.com",
-      "profile": "User",
+      "profile": "user",
       "age": 68,
       "phone": "8888888888",
       "id": 2
@@ -185,70 +185,28 @@
       "id": 27
     },
     {
-      "age": null,
+      "age": 55,
       "phone": "(55) 6 2995-3460",
-      "profile": "Admin",
+      "profile": "User",
       "email": "amorimm.vinicius@gmail.com",
       "name": "Vinícius 3 Amorim da Silva",
       "id": 28
     },
     {
-      "name": "",
-      "email": "",
-      "phone": "",
-      "age": "",
+      "age": 20,
+      "phone": "(55) 6 2995-3460",
+      "profile": "user",
+      "email": "amorimm.vinicius@gmail.com",
+      "name": "Vinícius 3 Amorim da Silva",
       "id": 29
     },
     {
-      "name": "",
-      "email": "",
-      "phone": "",
-      "age": "",
+      "age": null,
+      "phone": "(55) 6 2995-3460",
+      "profile": "admin",
+      "email": "roo0teste@gmail.com",
+      "name": "Admin Admin",
       "id": 30
-    },
-    {
-      "name": "",
-      "email": "",
-      "phone": "",
-      "age": "",
-      "id": 31
-    },
-    {
-      "name": "",
-      "email": "",
-      "phone": "",
-      "age": "",
-      "id": 32
-    },
-    {
-      "name": "",
-      "email": "",
-      "phone": "",
-      "age": "",
-      "id": 33
-    },
-    {
-      "name": "",
-      "email": "",
-      "phone": "",
-      "age": "",
-      "id": 34
-    },
-    {
-      "age": 20,
-      "phone": "(55) 6 2995-3460",
-      "profile": "User",
-      "email": "amorimm.vinicius@gmail.com",
-      "name": "Vinícius 3 Amorim da Silva",
-      "id": 35
-    },
-    {
-      "age": 55,
-      "phone": "(55) 6 2995-3460",
-      "profile": "Admin",
-      "email": "amorimm.vinicius@gmail.com",
-      "name": "Vinícius 3 Amorim da Silva",
-      "id": 36
     }
   ]
 }

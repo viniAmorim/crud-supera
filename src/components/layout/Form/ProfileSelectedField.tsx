@@ -6,6 +6,18 @@ import {
   Select 
 } from '@chakra-ui/react'
 
+const PROFILES: Record<string, { label: string; value: string }> = {
+  ADMIN: {
+    label: "Admin",
+    value: "admin",
+  },
+  USER: {
+    label: "User",
+    value: "user",
+  },
+};
+
+
 export const ProfileSelectField: React.FC<{
   name: string;
   control: any;
@@ -21,9 +33,15 @@ export const ProfileSelectField: React.FC<{
       render={({ field }) => (
         <>
           <Select {...field}>
-            <option value=""></option>
-            <option value={'Admin'}>Admin</option>
-            <option value={'User'}>User</option>
+            {Object.keys(PROFILES)?.map((key) => {
+              const option = PROFILES[key];
+
+              return (
+                <option key={key} value={option?.value}>
+                  {option?.label}
+                </option>
+              )
+            })}
           </Select>
           {error && <span style={{ color: 'red' }}>{error}</span>}
         </>

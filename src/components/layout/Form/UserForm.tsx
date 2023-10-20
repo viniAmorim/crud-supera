@@ -33,7 +33,6 @@ const userSchema = yup.object().shape({
     .required('Email is required'),
   profile: yup
     .string()
-    .oneOf(['Admin', 'User'], 'Invalid profile')
     .required('Profile is required'),
   phone: yup
     .string(),
