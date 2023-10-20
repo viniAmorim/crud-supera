@@ -4,7 +4,6 @@ import { render, screen } from '@testing-library/react';
 import { useForm, Controller } from 'react-hook-form';
 import { InputField } from './InputField';
 
-
 const TestComponent = () => {
   const { control } = useForm();
 
