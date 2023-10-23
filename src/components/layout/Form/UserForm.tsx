@@ -68,15 +68,15 @@ export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled, o
     <FormWrapper>
       <form onSubmit={handleFormSubmit}>
         <FormControl>
-          <InputField name="name" control={control} placeholder="Name" type="text" disabled={isDisabled} error={errors.name?.message} />
-          <InputField name="email" control={control} placeholder="Email" type="text" disabled={isDisabled} error={errors.email?.message}  />
+          <InputField name="name" control={control} placeholder="Name" type="text" disabled={isDisabled} error={errors.name?.message} data-testid="name-input" />
+          <InputField name="email" control={control} placeholder="Email" type="text" disabled={isDisabled} error={errors.email?.message} data-testid="email-input" />
           <ProfileSelectField name="profile" control={control} disabled={isDisabled} error={errors.profile?.message}  />
           <InputField name="phone" control={control} placeholder="Phone" type="text" mask={true} disabled={isDisabled} />
           <InputField name="age" control={control} placeholder="Age" type="number" disabled={isDisabled} />
 
           <ButtonWrapper>
             <Button onClick={() => navigate('/')}>Back</Button>
-            {isDisabled === false && <Button type="submit">Submit</Button>}
+            {isDisabled === false && <Button type="submit" data-testid="submit-button">Submit</Button>}
           </ButtonWrapper>
         </FormControl>
       </form>
