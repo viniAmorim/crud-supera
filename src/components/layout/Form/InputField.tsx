@@ -36,6 +36,7 @@ export const InputField: React.FC<{
               type={type} 
               placeholder={placeholder} 
               disabled={disabled}
+              data-testid="input"
               style={{ lineHeight: 'normal', height: '30px', paddingTop: '25px',
               verticalAlign: 'middle', paddingLeft: '10px'}}
               {...field} />

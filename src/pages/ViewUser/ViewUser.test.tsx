@@ -1,40 +1,40 @@
 /* eslint-disable testing-library/no-wait-for-multiple-assertions */
+import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { QueryClientProvider, QueryClient } from 'react-query';
+import { MemoryRouter, Route, useParams } from 'react-router-dom'; // Importe useParams
 import { ViewUser } from './ViewUser';
-// setupTests.js
-import '@testing-library/jest-dom/extend-expect';
 
-const queryClient = new QueryClient();
+jest.mock('react-query', () => ({
+  useQuery: jest.fn(),
+}));
+
+const userData = {
+  name: 'John Doe',
+  email: 'john@example.com',
+  profile: 'User',
+  age: 30,
+  phone: '1234567890',
+  id: 1,
+};
 
 describe('ViewUser Component', () => {
   it('should display user data when loaded successfully', async () => {
-    const userData = {
-      name: 'John Doe',
-      email: 'john@example.com',
-      profile: 'User',
-      age: 30,
-      phone: '1234567890',
-      id: 1,
-    };
-
-    queryClient.setQueryData(['user', '1'], userData);
-
+    const userId = '1';
     render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter initialEntries={['/user/1']}>
-          <Routes>
-            <Route path="/user/:id" element={<ViewUser />} /> 
-          </Routes>
-        </MemoryRouter>
-      </QueryClientProvider>
+      <MemoryRouter initialEntries={[`/user/${userId}`]}> 
+        <QueryClientProvider client={new QueryClient()}>
+          <Route path="/user/:id">
+            <ViewUser />
+          </Route>
+        </QueryClientProvider>
+      </MemoryRouter>
     );
 
     await waitFor(() => {
-      expect(screen.getByDisplayValue(userData.name)).toHaveValue('John Doe')
-      expect(screen.getByDisplayValue(userData.email)).toHaveValue('john@example.com')
-      expect(screen.getByDisplayValue(userData.age)).toHaveValue(30)
+      expect(screen.getByText(userData.name)).toBeInTheDocument();
+      expect(screen.getByText(userData.email)).toBeInTheDocument();
+      expect(screen.getByText(String(userData.age))).toBeInTheDocument();
     });
   });
 });

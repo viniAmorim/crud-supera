@@ -2,7 +2,7 @@
 /* eslint-disable testing-library/no-wait-for-multiple-assertions */
 import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter, Route, Routes } from 'react-router-dom';
 import { EditUser } from './EditUser';
 import { toast } from 'react-toastify';
 import '@testing-library/jest-dom/extend-expect';
@@ -59,11 +59,9 @@ describe('EditUser Component', () => {
     queryClient.setQueryData(['user', user.id], user);
 
     render(
-      <MemoryRouter>
-        <QueryClientProvider client={queryClient}>
-          <EditUser />
-        </QueryClientProvider>
-      </MemoryRouter>
+      <BrowserRouter>
+        <EditUser />
+      </BrowserRouter>
     );
 
     const nameInput = screen.getByTestId('name-input');
