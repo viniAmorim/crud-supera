@@ -39,7 +39,7 @@ export const AddUser = () => {
           <Title>Add <span>User</span></Title>
 
           <FormWrapper>
-            <UserForm isDisabled={false} onSubmit={onSubmit} /> 
+            <UserForm onSubmit={onSubmit} /> 
           </FormWrapper>
         </Wrapper>
       </Container>

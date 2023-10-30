@@ -1,13 +1,13 @@
+import { Button, FormControl } from '@chakra-ui/react';
+import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, FormControl } from '@chakra-ui/react';
-import { FormWrapper, ButtonWrapper } from './UserForm.styles';
 import { useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
+import { FormValues } from '../../../services/http/user';
 import { InputField } from './InputField';
 import { ProfileSelectField } from './ProfileSelectedField';
-import * as yup from 'yup' 
-import { yupResolver } from '@hookform/resolvers/yup';
-import { FormValues } from '../../../services/http/user';
+import { ButtonWrapper, FormWrapper } from './UserForm.styles';
 
 type UserFormProps = {
   defaultValues?: {
@@ -17,7 +17,7 @@ type UserFormProps = {
     age?: number | null;
     phone?: string;
   };
-  isDisabled: boolean;
+  isDisabled?: boolean;
   onSubmit?: (data: any) => void;
 }
 
@@ -39,6 +39,7 @@ const userSchema = yup.object().shape({
   age: yup
     .number()
     .positive('Age must be a positive number')
+    .integer('Age must be an integer')
     .typeError('Age must be a number')
     .nullable()
     .transform((value, originalValue) => {
@@ -54,7 +55,7 @@ export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled, o
     formState: { errors },
     reset,
   } = useForm<FormValues>({
-    defaultValues: defaultValues,
+    defaultValues,
     resolver: yupResolver(userSchema) as any,
   });
 
@@ -76,7 +77,7 @@ export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled, o
 
           <ButtonWrapper>
             <Button onClick={() => navigate('/')}>Back</Button>
-            {isDisabled === false && <Button type="submit" data-testid="submit-button">Submit</Button>}
+            {!isDisabled && <Button type="submit" data-testid="submit-button">Submit</Button>}
           </ButtonWrapper>
         </FormControl>
       </form>

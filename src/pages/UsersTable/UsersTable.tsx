@@ -1,27 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
 import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
-  CircularProgress,
-  ButtonGroup,
-  Button,
-  Input,
-  Select,
+  Button, ButtonGroup, CircularProgress, Input,
+  Select, Table, TableContainer, Tbody, Td, Th, Thead, Tr
 } from '@chakra-ui/react'
-import { FaEdit, FaTrash, FaEye, FaSearch } from 'react-icons/fa'
-import { deleteUser, getUsers } from '../../services/http/user'
-import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
-import { routes } from '../../routes/routes'
-import { FilterWraper, SyledContainer } from './UsersTable.styles'
-import { Welcome } from '../Welcome/Welcome'
+import React, { useEffect, useState } from 'react'
+import { FaEdit, FaEye, FaSearch, FaTrash } from 'react-icons/fa'
 import InputMask from 'react-input-mask'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { PROFILES } from '../../components/layout/Form/ProfileSelectedField'
+import { routes } from '../../routes/routes'
+import { deleteUser, getUsers } from '../../services/http/user'
+import { Welcome } from '../Welcome/Welcome'
+import { FilterWraper, SyledContainer } from './UsersTable.styles'
 
 type User = {
   id: number;
@@ -77,12 +68,6 @@ export const UsersTable: React.FC = () => {
     navigate(`${routes.VIEW}/${id}`);
   }
 
-  const totalPages = Math.ceil(data.length / pageSize);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  }
-
   const handleSearch = () => {
     queryClient.invalidateQueries(['usersSearch', currentPage, searchName, searchEmail, selectedProfile]);
   }
@@ -134,8 +119,15 @@ export const UsersTable: React.FC = () => {
             width="200px"
             style={{ margin: '5px' }}
           >
-            <option value="Admin">Admin</option>
-            <option value="User">User</option>
+          {Object.keys(PROFILES)?.map((key) => {
+              const option = PROFILES[key];
+
+              return (
+                <option key={key} value={option?.value}>
+                  {option?.label}
+                </option>
+              )
+            })}
           </Select>
 
           <Button
@@ -158,24 +150,24 @@ export const UsersTable: React.FC = () => {
             </Tr>
           </Thead>
           <Tbody>
-          {(searchName || searchEmail ? searchData : users).map((user) => (
-                <Tr key={user.id}>
-                  <Td>{user.id}</Td>
-                  <Td>{user.name}</Td>
-                  <Td>{user.email}</Td>
-                  <Td>
-                    <InputMask mask="(99) 9 9999-9999" maskChar=" " disabled value={user.phone} />
-                  </Td>
-                  <Td>{user.profile}</Td>
-                  <Td>
-                    <ButtonGroup>
-                      <Button onClick={() => handleEdit(user.id)}><FaEdit style={{ color: 'blue'}} /></Button>
-                      <Button onClick={() => handleDeleteUser(user.id)}><FaTrash style={{ color: 'red'}} /></Button>
-                      <Button onClick={() => handleViewUser(user.id)}><FaEye style={{ color: 'green'}}/></Button>
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
-              ))}
+          {(users).map((user) => (
+            <Tr key={user.id}>
+              <Td>{user.id}</Td>
+              <Td>{user.name}</Td>
+              <Td>{user.email}</Td>
+              <Td>
+                <InputMask mask="(99) 9 9999-9999" maskChar=" " disabled value={user.phone} />
+              </Td>
+              <Td>{user.profile}</Td>
+              <Td>
+                <ButtonGroup>
+                  <Button onClick={() => handleEdit(user.id)}><FaEdit style={{ color: 'blue'}} /></Button>
+                  <Button onClick={() => handleDeleteUser(user.id)}><FaTrash style={{ color: 'red'}} /></Button>
+                  <Button onClick={() => handleViewUser(user.id)}><FaEye style={{ color: 'green'}}/></Button>
+                </ButtonGroup>
+              </Td>
+            </Tr>
+          ))}
           </Tbody>
         </Table>
         <div>

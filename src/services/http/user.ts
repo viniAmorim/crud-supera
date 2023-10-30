@@ -10,15 +10,6 @@ export type FormValues = {
   phone: string;
 }
 
-export type UserItemType = {
-  id: number;
-  name: string;
-  email: string;
-  profile: string;
-  phone: string;
-  age: number;
-}
-
 export type User = {
   id: number;
   name: string;

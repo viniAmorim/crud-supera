@@ -75,7 +75,7 @@ export const EditUser = () =>  {
           <Title>Edit <span>User</span></Title>
 
           <FormWrapper>
-            <UserForm defaultValues={defaultFormValues} isDisabled={false}  onSubmit={onSubmit} /> 
+            <UserForm defaultValues={defaultFormValues} onSubmit={onSubmit} /> 
           </FormWrapper>
         </Wrapper>
       </Container>

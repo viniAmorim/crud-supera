@@ -1,17 +1,17 @@
 {
   "users": [
     {
-      "name": "Maria Aparecida",
-      "email": "maria@mail.com",
-      "profile": "user",
-      "age": 68,
+      "age": 67,
       "phone": "8888888888",
+      "profile": "user",
+      "email": "maria@mail.com",
+      "name": "Maria Aparecida",
       "id": 2
     },
     {
       "name": "José de Abreu",
       "email": "jose@mail.com",
-      "profile": "User",
+      "profile": "user",
       "age": 34,
       "phone": "9999999999",
       "id": 3
@@ -20,7 +20,7 @@
       "id": 4,
       "name": "Pedro",
       "email": "pedro@mail.com",
-      "profile": "User",
+      "profile": "user",
       "phone": "7777777777",
       "age": 22
     },
@@ -28,7 +28,7 @@
       "id": 5,
       "name": "João",
       "email": "joão@mail.com",
-      "profile": "User",
+      "profile": "user",
       "phone": "55555555555",
       "age": 19
     },
@@ -36,14 +36,14 @@
       "id": 6,
       "name": "Gabriel",
       "email": "gariel@mail.com",
-      "profile": "User",
+      "profile": "user",
       "phone": "44444444444",
       "age": 48
     },
     {
       "name": "teste2",
       "email": "teste@teste.com.br",
-      "profile": "User",
+      "profile": "user",
       "phone": "66666666",
       "age": "89",
       "id": 7
@@ -51,7 +51,7 @@
     {
       "name": "teste",
       "email": "teste@teste.com.br",
-      "profile": "Admin",
+      "profile": "admin",
       "phone": "66666666",
       "age": "56",
       "id": 8
@@ -59,7 +59,7 @@
     {
       "name": "teste",
       "email": "teste@teste.com.br",
-      "profile": "User",
+      "profile": "user",
       "phone": "4564646464",
       "age": "57",
       "id": 9
@@ -67,7 +67,7 @@
     {
       "age": 88,
       "phone": "4564646464",
-      "profile": "Admin",
+      "profile": "admin",
       "email": "teste@teste.com.br",
       "name": "teste2",
       "id": 10
@@ -75,7 +75,7 @@
     {
       "name": "Vinicius Amorim",
       "email": "vinicius@mail.com",
-      "profile": "Admin",
+      "profile": "admin",
       "age": 55,
       "phone": "9999999999",
       "id": 11
@@ -83,7 +83,7 @@
     {
       "age": 55,
       "phone": "(97) 3497-7236",
-      "profile": "Admin",
+      "profile": "admin",
       "email": "teste@teste.com.br",
       "name": "teste teste",
       "id": 12
@@ -91,7 +91,7 @@
     {
       "age": 44,
       "phone": "(97) 3497-7236",
-      "profile": "User",
+      "profile": "user",
       "email": "pedroa@teste.com.br",
       "name": "Vinicius Amorim",
       "id": 15
@@ -99,7 +99,7 @@
     {
       "age": 19,
       "phone": "(55) 62 9953-4604",
-      "profile": "Admin",
+      "profile": "admin",
       "email": "amorimm.vinicius@gmail.com",
       "name": "Vinícius Amorim da Silva",
       "id": 17
@@ -107,15 +107,15 @@
     {
       "age": 20,
       "phone": "(55) 62 9953-4604",
-      "profile": "User",
+      "profile": "user",
       "email": "roo0teste@gmail.com",
-      "name": "Admin Admin",
+      "name": "admin admin",
       "id": 18
     },
     {
       "age": 20,
       "phone": "(55) 62 9953-4604",
-      "profile": "Admin",
+      "profile": "admin",
       "email": "amorimm.vinicius@gmail.com",
       "name": "Vinícius Amorim da Silva",
       "id": 19
@@ -123,7 +123,7 @@
     {
       "age": 103,
       "phone": "(55) 62 9953-4604",
-      "profile": "Admin",
+      "profile": "admin",
       "email": "amorimm.vinicius@gmail.com",
       "name": "Vinícius Amorim da Silva",
       "id": 20
@@ -131,7 +131,7 @@
     {
       "name": "Vinicius Amorim da Silva",
       "email": "vinicius@mail.com",
-      "profile": "Admin",
+      "profile": "admin",
       "age": null,
       "phone": "9999999999",
       "id": 21
@@ -139,7 +139,7 @@
     {
       "name": "Vinicius Amorim da Silva",
       "email": "amorimm.vinicius@gmail.com",
-      "profile": "Admin",
+      "profile": "admin",
       "age": null,
       "phone": "(55) 62 9953-4604",
       "id": 22
@@ -147,7 +147,7 @@
     {
       "age": 20,
       "phone": "(55) 62 9953-4604",
-      "profile": "Admin",
+      "profile": "admin",
       "email": "vinicius@gmail.com",
       "name": "Vinícius Amorim da Silva",
       "id": 23
@@ -155,7 +155,7 @@
     {
       "age": 20,
       "phone": "(55) 62 9953-4604",
-      "profile": "Admin",
+      "profile": "admin",
       "email": "amorimm.vinicius@gmail.com",
       "name": "Vinicius Amorim da Silva",
       "id": 24
@@ -163,7 +163,7 @@
     {
       "age": 55,
       "phone": "(55) 6 2995-3460",
-      "profile": "Admin",
+      "profile": "admin",
       "email": "amorimm.vinicius@gmail.com",
       "name": "Vinicius Amorim da Silva",
       "id": 25
@@ -171,7 +171,7 @@
     {
       "age": 52,
       "phone": "+5562995346049",
-      "profile": "Admin",
+      "profile": "admin",
       "email": "amorimm.vinicius@gmail.com",
       "name": "Vinícius 3 Amorim da Silva",
       "id": 26
@@ -179,7 +179,7 @@
     {
       "age": 73,
       "phone": "+5562995346049",
-      "profile": "Admin",
+      "profile": "admin",
       "email": "amorimm.vinicius@gmail.com",
       "name": "Vinícius 3 Amorim da Silva",
       "id": 27
@@ -187,7 +187,7 @@
     {
       "age": 55,
       "phone": "(55) 6 2995-3460",
-      "profile": "User",
+      "profile": "user",
       "email": "amorimm.vinicius@gmail.com",
       "name": "Vinícius 3 Amorim da Silva",
       "id": 28
@@ -205,8 +205,24 @@
       "phone": "(55) 6 2995-3460",
       "profile": "admin",
       "email": "roo0teste@gmail.com",
-      "name": "Admin Admin",
+      "name": "admin admin",
       "id": 30
+    },
+    {
+      "age": 1,
+      "phone": "(55) 6 2995-3460",
+      "profile": "user",
+      "email": "amorimm.vinicius@gmail.com",
+      "name": "Vinícius 3 Amorim da Silva",
+      "id": 31
+    },
+    {
+      "age": 20,
+      "phone": "(55) 6 2995-3460",
+      "profile": "admin",
+      "email": "amorimm.vinicius@gmail.com",
+      "name": "Vinícius 3 Amorim da Silva",
+      "id": 32
     }
   ]
 }
