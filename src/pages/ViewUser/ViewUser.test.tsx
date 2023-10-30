@@ -1,13 +1,26 @@
+/* eslint-disable testing-library/no-unnecessary-act */
 /* eslint-disable testing-library/no-wait-for-multiple-assertions */
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import { QueryClientProvider, QueryClient } from 'react-query';
-import { MemoryRouter, Route, useParams } from 'react-router-dom'; // Importe useParams
+import { act, render, screen, waitFor } from '@testing-library/react';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { MemoryRouter, Route, Routes } from 'react-router-dom'; 
 import { ViewUser } from './ViewUser';
 
 jest.mock('react-query', () => ({
   useQuery: jest.fn(),
 }));
+
+const renderComponent = (queryClient: QueryClient) => {
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter initialEntries={['/user/1']}>
+        <Routes> 
+          <Route path="/user/:id" element={<ViewUser />} />
+        </Routes>
+      </MemoryRouter>
+    </QueryClientProvider>,
+  );
+};
 
 const userData = {
   name: 'John Doe',
@@ -19,17 +32,22 @@ const userData = {
 };
 
 describe('ViewUser Component', () => {
+  it('should render correctly', async () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(['user', '1'], userData);
+
+    await act(async () => {
+      renderComponent(queryClient);
+    });
+  });
+
   it('should display user data when loaded successfully', async () => {
-    const userId = '1';
-    render(
-      <MemoryRouter initialEntries={[`/user/${userId}`]}> 
-        <QueryClientProvider client={new QueryClient()}>
-          <Route path="/user/:id">
-            <ViewUser />
-          </Route>
-        </QueryClientProvider>
-      </MemoryRouter>
-    );
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(['user', '1'], userData);
+
+    await act(async () => {
+      renderComponent(queryClient);
+    });
 
     await waitFor(() => {
       expect(screen.getByText(userData.name)).toBeInTheDocument();

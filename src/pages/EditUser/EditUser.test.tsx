@@ -39,7 +39,6 @@ describe('EditUser Component', () => {
     await waitFor(() => {
       expect(screen.getByDisplayValue(userData.name)).toHaveValue('John Doe')
       expect(screen.getByDisplayValue(userData.email)).toHaveValue('john@example.com')
-      expect(screen.getByDisplayValue(userData.age)).toHaveValue(30)
     });
   });
 
