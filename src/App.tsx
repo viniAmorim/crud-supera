@@ -16,8 +16,8 @@ export const App = () => {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" element={<UsersTable />} />
-          <Route path="/add-user" element={<AddUser />} />
+          <Route path={routes.HOME} element={<UsersTable />} />
+          <Route path={routes.REGISTER} element={<AddUser />} />
           <Route path={routes.EDIT()} element={<EditUser />} />
           <Route path={routes.VIEW()} element={<ViewUser /> } />
         </Routes>

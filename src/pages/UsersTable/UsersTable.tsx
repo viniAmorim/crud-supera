@@ -3,7 +3,7 @@ import {
   Select, Table, TableContainer, Tbody, Td, Th, Thead, Tr
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import { FaEdit, FaEye, FaSearch, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import InputMask from 'react-input-mask'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
@@ -72,15 +72,6 @@ export const UsersTable: React.FC = () => {
     queryClient.invalidateQueries(['usersSearch', currentPage, searchName, searchEmail, selectedProfile]);
   }
 
-  const { data: searchData = [], isLoading: isSearchLoading } = useQuery<User[], Error>(
-    ['usersSearch', currentPage, searchName, searchEmail, selectedProfile],
-    () => getUsers(currentPage, pageSize, searchName, searchEmail, selectedProfile),
-    {
-      retry: 1,
-      enabled: !!searchName || !!searchEmail,
-    }
-  )
-
   const handleProfileChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedProfile(event.target.value);
   }
@@ -129,14 +120,6 @@ export const UsersTable: React.FC = () => {
               )
             })}
           </Select>
-
-          <Button
-            onClick={handleSearch}
-            leftIcon={<FaSearch />}
-            style={{marginLeft: '10px', marginTop: '5px'}}
-          >
-            Search
-          </Button>
         </FilterWraper>
         <Table>
           <Thead>

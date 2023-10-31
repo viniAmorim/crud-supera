@@ -53,7 +53,6 @@ export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled, o
     control,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<FormValues>({
     defaultValues,
     resolver: yupResolver(userSchema) as any,

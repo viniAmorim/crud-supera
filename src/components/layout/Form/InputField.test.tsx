@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect'; 
 import { render, screen } from '@testing-library/react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { InputField } from './InputField';
 
 const TestComponent = () => {

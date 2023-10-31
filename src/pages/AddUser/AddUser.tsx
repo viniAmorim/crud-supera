@@ -3,7 +3,7 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { UserForm } from '../../components/layout/Form/UserForm'
@@ -15,11 +15,8 @@ import {
 export const AddUser = () => {
   const navigate = useNavigate()
 
-  const queryClient = useQueryClient();
-
   const mutation = useMutation(createUser, {
     onSuccess: () => {
-      //queryClient.invalidateQueries('users')
       toast.success('User added successfully')
       navigate('/')
     },

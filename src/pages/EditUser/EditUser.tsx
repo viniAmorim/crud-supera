@@ -1,7 +1,7 @@
 import { Container } from '@chakra-ui/react'
 import React from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { UserForm } from '../../components/layout/Form/UserForm'
@@ -33,11 +33,8 @@ export const EditUser = () =>  {
     defaultFormValues.phone = user.phone || defaultFormValues.phone;
   }
 
-  const queryClient = useQueryClient();
-
   const mutation = useMutation(editUser, {
     onSuccess: () => {
-      //queryClient.invalidateQueries('users')
       toast.success('User edited successfully')
       navigate('/')
     },
