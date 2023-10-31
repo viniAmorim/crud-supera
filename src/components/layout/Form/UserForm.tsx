@@ -1,4 +1,4 @@
-import { Button, FormControl } from '@chakra-ui/react';
+import { Button, Flex, FormControl, SystemStyleObject } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -7,7 +7,6 @@ import * as yup from 'yup';
 import { FormValues } from '../../../services/http/user';
 import { InputField } from './InputField';
 import { ProfileSelectField } from './ProfileSelectedField';
-import { ButtonWrapper, FormWrapper } from './UserForm.styles';
 
 type UserFormProps = {
   defaultValues?: {
@@ -48,6 +47,34 @@ const userSchema = yup.object().shape({
 })
 
 export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled, onSubmit }) => {
+  const styles: Record<string, SystemStyleObject> = {
+    wrapper: {  
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: '50px',
+      padding: '20px',
+      border: '1px solid #c4c4c4',
+      borderRadius: '5px',
+    },
+    buttonWrapper: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      marginTop: '20px',
+    },
+    button: {
+      padding: '10px 30px',
+      backgroundColor:  'black',
+      color: 'white',
+      border: 'none',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s',
+      '&:hover': {
+        backgroundColor:'#fe7e00',
+      }
+    }
+  }
   const navigate = useNavigate();
   const {
     control,
@@ -61,7 +88,7 @@ export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled, o
   const handleFormSubmit = handleSubmit(async (data) => onSubmit?.(data));
 
   return (
-    <FormWrapper>
+    <Flex>
       <form onSubmit={handleFormSubmit}>
         <FormControl>
           <InputField name="name" control={control} placeholder="Name" type="text" disabled={isDisabled} error={errors.name?.message} data-testid="name-input" />
@@ -70,12 +97,12 @@ export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled, o
           <InputField name="phone" control={control} placeholder="Phone" type="text" mask={true} disabled={isDisabled} />
           <InputField name="age" control={control} placeholder="Age" type="number" disabled={isDisabled} />
 
-          <ButtonWrapper>
-            <Button onClick={() => navigate('/')}>Back</Button>
-            {!isDisabled && <Button type="submit" data-testid="submit-button">Submit</Button>}
-          </ButtonWrapper>
+          <Flex sx={styles?.buttonWrapper}>
+            <Button sx={styles?.button} onClick={() => navigate('/')}>Back</Button>
+            {!isDisabled && <Button sx={styles?.button} type="submit" data-testid="submit-button">Submit</Button>}
+          </Flex>
         </FormControl>
       </form>
-    </FormWrapper>
+    </Flex>
   );
 };

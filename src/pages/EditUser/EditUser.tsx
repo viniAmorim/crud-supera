@@ -1,14 +1,33 @@
-import { Container } from '@chakra-ui/react'
-import React from 'react'
+import { Container, Flex, SystemStyleObject } from '@chakra-ui/react'
 import { SubmitHandler } from 'react-hook-form'
 import { useMutation, useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { UserForm } from '../../components/layout/Form/UserForm'
 import { editUser, FormValues, getUserById, User } from '../../services/http/user'
-import { FormWrapper, Title, Wrapper } from './EditUser.styles'
 
 export const EditUser = () =>  {
+  const styles: Record<string, SystemStyleObject> = {
+    wrapper: {  
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: '50px',
+      padding: '20px',
+      border: '1px solid #c4c4c4',
+      borderRadius: '5px',
+    },
+    title: {
+      textAlign: 'center',
+      fontSize: '30px',
+      fontWeight: 'bold',
+    },
+    titleSpan: {
+      color:  '#fe7e00',
+      textDecoration: 'underline',
+    }
+  }
   const navigate = useNavigate()
   const { id } = useParams()
 
@@ -64,16 +83,13 @@ export const EditUser = () =>  {
   }
 
   return (
-    <React.Fragment>
+    <>
       <Container maxWidth="sm">
-        <Wrapper>
-          <Title>Edit <span>User</span></Title>
-
-          <FormWrapper>
+        <Flex sx={styles?.wrapper}>
+          <Flex sx={styles?.title}>Edit <Flex sx={styles?.titleSpan}>User</Flex></Flex>
             <UserForm defaultValues={defaultFormValues} onSubmit={onSubmit} /> 
-          </FormWrapper>
-        </Wrapper>
+        </Flex>
       </Container>
-    </React.Fragment>
+    </>
   );
 }

@@ -1,6 +1,6 @@
 import {
-  Button, ButtonGroup, CircularProgress, Input,
-  Select, Table, TableContainer, Tbody, Td, Th, Thead, Tr
+  Button, ButtonGroup, CircularProgress, Flex, Input,
+  Select, SystemStyleObject, Table, TableContainer, Tbody, Td, Th, Thead, Tr
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
@@ -12,7 +12,6 @@ import { PROFILES } from '../../components/layout/Form/ProfileSelectedField'
 import { routes } from '../../routes/routes'
 import { deleteUser, getUsers } from '../../services/http/user'
 import { Welcome } from '../Welcome/Welcome'
-import { FilterWraper, SyledContainer } from './UsersTable.styles'
 
 type User = {
   id: number;
@@ -23,6 +22,20 @@ type User = {
 }
 
 export const UsersTable: React.FC = () => {
+  const styles: Record<string, SystemStyleObject> = {
+    wrapper: {  
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginLeft: '45rem'
+    },
+    filterWrapper: {
+      display: 'flex',
+      flexDirection: 'row',
+    }
+  }
+
   const [currentPage, setCurrentPage] = useState(1)
   const pageSize = 5
   const queryClient = useQueryClient()
@@ -68,10 +81,6 @@ export const UsersTable: React.FC = () => {
     navigate(routes.VIEW(id));
   }
 
-  const handleSearch = () => {
-    queryClient.invalidateQueries(['usersSearch', currentPage, searchName, searchEmail, selectedProfile]);
-  }
-
   const handleProfileChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedProfile(event.target.value);
   }
@@ -85,10 +94,10 @@ export const UsersTable: React.FC = () => {
   }
 
   return (
-    <SyledContainer maxW='1100px'>
+    <Flex sx={styles?.wrapper} maxW='1100px'>
       <Welcome />
       <TableContainer maxWidth={'100%'}>
-        <FilterWraper>
+        <Flex sx={styles?.filterWrapper}>
           <Input
             width="200px"
             placeholder="Search by name"
@@ -120,7 +129,7 @@ export const UsersTable: React.FC = () => {
               )
             })}
           </Select>
-        </FilterWraper>
+        </Flex>
         <Table>
           <Thead>
             <Tr>
@@ -169,7 +178,7 @@ export const UsersTable: React.FC = () => {
         </button>
         </div>
       </TableContainer>
-    </SyledContainer>
+    </Flex>
   );
 };
 

@@ -1,4 +1,4 @@
-import { Container } from '@chakra-ui/react';
+import { Box, Container, Flex, SystemStyleObject } from '@chakra-ui/react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
@@ -6,9 +6,30 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { UserForm } from '../../components/layout/Form/UserForm';
 import { FormValues, getUserById, User } from '../../services/http/user';
-import { Title, Wrapper } from './ViewUser.styles';
 
 export const ViewUser = () => {
+  const styles: Record<string, SystemStyleObject> = {
+    wrapper: {  
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: '50px',
+      padding: '20px',
+      border: '1px solid #c4c4c4',
+      borderRadius: '5px',
+    },
+    title: {
+      textAlign: 'center',
+      fontSize: '30px',
+      fontWeight: 'bold',
+    },
+    titleSpan: {
+      color:  '#fe7e00',
+      textDecoration: 'underline',
+    }
+  }
+
   const navigate = useNavigate()
   const { id } = useParams()
 
@@ -51,13 +72,13 @@ export const ViewUser = () => {
   }
 
   return (
-    <React.Fragment>
+    <>
       <Container maxWidth="sm">
-        <Wrapper>
-          <Title>View <span>User</span></Title>
+        <Flex sx={styles?.wrapper}>
+          <Flex sx={styles?.title}>View <Flex sx={styles?.titleSpan}>User</Flex></Flex>
           <UserForm defaultValues={defaultFormValues} isDisabled={true} /> 
-        </Wrapper>
+        </Flex>
       </Container>
-    </React.Fragment>
+    </>
   );
 }

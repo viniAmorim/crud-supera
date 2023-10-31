@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/extend-expect'
 
 test('renders welcome message correctly', () => {
   render(<Welcome />);
-  const headingElement = screen.getByRole('heading')
+  const headingElement = screen.getByTestId('welcome-title')
   const subMessage = screen.getByText('Start managing your users right now!')
 
   expect(headingElement).toBeInTheDocument();
