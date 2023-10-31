@@ -5,19 +5,25 @@ import { Navbar } from './components/layout/Navbar/Navbar'
 import { ViewUser } from './pages/ViewUser/ViewUser'
 import GlobalStyle from "./styles/global"
 import { UsersTable } from './pages/UsersTable/UsersTable'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { routes } from './routes/routes'
+
+const queryClient = new QueryClient();
 
 export const App = () => {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<UsersTable />} />
-        <Route path="/add-user" element={<AddUser />} />
-        <Route path="/edit-user/:id" element={<EditUser />} />
-        <Route path="/view-user/:id" element={<ViewUser />} />
-      </Routes>
-      <GlobalStyle />
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<UsersTable />} />
+          <Route path="/add-user" element={<AddUser />} />
+          <Route path={routes.EDIT()} element={<EditUser />} />
+          <Route path={routes.VIEW()} element={<ViewUser /> } />
+        </Routes>
+        <GlobalStyle />
+      </Router>
+    </QueryClientProvider>
   )
 }
 

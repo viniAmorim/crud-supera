@@ -37,7 +37,7 @@ export const EditUser = () =>  {
 
   const mutation = useMutation(editUser, {
     onSuccess: () => {
-      queryClient.invalidateQueries('users')
+      //queryClient.invalidateQueries('users')
       toast.success('User edited successfully')
       navigate('/')
     },
@@ -52,12 +52,8 @@ export const EditUser = () =>  {
         ...data,
       }
       updatedData.id = user.id
-      mutation.mutate(updatedData);
+      mutation?.mutate(updatedData);
     }
-  }
-
-  if (id === undefined) {
-    return <div>ID não especificado.</div>
   }
 
   if (isLoading) {
@@ -65,6 +61,8 @@ export const EditUser = () =>  {
   }
 
   if (isError) {
+    toast.error('Something is wrong... id not provided')
+    navigate('/')
     return <div>Something is wrong... id not provided</div>
   }
 

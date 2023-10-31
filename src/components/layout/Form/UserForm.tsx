@@ -59,11 +59,7 @@ export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled, o
     resolver: yupResolver(userSchema) as any,
   });
 
-  const handleFormSubmit = handleSubmit(async (data) => {
-    if (onSubmit) {
-      onSubmit(data);
-    }
-  });
+  const handleFormSubmit = handleSubmit(async (data) => onSubmit?.(data));
 
   return (
     <FormWrapper>

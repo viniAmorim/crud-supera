@@ -60,12 +60,12 @@ export const UsersTable: React.FC = () => {
 
   const navigate = useNavigate()
 
-  const handleEdit = (id: number) => {
-    navigate(`${routes.EDIT}/${id}`);
+  const handleEdit = (id: string) => {
+    navigate(routes.EDIT(id));
   }
 
-  const handleViewUser = (id: number) => {
-    navigate(`${routes.VIEW}/${id}`);
+  const handleViewUser = (id: string) => {
+    navigate(routes.VIEW(id));
   }
 
   const handleSearch = () => {
@@ -161,9 +161,9 @@ export const UsersTable: React.FC = () => {
               <Td>{user.profile}</Td>
               <Td>
                 <ButtonGroup>
-                  <Button onClick={() => handleEdit(user.id)}><FaEdit style={{ color: 'blue'}} /></Button>
+                  <Button onClick={() => handleEdit(String(user.id))}><FaEdit style={{ color: 'blue'}} /></Button>
                   <Button onClick={() => handleDeleteUser(user.id)}><FaTrash style={{ color: 'red'}} /></Button>
-                  <Button onClick={() => handleViewUser(user.id)}><FaEye style={{ color: 'green'}}/></Button>
+                  <Button onClick={() => handleViewUser(String(user.id))}><FaEye style={{ color: 'green'}}/></Button>
                 </ButtonGroup>
               </Td>
             </Tr>

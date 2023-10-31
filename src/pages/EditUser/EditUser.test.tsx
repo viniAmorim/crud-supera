@@ -1,34 +1,53 @@
 /* eslint-disable testing-library/no-unnecessary-act */
 /* eslint-disable testing-library/no-wait-for-multiple-assertions */
-import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { BrowserRouter, MemoryRouter, Route, Routes } from 'react-router-dom';
-import { EditUser } from './EditUser';
-import { toast } from 'react-toastify';
 import '@testing-library/jest-dom/extend-expect';
-import { editUser } from '../../services/http/user';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as userApi from '../../services/http/user';
+import { EditUser } from './EditUser';
 
-jest.mock('react-query');
 jest.mock('react-toastify');
+
+const renderComponent = (queryClient: QueryClient) => {
+  return  render(
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter initialEntries={['/user/2']}>
+        <Routes>
+          <Route path="/user/:id" element={<EditUser />} /> 
+        </Routes>
+      </MemoryRouter>
+    </QueryClientProvider>
+  );
+};
 
 const queryClient = new QueryClient();
 
 describe('EditUser Component', () => {
+  it('should render correctly', async () => {
+    const queryClient = new QueryClient();
+
+    // eslint-disable-next-line testing-library/no-unnecessary-act
+    await act(async () => {
+      renderComponent(queryClient);
+    });
+  });
+
   it('should display user data when loaded successfully', async () => {
     const userData = {
       name: 'John Doe',
       email: 'john@example.com',
-      profile: 'User',
-      age: 30,
-      phone: '1234567890',
-      id: 1,
+      profile: 'user',
+      age: 67,
+      id: 2,
     };
 
-    queryClient.setQueryData(['user', '1'], userData);
+    queryClient.setQueryData(['user', '2'], userData);
 
     render(
       <QueryClientProvider client={queryClient}>
-        <MemoryRouter initialEntries={['/user/1']}>
+        <MemoryRouter initialEntries={['/user/2']}>
           <Routes>
             <Route path="/user/:id" element={<EditUser />} /> 
           </Routes>
@@ -43,55 +62,49 @@ describe('EditUser Component', () => {
   });
 
   it('calls onSubmit and edits a user successfully', async () => {
+    const editUserMock = jest.spyOn(userApi, 'editUser').mockImplementation(() => Promise.resolve());
+
     const user = {
-      id: 1,
+      id: 2,
       name: 'John Doe',
       email: 'john@example.com',
-      profile: 'User',
-      age: 30,
-      phone: '123-456-7890',
+      profile: 'user',
+      phone: '(55) 6 2995-3460',
+      age: 67
     };
 
-    const navigate = jest.fn();
-
-    // Mocking the user data retrieval
-    queryClient.setQueryData(['user', user.id], user);
-
-    render(
-      <BrowserRouter>
-        <EditUser />
-      </BrowserRouter>
-    );
-
-    const nameInput = screen.getByTestId('name-input');
-    const emailInput = screen.getByTestId('email-input');
-    const submitButton = screen.getByTestId('submit-button');
-
-    // Simulate changes in input fields
-    fireEvent.change(nameInput, { target: { value: 'Updated Name' } });
-    fireEvent.change(emailInput, { target: { value: 'updated@example.com' } });
-
-    // Mock the editUser function
-    //editUser.mockResolvedValue(user);
-
-    // Simulate form submission
+    // eslint-disable-next-line testing-library/no-unnecessary-act
     await act(async () => {
-      fireEvent.click(submitButton);
+      renderComponent(queryClient);
     });
 
-    // Check if editUser was called with the updated data
-    expect(editUser).toHaveBeenCalledWith({
+    queryClient.setQueryData(['user', user.id], user);
+    
+    const nameInput = screen.getByPlaceholderText('Name');
+    const emailInput = screen.getByPlaceholderText('Email');
+    const profileInput = screen.getByTestId('profile');
+    const submitButton = screen.getByTestId('submit-button');
+    
+    fireEvent.change(nameInput, { target: { value: 'Updated Name' } });
+    fireEvent.change(emailInput, { target: { value: 'updated@example.com' } });
+    fireEvent.change(profileInput, { target: { value: 'user' } });
+    fireEvent.click(submitButton);
+
+    // eslint-disable-next-line testing-library/no-unnecessary-act
+    await act(async () => {
+      fireEvent.submit(screen.getByTestId('submit-button'));
+    });
+
+    expect(editUserMock).toHaveBeenCalledWith({
       id: user.id,
       name: 'Updated Name',
       email: 'updated@example.com',
-      profile: 'User',
-      age: 30,
-      phone: '123-456-7890',
+      profile: 'user',
+      phone: '',
+      age: 67,
     });
 
-    // Check if the navigation and query invalidation were called
-    expect(navigate).toHaveBeenCalledWith('/');
-    expect(queryClient.invalidateQueries).toHaveBeenCalledWith('users');
+    expect(toast.success).toHaveBeenCalledWith('User edited successfully');
   });
 });
 

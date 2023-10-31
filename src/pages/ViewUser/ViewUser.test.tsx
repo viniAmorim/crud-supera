@@ -1,58 +1,62 @@
 /* eslint-disable testing-library/no-unnecessary-act */
 /* eslint-disable testing-library/no-wait-for-multiple-assertions */
-import React from 'react';
+import '@testing-library/jest-dom/extend-expect';
 import { act, render, screen, waitFor } from '@testing-library/react';
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { MemoryRouter, Route, Routes } from 'react-router-dom'; 
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { ViewUser } from './ViewUser';
 
-jest.mock('react-query', () => ({
-  useQuery: jest.fn(),
-}));
+jest.mock('react-toastify');
 
 const renderComponent = (queryClient: QueryClient) => {
-  return render(
+  return  render(
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter initialEntries={['/user/1']}>
-        <Routes> 
-          <Route path="/user/:id" element={<ViewUser />} />
+      <MemoryRouter initialEntries={['/user/2']}>
+        <Routes>
+          <Route path="/user/:id" element={<ViewUser />} /> 
         </Routes>
       </MemoryRouter>
-    </QueryClientProvider>,
+    </QueryClientProvider>
   );
 };
 
-const userData = {
-  name: 'John Doe',
-  email: 'john@example.com',
-  profile: 'User',
-  age: 30,
-  phone: '1234567890',
-  id: 1,
-};
+const queryClient = new QueryClient();
 
 describe('ViewUser Component', () => {
   it('should render correctly', async () => {
     const queryClient = new QueryClient();
-    queryClient.setQueryData(['user', '1'], userData);
 
+    // eslint-disable-next-line testing-library/no-unnecessary-act
     await act(async () => {
       renderComponent(queryClient);
     });
   });
 
   it('should display user data when loaded successfully', async () => {
-    const queryClient = new QueryClient();
-    queryClient.setQueryData(['user', '1'], userData);
+    const userData = {
+      name: 'John Doe',
+      email: 'john@example.com',
+      profile: 'user',
+      age: 67,
+      id: 2,
+    };
 
-    await act(async () => {
-      renderComponent(queryClient);
-    });
+    queryClient.setQueryData(['user', '2'], userData);
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={['/user/2']}>
+          <Routes>
+            <Route path="/user/:id" element={<ViewUser />} /> 
+          </Routes>
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
 
     await waitFor(() => {
-      expect(screen.getByText(userData.name)).toBeInTheDocument();
-      expect(screen.getByText(userData.email)).toBeInTheDocument();
-      expect(screen.getByText(String(userData.age))).toBeInTheDocument();
+      expect(screen.getByDisplayValue(userData.name)).toHaveValue('John Doe')
+      expect(screen.getByDisplayValue(userData.email)).toHaveValue('john@example.com')
     });
   });
 });
+

@@ -17,7 +17,6 @@ export const PROFILES: Record<string, { label: string; value: string }> = {
   },
 };
 
-
 export const ProfileSelectField: React.FC<{
   name: string;
   control?: any;
@@ -32,7 +31,10 @@ export const ProfileSelectField: React.FC<{
       disabled={disabled}
       render={({ field }) => (
         <>
-          <Select {...field}>
+          <Select 
+            {...field}
+            data-testid="profile"  
+          >
           <option></option>
             {Object.keys(PROFILES)?.map((key) => {
               const option = PROFILES[key];

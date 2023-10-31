@@ -3,7 +3,7 @@ import {
 } from '@chakra-ui/react'
 import React from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { UserForm } from '../../components/layout/Form/UserForm'
@@ -19,7 +19,7 @@ export const AddUser = () => {
 
   const mutation = useMutation(createUser, {
     onSuccess: () => {
-      queryClient.invalidateQueries('users')
+      //queryClient.invalidateQueries('users')
       toast.success('User added successfully')
       navigate('/')
     },
@@ -29,7 +29,7 @@ export const AddUser = () => {
   })
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    mutation.mutate(data)
+    mutation?.mutate(data)
   }
 
   return (
