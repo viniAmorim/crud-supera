@@ -16,7 +16,7 @@ interface InputFieldProps {
 export const InputField = ({ name, control, placeholder, type, error, mask, disabled }: InputFieldProps) => {
   const styles: Record<string, SystemStyleObject> = {
     inputLabel: {  
-      marginBottom: '0.3125rem10',
+      marginBottom: '0.3125rem',
       marginTop: '0.625rem',
       fontWeight: 'bold',
     },
