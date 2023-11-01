@@ -53,7 +53,6 @@ export const getUsers = async (page: number, pageSize: number, name: string, ema
   return response.data;
 };
 
-
 export const deleteUser = async (id: number) => {
   const response = await axios.delete(`${baseUrl}/users/${id}`)
   return response.data

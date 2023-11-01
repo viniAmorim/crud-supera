@@ -9,7 +9,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { PROFILES } from '../../config/constants'
-
+import { INPUT_PHONE_MASK } from '../../config/constants';
 import { routes } from '../../routes/routes'
 import { deleteUser, getUsers } from '../../services/http/user'
 import { Welcome } from '../Welcome/Welcome'
@@ -34,6 +34,18 @@ export const UsersTable: React.FC = () => {
     filterWrapper: {
       display: 'flex',
       flexDirection: 'row',
+    },
+    inputTable: {
+      margin: '0.3125rem'
+    },
+    editButton: {
+      color: '#4444f3',
+    },
+    deleteButton: {
+      color: '#ee4c4c'
+    },
+    viewButton: {
+      color: '#208920'
     }
   }
 
@@ -102,21 +114,21 @@ export const UsersTable: React.FC = () => {
                 placeholder="Search by name"
                 value={searchName}
                 onChange={(e) => setSearchName(e.target.value)}
-                style={{margin: '0.3125rem'}}
+                sx={styles?.inputTable}
               />
               <Input
                 width="12.5rem"
                 placeholder="Search by email"
                 value={searchEmail}
                 onChange={(e) => setSearchEmail(e.target.value)}
-                style={{margin: '0.3125rem'}}
+                sx={styles?.inputTable}
               />
               <Select
                 value={selectedProfile || ''}
                 onChange={handleProfileChange}
                 placeholder="Select Profile"
                 width="12.5rem"
-                style={{ margin: '0.3125rem' }}
+                sx={styles?.inputTable}
               >
               {Object.keys(PROFILES)?.map((key) => {
                   const option = PROFILES[key];
@@ -147,14 +159,14 @@ export const UsersTable: React.FC = () => {
                   <Td>{user.name}</Td>
                   <Td>{user.email}</Td>
                   <Td>
-                    <InputMask mask="(99) 9 9999-9999" maskChar=" " disabled value={user.phone} />
+                    <InputMask mask={INPUT_PHONE_MASK} maskChar=" " disabled value={user.phone} />
                   </Td>
                   <Td>{user.profile}</Td>
                   <Td>
                     <ButtonGroup>
-                      <Button onClick={() => handleEdit(String(user.id))}><FaEdit style={{ color: 'blue'}} /></Button>
-                      <Button onClick={() => handleDeleteUser(user.id)}><FaTrash style={{ color: 'red'}} /></Button>
-                      <Button onClick={() => handleViewUser(String(user.id))}><FaEye style={{ color: 'green'}}/></Button>
+                      <Button sx={styles?.editButton} onClick={() => handleEdit(String(user.id))}><FaEdit /></Button>
+                      <Button sx={styles?.deleteButton} onClick={() => handleDeleteUser(user.id)}><FaTrash  /></Button>
+                      <Button sx={styles?.viewButton} onClick={() => handleViewUser(String(user.id))}><FaEye /></Button>
                     </ButtonGroup>
                   </Td>
                 </Tr>
