@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "name": "Maria Aparecida",
+      "name": "Maria Aparecida teste",
       "email": "maria@mail.com",
       "profile": "user",
       "age": 67,
@@ -431,6 +431,14 @@
       "email": "amorimm.vinicius@gmail.com",
       "name": "Vinícius 3 Amorim da Silva",
       "id": 58
+    },
+    {
+      "age": 55,
+      "phone": "(55) 6 2995-3460",
+      "profile": "admin",
+      "email": "amorimm.vinicius@gmail.com",
+      "name": "Vinícius 3 Amorim da Silva",
+      "id": 59
     }
   ]
 }

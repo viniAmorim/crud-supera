@@ -1,7 +1,7 @@
 import { Button, Flex, FormControl, SystemStyleObject } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { FormValues } from '../../../services/http/user';
@@ -17,7 +17,7 @@ type UserFormProps = {
     phone?: string;
   };
   isDisabled?: boolean;
-  onSubmit?: (data: any) => void;
+  onSubmit?: SubmitHandler<FormValues>;
 }
 
 const userSchema = yup.object().shape({
