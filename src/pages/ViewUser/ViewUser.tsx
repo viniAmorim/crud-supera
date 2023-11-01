@@ -1,4 +1,4 @@
-import { Box, Container, Flex, SystemStyleObject } from '@chakra-ui/react';
+import { Box, CircularProgress, Container, Flex, SystemStyleObject } from '@chakra-ui/react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
@@ -61,10 +61,6 @@ export const ViewUser = () => {
     defaultValues: defaultFormValues,
   })
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
   if (isError) {
     toast.error('Something is wrong... id not provided')
     navigate('/')
@@ -73,12 +69,16 @@ export const ViewUser = () => {
 
   return (
     <>
-      <Container maxWidth="sm">
-        <Flex sx={styles?.wrapper}>
-          <Flex sx={styles?.title}>View <Flex sx={styles?.titleSpan}>User</Flex></Flex>
-          <UserForm defaultValues={defaultFormValues} isDisabled={true} /> 
-        </Flex>
-      </Container>
+      {!isLoading ? (
+        <Container maxWidth="sm">
+          <Flex sx={styles?.wrapper}>
+            <Flex sx={styles?.title}>View <Flex sx={styles?.titleSpan}>User</Flex></Flex>
+            <UserForm defaultValues={defaultFormValues} isDisabled={true} /> 
+          </Flex>
+        </Container>
+      ): (
+        <div><CircularProgress /></div>
+      )}
     </>
   );
 }

@@ -85,100 +85,102 @@ export const UsersTable: React.FC = () => {
     setSelectedProfile(event.target.value);
   }
 
-  if (isLoading) {
-    return <div><CircularProgress /></div>;
-  }
-
   if (isError) {
     return <div>Error fetching data</div>;
   }
 
   return (
-    <Flex sx={styles?.wrapper} maxW='68.75rem'>
-      <Welcome />
-      <TableContainer maxWidth={'100%'}>
-        <Flex sx={styles?.filterWrapper}>
-          <Input
-            width="12.5rem"
-            placeholder="Search by name"
-            value={searchName}
-            onChange={(e) => setSearchName(e.target.value)}
-            style={{margin: '0.3125rem'}}
-          />
-          <Input
-            width="12.5rem"
-            placeholder="Search by email"
-            value={searchEmail}
-            onChange={(e) => setSearchEmail(e.target.value)}
-            style={{margin: '0.3125rem'}}
-          />
-          <Select
-            value={selectedProfile || ''}
-            onChange={handleProfileChange}
-            placeholder="Select Profile"
-            width="12.5rem"
-            style={{ margin: '0.3125rem' }}
-          >
-          {Object.keys(PROFILES)?.map((key) => {
-              const option = PROFILES[key];
-
-              return (
-                <option key={key} value={option?.value}>
-                  {option?.label}
-                </option>
-              )
-            })}
-          </Select>
+    <>
+    {!isLoading ? (
+      <Flex sx={styles?.wrapper} maxW='68.75rem'>
+        <Welcome />
+          <TableContainer maxWidth={'100%'}>
+            <Flex sx={styles?.filterWrapper}>
+              <Input
+                width="12.5rem"
+                placeholder="Search by name"
+                value={searchName}
+                onChange={(e) => setSearchName(e.target.value)}
+                style={{margin: '0.3125rem'}}
+              />
+              <Input
+                width="12.5rem"
+                placeholder="Search by email"
+                value={searchEmail}
+                onChange={(e) => setSearchEmail(e.target.value)}
+                style={{margin: '0.3125rem'}}
+              />
+              <Select
+                value={selectedProfile || ''}
+                onChange={handleProfileChange}
+                placeholder="Select Profile"
+                width="12.5rem"
+                style={{ margin: '0.3125rem' }}
+              >
+              {Object.keys(PROFILES)?.map((key) => {
+                  const option = PROFILES[key];
+    
+                  return (
+                    <option key={key} value={option?.value}>
+                      {option?.label}
+                    </option>
+                  )
+                })}
+              </Select>
+            </Flex>
+            <Table>
+              <Thead>
+                <Tr>
+                  <Th>ID</Th>
+                  <Th>Name</Th>
+                  <Th>Email</Th>
+                  <Th>Phone</Th>
+                  <Th>profile</Th>
+                  <Th>Actions</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+              {(users).map((user) => (
+                <Tr key={user.id}>
+                  <Td>{user.id}</Td>
+                  <Td>{user.name}</Td>
+                  <Td>{user.email}</Td>
+                  <Td>
+                    <InputMask mask="(99) 9 9999-9999" maskChar=" " disabled value={user.phone} />
+                  </Td>
+                  <Td>{user.profile}</Td>
+                  <Td>
+                    <ButtonGroup>
+                      <Button onClick={() => handleEdit(String(user.id))}><FaEdit style={{ color: 'blue'}} /></Button>
+                      <Button onClick={() => handleDeleteUser(user.id)}><FaTrash style={{ color: 'red'}} /></Button>
+                      <Button onClick={() => handleViewUser(String(user.id))}><FaEye style={{ color: 'green'}}/></Button>
+                    </ButtonGroup>
+                  </Td>
+                </Tr>
+              ))}
+              </Tbody>
+            </Table>
+            <div>
+            <button
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </button>
+            <span>Page {currentPage}</span>
+            <button
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={users.length < pageSize}
+            >
+              Next
+            </button>
+            </div>
+          </TableContainer>
         </Flex>
-        <Table>
-          <Thead>
-            <Tr>
-              <Th>ID</Th>
-              <Th>Name</Th>
-              <Th>Email</Th>
-              <Th>Phone</Th>
-              <Th>profile</Th>
-              <Th>Actions</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-          {(users).map((user) => (
-            <Tr key={user.id}>
-              <Td>{user.id}</Td>
-              <Td>{user.name}</Td>
-              <Td>{user.email}</Td>
-              <Td>
-                <InputMask mask="(99) 9 9999-9999" maskChar=" " disabled value={user.phone} />
-              </Td>
-              <Td>{user.profile}</Td>
-              <Td>
-                <ButtonGroup>
-                  <Button onClick={() => handleEdit(String(user.id))}><FaEdit style={{ color: 'blue'}} /></Button>
-                  <Button onClick={() => handleDeleteUser(user.id)}><FaTrash style={{ color: 'red'}} /></Button>
-                  <Button onClick={() => handleViewUser(String(user.id))}><FaEye style={{ color: 'green'}}/></Button>
-                </ButtonGroup>
-              </Td>
-            </Tr>
-          ))}
-          </Tbody>
-        </Table>
-        <div>
-        <button
-          onClick={() => setCurrentPage(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        <span>Page {currentPage}</span>
-        <button
-          onClick={() => setCurrentPage(currentPage + 1)}
-          disabled={users.length < pageSize}
-        >
-          Next
-        </button>
-        </div>
-      </TableContainer>
-    </Flex>
+    ): (
+      <div><CircularProgress /></div>
+    )}
+    </>
   );
 };
 

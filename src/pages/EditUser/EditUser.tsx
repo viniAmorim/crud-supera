@@ -1,4 +1,4 @@
-import { Container, Flex, SystemStyleObject } from '@chakra-ui/react'
+import { CircularProgress, Container, Flex, SystemStyleObject } from '@chakra-ui/react'
 import { SubmitHandler } from 'react-hook-form'
 import { useMutation, useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -72,10 +72,6 @@ export const EditUser = () =>  {
     }
   }
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   if (isError) {
     toast.error('Something is wrong... id not provided')
     navigate('/')
@@ -84,12 +80,16 @@ export const EditUser = () =>  {
 
   return (
     <>
+      {!isLoading ? (
       <Container maxWidth="sm">
         <Flex sx={styles?.wrapper}>
           <Flex sx={styles?.title}>Edit <Flex sx={styles?.titleSpan}>User</Flex></Flex>
             <UserForm defaultValues={defaultFormValues} onSubmit={onSubmit} /> 
         </Flex>
       </Container>
+      ): (
+        <div><CircularProgress /></div>
+      )}
     </>
   );
 }
