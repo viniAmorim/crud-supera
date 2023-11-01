@@ -8,7 +8,7 @@ import { FormValues } from '../../../services/http/user';
 import { InputField } from './InputField';
 import { ProfileSelectField } from './ProfileSelectedField';
 
-type UserFormProps = {
+interface UserFormProps {
   defaultValues?: {
     name?: string;
     email?: string;

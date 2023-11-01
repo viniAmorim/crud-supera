@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ENDPOINTS } from './endpoints';
 
-export type FormValues = {
+export interface FormValues {
   id: number;
   name: string;
   email: string;
@@ -10,7 +10,7 @@ export type FormValues = {
   phone: string;
 }
 
-export type User = {
+export interface User {
   id: number;
   name: string;
   email: string;

@@ -8,12 +8,13 @@ import InputMask from 'react-input-mask'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { PROFILES } from '../../components/layout/Form/ProfileSelectedField'
+import { PROFILES } from '../../config/constants'
+
 import { routes } from '../../routes/routes'
 import { deleteUser, getUsers } from '../../services/http/user'
 import { Welcome } from '../Welcome/Welcome'
 
-type User = {
+interface User {
   id: number;
   name: string;
   email: string;
