@@ -1,4 +1,5 @@
 import {
+  Box,
   Button, ButtonGroup, CircularProgress, Flex, Input,
   Select, SystemStyleObject, Table, TableContainer, Tbody, Td, Th, Thead, Tr
 } from '@chakra-ui/react'
@@ -153,27 +154,27 @@ export const UsersTable: React.FC = () => {
                 </Tr>
               </Thead>
               <Tbody>
-              {(users).map((user) => (
-                <Tr key={user.id}>
-                  <Td>{user.id}</Td>
-                  <Td>{user.name}</Td>
-                  <Td>{user.email}</Td>
+              {users?.map((user) => (
+                <Tr key={user?.id}>
+                  <Td>{user?.id}</Td>
+                  <Td>{user?.name}</Td>
+                  <Td>{user?.email}</Td>
                   <Td>
-                    <InputMask mask={INPUT_PHONE_MASK} maskChar=" " disabled value={user.phone} />
+                    <InputMask mask={INPUT_PHONE_MASK} maskChar=" " disabled value={user?.phone} />
                   </Td>
-                  <Td>{user.profile}</Td>
+                  <Td>{user?.profile}</Td>
                   <Td>
                     <ButtonGroup>
-                      <Button sx={styles?.editButton} onClick={() => handleEdit(String(user.id))}><FaEdit /></Button>
-                      <Button sx={styles?.deleteButton} onClick={() => handleDeleteUser(user.id)}><FaTrash  /></Button>
-                      <Button sx={styles?.viewButton} onClick={() => handleViewUser(String(user.id))}><FaEye /></Button>
+                      <Button sx={styles?.editButton} onClick={() => handleEdit(String(user?.id))}><FaEdit /></Button>
+                      <Button sx={styles?.deleteButton} onClick={() => handleDeleteUser(user?.id)}><FaTrash  /></Button>
+                      <Button sx={styles?.viewButton} onClick={() => handleViewUser(String(user?.id))}><FaEye /></Button>
                     </ButtonGroup>
                   </Td>
                 </Tr>
               ))}
               </Tbody>
             </Table>
-            <div>
+            <Box>
             <button
               onClick={() => setCurrentPage(currentPage - 1)}
               disabled={currentPage === 1}
@@ -187,11 +188,11 @@ export const UsersTable: React.FC = () => {
             >
               Next
             </button>
-            </div>
+            </Box>
           </TableContainer>
         </Flex>
     ): (
-      <div><CircularProgress /></div>
+      <Box><CircularProgress /></Box>
     )}
     </>
   );
