@@ -1,8 +1,7 @@
 import { Box, Flex, Input, SystemStyleObject } from '@chakra-ui/react';
-import React from 'react';
 import { Controller } from 'react-hook-form';
-import InputMask from 'react-input-mask'
-import { redirect } from 'react-router-dom';
+import InputMask from 'react-input-mask';
+import { INPUT_PHONE_MASK } from '../../../config/constants';
 
 interface InputFieldProps {
   name: string;
@@ -54,7 +53,7 @@ export const InputField = ({ name, control, placeholder, type, error, mask, disa
             {mask ? (
               <Box
                 as={InputMask}
-                mask="(99) 9 9999-9999"
+                mask={INPUT_PHONE_MASK}
                 maskChar=" "
                 type="tel"
                 data-testid="tel"

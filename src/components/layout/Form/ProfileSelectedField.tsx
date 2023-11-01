@@ -3,17 +3,7 @@ import {
   Select, SystemStyleObject
 } from '@chakra-ui/react';
 import { Controller } from 'react-hook-form';
-
-export const PROFILES: Record<string, { label: string; value: string }> = {
-  ADMIN: {
-    label: "admin",
-    value: "admin",
-  },
-  USER: {
-    label: "user",
-    value: "user",
-  },
-};
+import { PROFILES } from '../../../config/constants';
 
 export const ProfileSelectField: React.FC<{
   name: string;

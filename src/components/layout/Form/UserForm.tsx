@@ -1,4 +1,4 @@
-import { Button, Flex, FormControl, SystemStyleObject } from '@chakra-ui/react';
+import { Box, Button, Flex, FormControl, SystemStyleObject } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -89,7 +89,7 @@ export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled, o
 
   return (
     <Flex>
-      <form onSubmit={handleFormSubmit}>
+      <Box onSubmit={handleFormSubmit}>
         <FormControl>
           <InputField name="name" control={control} placeholder="Name" type="text" disabled={isDisabled} error={errors.name?.message} data-testid="name-input" />
           <InputField name="email" control={control} placeholder="Email" type="text" disabled={isDisabled} error={errors.email?.message} data-testid="email-input" />
@@ -102,7 +102,7 @@ export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled, o
             {!isDisabled && <Button sx={styles?.button} type="submit" data-testid="submit-button">Submit</Button>}
           </Flex>
         </FormControl>
-      </form>
+      </Box>
     </Flex>
   );
 };
