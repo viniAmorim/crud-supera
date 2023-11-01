@@ -1,7 +1,7 @@
 import {
   Box,
   Button, ButtonGroup, CircularProgress, Flex, Input,
-  Select, SystemStyleObject, Table, TableContainer, Tbody, Td, Th, Thead, Tr
+  Select, SystemStyleObject, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
@@ -175,19 +175,19 @@ export const UsersTable: React.FC = () => {
               </Tbody>
             </Table>
             <Box>
-            <button
+            <Button
               onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 1}
+              isDisabled={currentPage === 1}
             >
               Previous
-            </button>
-            <span>Page {currentPage}</span>
-            <button
+            </Button>
+            <Text as='span'>Page {currentPage}</Text>
+            <Button
               onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={users.length < pageSize}
+              isDisabled={users.length < pageSize}
             >
               Next
-            </button>
+            </Button>
             </Box>
           </TableContainer>
         </Flex>

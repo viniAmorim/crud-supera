@@ -1,5 +1,4 @@
-import { Box, CircularProgress, Container, Flex, SystemStyleObject } from '@chakra-ui/react';
-import React from 'react';
+import { CircularProgress, Container, Flex, SystemStyleObject } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
