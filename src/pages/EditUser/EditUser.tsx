@@ -7,6 +7,9 @@ import { UserForm } from '../../components/layout/Form/UserForm'
 import { editUser, FormValues, getUserById, User } from '../../services/http/user'
 
 export const EditUser = () =>  {
+  const navigate = useNavigate()
+  const { id } = useParams()
+  
   const styles: Record<string, SystemStyleObject> = {
     wrapper: {  
       display: 'flex',
@@ -28,8 +31,6 @@ export const EditUser = () =>  {
       textDecoration: 'underline',
     }
   }
-  const navigate = useNavigate()
-  const { id } = useParams()
 
   const { data: user, isLoading, isError } = useQuery<User | null>(['user', id], () => getUserById(Number(id)), {
     enabled: !!id,

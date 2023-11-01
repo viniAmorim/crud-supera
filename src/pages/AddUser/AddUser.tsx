@@ -9,6 +9,8 @@ import { UserForm } from '../../components/layout/Form/UserForm'
 import { createUser, FormValues } from '../../services/http/user'
 
 export const AddUser = () => {
+  const navigate = useNavigate()
+
   const styles: Record<string, SystemStyleObject> = {
     wrapper: {  
       display: 'flex',
@@ -30,8 +32,6 @@ export const AddUser = () => {
       textDecoration: 'underline',
     }
   }
-
-  const navigate = useNavigate()
 
   const mutation = useMutation(createUser, {
     onSuccess: () => {

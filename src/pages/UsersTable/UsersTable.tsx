@@ -24,13 +24,22 @@ interface User {
 }
 
 export const UsersTable: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState(1)
+  const pageSize = 5
+  const queryClient = useQueryClient()
+  const [searchName, setSearchName] = useState('')
+  const [searchEmail, setSearchEmail] = useState('')
+  const [selectedProfile, setSelectedProfile] = useState<string | undefined>(undefined);
+  const [users, setUsers] = useState<User[]>([]); 
+
   const styles: Record<string, SystemStyleObject> = {
     wrapper: {  
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      marginLeft: '15rem'
+      margin: '0 auto'
+      
     },
     filterWrapper: {
       display: 'flex',
@@ -47,17 +56,11 @@ export const UsersTable: React.FC = () => {
     },
     viewButton: {
       color: '#208920'
+    },
+    page: {
+      padding: '0.625rem 0.625rem'
     }
   }
-
-  const [currentPage, setCurrentPage] = useState(1)
-  const pageSize = 5
-  const queryClient = useQueryClient()
-  const [searchName, setSearchName] = useState('')
-  const [searchEmail, setSearchEmail] = useState('')
-  const [selectedProfile, setSelectedProfile] = useState<string | undefined>(undefined);
-
-  const [users, setUsers] = useState<User[]>([]); 
 
   const { data = [], isLoading, isError } = useQuery<User[], Error>(
     ['users', currentPage],
@@ -67,11 +70,7 @@ export const UsersTable: React.FC = () => {
     }
   );
 
-  useEffect(() => {
-    getUsers(currentPage, pageSize, searchName, searchEmail, selectedProfile).then((data) => {
-      setUsers(data);
-    });
-  }, [currentPage, searchName, searchEmail, selectedProfile]);
+
   
   
   const handleDeleteUser = (id: number) => {
@@ -102,6 +101,13 @@ export const UsersTable: React.FC = () => {
   if (isError) {
     return <div>Error fetching data</div>;
   }
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    getUsers(currentPage, pageSize, searchName, searchEmail, selectedProfile).then((data) => {
+      setUsers(data);
+    });
+  }, [currentPage, searchName, searchEmail, selectedProfile]);
 
   return (
     <>
@@ -181,7 +187,7 @@ export const UsersTable: React.FC = () => {
             >
               Previous
             </Button>
-            <Text as='span'>Page {currentPage}</Text>
+            <Text sx={styles?.page} as='span'>Page {currentPage}</Text>
             <Button
               onClick={() => setCurrentPage(currentPage + 1)}
               isDisabled={users.length < pageSize}
