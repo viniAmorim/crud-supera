@@ -23,8 +23,8 @@ export const ProfileSelectField: React.FC<{
 }> = ({ name, control, error, disabled }) => {
   const styles: Record<string, SystemStyleObject> = {
     inputLabel: {  
-      marginBottom: '5px',
-      marginTop: '10px',
+      marginBottom: '0.3125rem',
+      marginTop: '0.625rem',
       fontWeight: 'bold',
     },
   }

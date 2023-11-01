@@ -14,8 +14,8 @@ export const InputField: React.FC<{
 }> = ({ name, control, placeholder, type, error, mask, disabled }) => {
   const styles: Record<string, SystemStyleObject> = {
     inputLabel: {  
-      marginBottom: '5px',
-      marginTop: '10px',
+      marginBottom: '0.3125rem10',
+      marginTop: '0.625rem',
       fontWeight: 'bold',
     },
     input: {
@@ -42,9 +42,9 @@ export const InputField: React.FC<{
                 disabled={disabled}
                 style={{ 
                   lineHeight: 'normal', 
-                  height: '40px', 
+                  height: '2.5rem', 
                   verticalAlign: 'middle', 
-                  paddingLeft: '10px',
+                  paddingLeft: '0.625rem',
                   border: 'solid 1px #c4c4c4',
                   borderRadius: '4px',
                   width: '100%',
@@ -60,9 +60,9 @@ export const InputField: React.FC<{
                 data-testid="input"
                 style={{ 
                   lineHeight: 'normal', 
-                  height: '40px', 
+                  height: '2.5rem', 
                   verticalAlign: 'middle', 
-                  paddingLeft: '10px',
+                  paddingLeft: '0.625rem',
                   
                 }}
                 {...field} />

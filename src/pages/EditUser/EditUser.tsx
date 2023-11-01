@@ -13,14 +13,14 @@ export const EditUser = () =>  {
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: '50px',
-      padding: '20px',
+      marginTop: '3.125rem',
+      padding: '1.25rem',
       border: '1px solid #c4c4c4',
-      borderRadius: '5px',
+      borderRadius: '0.3125rem',
     },
     title: {
       textAlign: 'center',
-      fontSize: '30px',
+      fontSize: '1.875rem',
       fontWeight: 'bold',
     },
     titleSpan: {

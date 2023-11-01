@@ -7,7 +7,7 @@ export const Navbar = () => {
     wrapper: {  
       backgroundColor: '#333',
       color: '#fff',
-      padding: '10px 0',
+      padding: '0.625rem 0',
       width: '100%',
       display: 'flex',
       justifyContent: 'space-between',
@@ -15,7 +15,7 @@ export const Navbar = () => {
     },
     nav: {
       width: '100%',
-      maxWidth: '1200px', 
+      maxWidth: '75rem', 
       margin: '0 auto', 
       display: 'flex',
       justifyContent: 'space-between',
@@ -28,12 +28,12 @@ export const Navbar = () => {
       margin: 0,
     },
     li: {
-      marginRight: '20px',
+      marginRight: '1.25rem',
     },
     navButton: {
       backgroundColor: 'black',
       color: 'white',
-      padding: '10px 60px',
+      padding: '0.625rem 3.75rem',
       border: 'none',
       cursor: 'pointer',
       transition: 'background-color 0.3s',

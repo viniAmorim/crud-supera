@@ -7,8 +7,8 @@ export const Welcome = () => {
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: '20px',
-      marginBottom: '20px',
+      marginTop: '1.25rem',
+      marginBottom: '1.25rem',
     },
     title: {
       fontSize: '2.5em',
@@ -22,7 +22,7 @@ export const Welcome = () => {
     },
     welcomeParagraph: {
       marginBottom: '1.5em',
-      marginLeft: '45px',
+      marginLeft: '2.rem8125',
       color: '#7b7b7b',
     }
   }

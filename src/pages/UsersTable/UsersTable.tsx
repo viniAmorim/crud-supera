@@ -28,7 +28,7 @@ export const UsersTable: React.FC = () => {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      marginLeft: '45rem'
+      marginLeft: '15rem'
     },
     filterWrapper: {
       display: 'flex',
@@ -94,30 +94,30 @@ export const UsersTable: React.FC = () => {
   }
 
   return (
-    <Flex sx={styles?.wrapper} maxW='1100px'>
+    <Flex sx={styles?.wrapper} maxW='68.75rem'>
       <Welcome />
       <TableContainer maxWidth={'100%'}>
         <Flex sx={styles?.filterWrapper}>
           <Input
-            width="200px"
+            width="12.5rem"
             placeholder="Search by name"
             value={searchName}
             onChange={(e) => setSearchName(e.target.value)}
-            style={{margin: '5px'}}
+            style={{margin: '0.3125rem'}}
           />
           <Input
-            width="200px"
+            width="12.5rem"
             placeholder="Search by email"
             value={searchEmail}
             onChange={(e) => setSearchEmail(e.target.value)}
-            style={{margin: '5px'}}
+            style={{margin: '0.3125rem'}}
           />
           <Select
             value={selectedProfile || ''}
             onChange={handleProfileChange}
             placeholder="Select Profile"
-            width="200px"
-            style={{ margin: '5px' }}
+            width="12.5rem"
+            style={{ margin: '0.3125rem' }}
           >
           {Object.keys(PROFILES)?.map((key) => {
               const option = PROFILES[key];
