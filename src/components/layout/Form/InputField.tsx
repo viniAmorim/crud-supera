@@ -3,7 +3,7 @@ import React from 'react';
 import { Controller } from 'react-hook-form';
 import InputMask from 'react-input-mask'
 
-export const InputField: React.FC<{
+interface InputFieldProps {
   name: string;
   control: any;
   placeholder: string;
@@ -11,7 +11,9 @@ export const InputField: React.FC<{
   error?: string | null;
   mask?: boolean;
   disabled?: boolean;
-}> = ({ name, control, placeholder, type, error, mask, disabled }) => {
+}
+
+export const InputField = ({ name, control, placeholder, type, error, mask, disabled }: InputFieldProps) => {
   const styles: Record<string, SystemStyleObject> = {
     inputLabel: {  
       marginBottom: '0.3125rem10',
