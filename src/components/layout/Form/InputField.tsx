@@ -1,7 +1,8 @@
-import { Flex, Input, SystemStyleObject } from '@chakra-ui/react';
+import { Box, Flex, Input, SystemStyleObject } from '@chakra-ui/react';
 import React from 'react';
 import { Controller } from 'react-hook-form';
 import InputMask from 'react-input-mask'
+import { redirect } from 'react-router-dom';
 
 interface InputFieldProps {
   name: string;
@@ -22,7 +23,23 @@ export const InputField = ({ name, control, placeholder, type, error, mask, disa
     },
     input: {
       backgroundColor: 'white',
+      lineHeight: 'normal', 
+      height: '2.5rem', 
+      verticalAlign: 'middle', 
+      paddingLeft: '0.625rem',
     },
+    inputMask: {
+      lineHeight: 'normal', 
+      height: '2.5rem', 
+      verticalAlign: 'middle', 
+      paddingLeft: '0.625rem',
+      border: 'solid 1px #c4c4c4',
+      borderRadius: '4px',
+      width: '100%',
+    },
+    errorMessage: {
+      color: 'red'
+    }
   }
   
   return (
@@ -35,22 +52,15 @@ export const InputField = ({ name, control, placeholder, type, error, mask, disa
         render={({ field }) => (
           <>
             {mask ? (
-              <InputMask
+              <Box
+                as={InputMask}
                 mask="(99) 9 9999-9999"
                 maskChar=" "
                 type="tel"
                 data-testid="tel"
                 placeholder={placeholder}
                 disabled={disabled}
-                style={{ 
-                  lineHeight: 'normal', 
-                  height: '2.5rem', 
-                  verticalAlign: 'middle', 
-                  paddingLeft: '0.625rem',
-                  border: 'solid 1px #c4c4c4',
-                  borderRadius: '4px',
-                  width: '100%',
-                }}
+                sx={styles?.inputMask}
                 {...field}
               />
             ) : (
@@ -60,16 +70,9 @@ export const InputField = ({ name, control, placeholder, type, error, mask, disa
                 placeholder={placeholder} 
                 disabled={disabled}
                 data-testid="input"
-                style={{ 
-                  lineHeight: 'normal', 
-                  height: '2.5rem', 
-                  verticalAlign: 'middle', 
-                  paddingLeft: '0.625rem',
-                  
-                }}
                 {...field} />
             )}
-            {error && <span style={{ color: 'red' }}>{error}</span>}
+            {error && <Box as="span" sx={styles?.errorMessage}>{error}</Box>}
           </>
         )}
       />
