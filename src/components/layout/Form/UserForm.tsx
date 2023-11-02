@@ -1,7 +1,6 @@
 import { Box, Button, Flex, FormControl, SystemStyleObject } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { FormValues } from '../../../services/http/user';
@@ -16,11 +15,11 @@ interface UserFormProps {
     age?: number | null;
     phone?: string;
   };
-  isDisabled?: boolean;
-  onSubmit?: SubmitHandler<FormValues>;
+  isDisabled?: boolean;  
+	onSubmitForm?: (values: FormValues) => void;
 }
 
-const userSchema = yup.object().shape({
+const schema = yup.object().shape({
   name: yup
     .string()
     .min(3, 'Name must have at least 3 characters')
@@ -46,7 +45,7 @@ const userSchema = yup.object().shape({
     }),
 })
 
-export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled, onSubmit }) => {
+export const UserForm = ({ defaultValues, isDisabled, onSubmitForm = () => {}, }: UserFormProps) => {
   const styles: Record<string, SystemStyleObject> = {
     wrapper: {  
       display: 'flex',
@@ -75,31 +74,44 @@ export const UserForm: React.FC<UserFormProps> = ({ defaultValues, isDisabled, o
       }
     }
   }
+
   const navigate = useNavigate();
+  
   const {
     control,
     handleSubmit,
-    formState: { errors },
+		formState: { errors },
   } = useForm<FormValues>({
+		resolver: yupResolver(schema),
     defaultValues,
-    resolver: yupResolver(userSchema) as any,
   });
 
-  const handleFormSubmit = handleSubmit(async (data) => onSubmit?.(data));
-
   return (
-    <Flex>
-      <Box onSubmit={handleFormSubmit}>
+    <Flex as='form' onSubmit={handleSubmit(onSubmitForm)}>
+      <Box>
         <FormControl>
-          <InputField name="name" control={control} placeholder="Name" type="text" disabled={isDisabled} error={errors.name?.message} data-testid="name-input" />
-          <InputField name="email" control={control} placeholder="Email" type="text" disabled={isDisabled} error={errors.email?.message} data-testid="email-input" />
-          <ProfileSelectField name="profile" control={control} disabled={isDisabled} error={errors.profile?.message}  />
+          <InputField name="name" control={control} placeholder="Name" type="text" disabled={isDisabled} error={errors?.name?.message} data-testid="name-input" />
+
+          <InputField name="email" control={control} placeholder="Email" type="text" disabled={isDisabled} error={errors?.email?.message} data-testid="email-input" />
+
+          <ProfileSelectField name="profile" control={control} disabled={isDisabled} error={errors?.profile?.message}  />
+
           <InputField name="phone" control={control} placeholder="Phone" type="text" mask={true} disabled={isDisabled} />
-          <InputField name="age" control={control} placeholder="Age" type="number" disabled={isDisabled} />
+
+          <InputField name="age" control={control} placeholder="Age" type="number" disabled={isDisabled} error={errors?.age?.message}  />
 
           <Flex sx={styles?.buttonWrapper}>
-            <Button sx={styles?.button} onClick={() => navigate('/')}>Back</Button>
-            {!isDisabled && <Button sx={styles?.button} type="submit" data-testid="submit-button">Submit</Button>}
+            <Button sx={styles?.button}
+            onClick={() => navigate('/')}>
+              Back
+            </Button>
+
+            {!isDisabled && 
+              <Button sx={styles?.button} 
+                type="submit"
+                data-testid="submit-button"
+              >Submit</Button>
+            }
           </Flex>
         </FormControl>
       </Box>

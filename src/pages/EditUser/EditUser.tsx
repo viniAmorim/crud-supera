@@ -1,9 +1,11 @@
 import { CircularProgress, Container, Flex, SystemStyleObject } from '@chakra-ui/react'
+import { AxiosError } from 'axios'
 import { SubmitHandler } from 'react-hook-form'
 import { useMutation, useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { UserForm } from '../../components/layout/Form/UserForm'
+import { IResponseError } from '../../services/http/error'
 import { editUser, FormValues, getUserById, User } from '../../services/http/user'
 
 export const EditUser = () =>  {
@@ -53,7 +55,8 @@ export const EditUser = () =>  {
     defaultFormValues.phone = user.phone || defaultFormValues.phone;
   }
 
-  const mutation = useMutation(editUser, {
+  const {mutate: editUserMutation} = useMutation<void, AxiosError<IResponseError>, FormValues>(
+		data => editUser(data), {
     onSuccess: () => {
       toast.success('User edited successfully')
       navigate('/')
@@ -69,7 +72,7 @@ export const EditUser = () =>  {
         ...data,
       }
       updatedData.id = user.id
-      mutation?.mutate(updatedData);
+      editUserMutation(updatedData);
     }
   }
 
@@ -85,7 +88,7 @@ export const EditUser = () =>  {
       <Container maxWidth="sm">
         <Flex sx={styles?.wrapper}>
           <Flex sx={styles?.title}>Edit <Flex sx={styles?.titleSpan}>User</Flex></Flex>
-            <UserForm defaultValues={defaultFormValues} onSubmit={onSubmit} /> 
+            <UserForm defaultValues={defaultFormValues} onSubmitForm={onSubmit} /> 
         </Flex>
       </Container>
       ): (

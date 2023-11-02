@@ -3,10 +3,9 @@ import  { AddUser } from './pages/AddUser/AddUser'
 import { EditUser } from './pages/EditUser/EditUser'
 import { Navbar } from './components/layout/Navbar/Navbar'
 import { ViewUser } from './pages/ViewUser/ViewUser'
-import GlobalStyle from "./styles/global"
 import { UsersTable } from './pages/UsersTable/UsersTable'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { routes } from './routes/routes'
+import { ROUTES } from './routes/routes'
 
 const queryClient = new QueryClient();
 
@@ -16,12 +15,11 @@ export const App = () => {
       <Router>
         <Navbar />
         <Routes>
-          <Route path={routes.HOME} element={<UsersTable />} />
-          <Route path={routes.REGISTER} element={<AddUser />} />
-          <Route path={routes.EDIT()} element={<EditUser />} />
-          <Route path={routes.VIEW()} element={<ViewUser /> } />
+          <Route path={ROUTES.home} element={<UsersTable />} />
+          <Route path={ROUTES.registerUser} element={<AddUser />} />
+          <Route path={ROUTES.editUser()} element={<EditUser />} />
+          <Route path={ROUTES.viewUser()} element={<ViewUser /> } />
         </Routes>
-        <GlobalStyle />
       </Router>
     </QueryClientProvider>
   )

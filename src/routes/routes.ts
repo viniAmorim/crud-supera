@@ -1,6 +1,6 @@
-export const routes = {
-  HOME: '/',
-  REGISTER: '/add-user',
-  VIEW: (id = ':id') => `/view-user/${id}`,
-  EDIT: (id = ':id') => `/edit-user/${id}`
+export const ROUTES = {
+  home: '/',
+  registerUser: '/add-user',
+  viewUser: (id = ':id') => `/view-user/${id}`,
+  editUser: (id = ':id') => `/edit-user/${id}`
 }

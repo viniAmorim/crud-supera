@@ -1,5 +1,4 @@
 import { CircularProgress, Container, Flex, SystemStyleObject } from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -52,13 +51,6 @@ export const ViewUser = () => {
     defaultFormValues.age = user?.age || defaultFormValues.age;
     defaultFormValues.phone = user?.phone || defaultFormValues.phone;
   }
-
-  const {
-    control,
-    reset,
-  } = useForm<FormValues>({
-    defaultValues: defaultFormValues,
-  })
 
   if (isError) {
     toast.error('Something is wrong... id not provided')

@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { PROFILES } from '../../config/constants'
 import { INPUT_PHONE_MASK } from '../../config/constants';
-import { routes } from '../../routes/routes'
+import { ROUTES } from '../../routes/routes'
 import { deleteUser, getUsers } from '../../services/http/user'
 import { Welcome } from '../Welcome/Welcome'
 
@@ -69,9 +69,6 @@ export const UsersTable: React.FC = () => {
       retry: 1,
     }
   );
-
-
-  
   
   const handleDeleteUser = (id: number) => {
     deleteUserMutation.mutate(id)
@@ -82,16 +79,19 @@ export const UsersTable: React.FC = () => {
       queryClient.invalidateQueries('users')
       toast.success('User deleted')
     },
+    onError: error => {
+      toast.error('Error on delete user')
+    }
   });
 
   const navigate = useNavigate()
 
   const handleEdit = (id: string) => {
-    navigate(routes.EDIT(id));
+    navigate(ROUTES.editUser(id));
   }
 
   const handleViewUser = (id: string) => {
-    navigate(routes.VIEW(id));
+    navigate(ROUTES.viewUser(id));
   }
 
   const handleProfileChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
