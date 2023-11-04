@@ -44,10 +44,10 @@ export const getUsers = async ({profile, name, email, currentPage, pageSize}: IR
   const start = (Number(currentPage) - 1) * pageSize;
 
   if (name) {
-    queryParams.append('name', name);
+    queryParams.append('name_like', name);
   }
   if (email) {
-    queryParams.append('email', email);
+    queryParams.append('email_like', email);
   }
   if (profile) {
     queryParams.append('profile', profile);
