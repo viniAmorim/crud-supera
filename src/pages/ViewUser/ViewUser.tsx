@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { UserForm } from '../../components/layout/Form/UserForm';
-import { FormValues, getUserById, User } from '../../services/http/user';
+import { getUserById, User } from '../../services/http/user';
 
 export const ViewUser = () => {
   const styles: Record<string, SystemStyleObject> = {
@@ -35,23 +35,6 @@ export const ViewUser = () => {
     enabled: !!id,
   })
 
-  const defaultFormValues: FormValues = {
-    name: '',
-    email: '',
-    profile: 'User',
-    age: null,
-    phone: '',
-    id: 0
-  }
-
-  if (user && !isLoading) {
-    defaultFormValues.name = user?.name || defaultFormValues.name;
-    defaultFormValues.email = user?.email || defaultFormValues.email;
-    defaultFormValues.profile = user?.profile as 'Admin' | 'User' || defaultFormValues.profile;
-    defaultFormValues.age = user?.age || defaultFormValues.age;
-    defaultFormValues.phone = user?.phone || defaultFormValues.phone;
-  }
-
   if (isError) {
     toast.error('Something is wrong... id not provided')
     navigate('/')
@@ -64,7 +47,16 @@ export const ViewUser = () => {
         <Container maxWidth="sm">
           <Flex sx={styles?.wrapper}>
             <Flex sx={styles?.title}>View <Flex sx={styles?.titleSpan}>User</Flex></Flex>
-            <UserForm defaultValues={defaultFormValues} isDisabled={true} /> 
+            <UserForm 
+              defaultValues={{
+                name: user?.name || '',
+                email: user?.email || '',
+                profile: user?.profile as 'Admin' | 'User',
+                age: user?.age || 0,
+                phone: user?.phone || '',
+              }} 
+              isDisabled={true} 
+            /> 
           </Flex>
         </Container>
       ): (

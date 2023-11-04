@@ -19,6 +19,14 @@ export interface User {
   age?: number;
 }
 
+interface IRequestGetUsers {
+  profile?: string,
+  name?: string,
+  email?: string,
+  currentPage: string,
+  pageSize: number,
+}
+
 const baseUrl = process.env.REACT_APP_BASE_URL
 
 export const getUserById = async (id: number): Promise<User | null> => {
@@ -31,9 +39,9 @@ export const createUser = async (data: FormValues) => {
   return response.data;
 }
 
-export const getUsers = async (page: number, pageSize: number, name: string, email: string, profile: string | undefined): Promise<User[]> => {
+export const getUsers = async ({profile, name, email, currentPage, pageSize}: IRequestGetUsers): Promise<User[]> => {
   const queryParams = new URLSearchParams();
-  const start = (page - 1) * pageSize;
+  const start = (Number(currentPage) - 1) * pageSize;
 
   if (name) {
     queryParams.append('name', name);
@@ -45,8 +53,8 @@ export const getUsers = async (page: number, pageSize: number, name: string, ema
     queryParams.append('profile', profile);
   }
 
-  queryParams.append('_start', start.toString());
-  queryParams.append('_limit', pageSize.toString());
+  queryParams.append('_start', start?.toString());
+  queryParams.append('_limit', pageSize?.toString());
 
   const response = await axios.get(`${baseUrl}/users?${queryParams.toString()}`);
   

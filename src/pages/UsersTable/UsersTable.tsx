@@ -3,7 +3,8 @@ import {
   Button, ButtonGroup, CircularProgress, Flex, Input,
   Select, SystemStyleObject, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr
 } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { useForm, Controller } from 'react-hook-form'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import InputMask from 'react-input-mask'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
@@ -23,14 +24,17 @@ interface User {
   profile: string;
 }
 
+interface IUserConfig {
+  profile: string
+  name: string
+  email: string
+  currentPage: string
+  pageSize: number
+}
+
 export const UsersTable: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1)
   const pageSize = 5
   const queryClient = useQueryClient()
-  const [searchName, setSearchName] = useState('')
-  const [searchEmail, setSearchEmail] = useState('')
-  const [selectedProfile, setSelectedProfile] = useState<string | undefined>(undefined);
-  const [users, setUsers] = useState<User[]>([]); 
 
   const styles: Record<string, SystemStyleObject> = {
     wrapper: {  
@@ -62,14 +66,24 @@ export const UsersTable: React.FC = () => {
     }
   }
 
-  const { data = [], isLoading, isError } = useQuery<User[], Error>(
-    ['users', currentPage],
-    () => getUsers(currentPage, pageSize, searchName, searchEmail, selectedProfile),
-    {
-      retry: 1,
+  const {
+    control,
+    getValues,
+    register,
+    reset,
+    watch,
+  } = useForm<IUserConfig>({
+    defaultValues: {
+      currentPage: '1',
+      pageSize: 5,
     }
+  })
+
+  const { data = [], isLoading, isError, refetch: refetchUser } = useQuery<User[], Error>(
+    ['users'],
+    () => getUsers(getValues()),
   );
-  
+
   const handleDeleteUser = (id: number) => {
     deleteUserMutation.mutate(id)
   };
@@ -94,20 +108,23 @@ export const UsersTable: React.FC = () => {
     navigate(ROUTES.viewUser(id));
   }
 
-  const handleProfileChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedProfile(event.target.value);
-  }
-
   if (isError) {
     return <div>Error fetching data</div>;
   }
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    getUsers(currentPage, pageSize, searchName, searchEmail, selectedProfile).then((data) => {
-      setUsers(data);
-    });
-  }, [currentPage, searchName, searchEmail, selectedProfile]);
+  const incrementPage = () => {
+    const {currentPage, ...formValues} = getValues()
+    const newPage = Number(currentPage) + 1
+    reset({...formValues, currentPage: String(newPage)})
+    refetchUser()
+  }
+
+  const decrementPage = () => {
+    const {currentPage, ...formValues} = getValues()
+    const newPage = Number(currentPage) - 1
+    reset({...formValues, currentPage: String(newPage)})
+    refetchUser()
+  }
 
   return (
     <>
@@ -116,37 +133,67 @@ export const UsersTable: React.FC = () => {
         <Welcome />
           <TableContainer maxWidth={'100%'}>
             <Flex sx={styles?.filterWrapper}>
-              <Input
-                width="12.5rem"
-                placeholder="Search by name"
-                value={searchName}
-                onChange={(e) => setSearchName(e.target.value)}
-                sx={styles?.inputTable}
+              <Controller 
+                name="name" 
+                control={control} 
+                render={({field: {onChange, value}}) => (
+                  <Input
+                    width="12.5rem"
+                    placeholder="Search by name"
+                    {...register('name')}
+                    onChange={event => {
+                      onChange(event)
+                      refetchUser()
+                    }}
+                    value={value}
+                    sx={styles?.inputTable}
+                  />
+                )}
               />
-              <Input
-                width="12.5rem"
-                placeholder="Search by email"
-                value={searchEmail}
-                onChange={(e) => setSearchEmail(e.target.value)}
-                sx={styles?.inputTable}
+               <Controller 
+                name="email" 
+                control={control} 
+                render={({field: {onChange, value}}) => (
+                  <Input
+                    width="12.5rem"
+                    placeholder="Search by email"
+                    {...register('email')}
+                    onChange={event => {
+                      onChange(event)
+                      refetchUser()
+                    }}
+                    value={value}
+                    sx={styles?.inputTable}
+                  />
+                )}
               />
-              <Select
-                value={selectedProfile || ''}
-                onChange={handleProfileChange}
-                placeholder="Select Profile"
-                width="12.5rem"
-                sx={styles?.inputTable}
-              >
-              {Object.keys(PROFILES)?.map((key) => {
-                  const option = PROFILES[key];
-    
-                  return (
-                    <option key={key} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  )
-                })}
-              </Select>
+              <Controller 
+                name="profile" 
+                control={control} 
+                render={({field: {onChange, value}}) => (
+                  <Select
+                    placeholder="Select Profile"
+                    width="12.5rem"
+                    {...register('profile')}
+                    sx={styles?.inputTable}
+                    onChange={event => {
+                      onChange(event)
+                      refetchUser()
+                    }}
+                    value={value}
+                  >
+                    {Object.keys(PROFILES)?.map((key) => {
+                      const option = PROFILES[key];
+                  
+                      return (
+                        <option key={key} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      )
+                    })}
+                  </Select>
+                )}
+              />
             </Flex>
             <Table>
               <Thead>
@@ -160,7 +207,7 @@ export const UsersTable: React.FC = () => {
                 </Tr>
               </Thead>
               <Tbody>
-              {users?.map((user) => (
+              {data?.map((user) => (
                 <Tr key={user?.id}>
                   <Td>{user?.id}</Td>
                   <Td>{user?.name}</Td>
@@ -182,15 +229,15 @@ export const UsersTable: React.FC = () => {
             </Table>
             <Box>
             <Button
-              onClick={() => setCurrentPage(currentPage - 1)}
-              isDisabled={currentPage === 1}
+              onClick={decrementPage}
+              isDisabled={Number(watch('currentPage')) === 1}
             >
               Previous
             </Button>
-            <Text sx={styles?.page} as='span'>Page {currentPage}</Text>
+            <Text sx={styles?.page} as='span'>Page {watch('currentPage')}</Text>
             <Button
-              onClick={() => setCurrentPage(currentPage + 1)}
-              isDisabled={users.length < pageSize}
+              onClick={incrementPage}
+              isDisabled={data.length < pageSize}
             >
               Next
             </Button>
