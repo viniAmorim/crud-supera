@@ -2,7 +2,6 @@ import { Flex, SystemStyleObject } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../routes/routes';
 
-
 export const Navbar = () => {
   const styles: Record<string, SystemStyleObject> = {
     wrapper: {  
