@@ -1,5 +1,7 @@
 import {
-  Container, Flex, SystemStyleObject
+  Container, 
+  Flex, 
+  SystemStyleObject
 } from '@chakra-ui/react'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
@@ -60,5 +62,5 @@ export const AddUser = () => {
         </Flex>
       </Container>
     </>
-  );
+  )
 }

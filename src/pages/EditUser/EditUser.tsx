@@ -1,4 +1,10 @@
-import { CircularProgress, Container, Flex, SystemStyleObject } from '@chakra-ui/react'
+import { 
+  Box, 
+  CircularProgress, 
+  Container, 
+  Flex, 
+  SystemStyleObject 
+} from '@chakra-ui/react'
 import { AxiosError } from 'axios'
 import { SubmitHandler } from 'react-hook-form'
 import { useMutation, useQuery } from 'react-query'
@@ -10,6 +16,7 @@ import { editUser, FormValues, getUserById, User } from '../../services/http/use
 
 export const EditUser = () =>  {
   const navigate = useNavigate()
+  
   const { id } = useParams()
   
   const styles: Record<string, SystemStyleObject> = {
@@ -62,7 +69,7 @@ export const EditUser = () =>  {
   if (isError) {
     toast.error('Something is wrong... id not provided')
     navigate('/')
-    return <div>Something is wrong... id not provided</div>
+    return <Box>Something is wrong... id not provided</Box>
   }
 
   return (
@@ -84,8 +91,8 @@ export const EditUser = () =>  {
         </Flex>
       </Container>
       ): (
-        <div><CircularProgress /></div>
+        <Box><CircularProgress /></Box>
       )}
     </>
-  );
+  )
 }

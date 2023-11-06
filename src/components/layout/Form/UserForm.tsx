@@ -1,11 +1,11 @@
-import { Box, Button, Flex, FormControl, SystemStyleObject } from '@chakra-ui/react';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import { FormValues } from '../../../services/http/user';
-import { InputField } from './InputField';
-import { ProfileSelectField } from './ProfileSelectedField';
+import { Box, Button, Flex, FormControl, SystemStyleObject } from '@chakra-ui/react'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import * as yup from 'yup'
+import { FormValues } from '../../../services/http/user'
+import { InputField } from './InputField'
+import { ProfileSelectField } from './ProfileSelectedField'
 
 interface UserFormProps {
   defaultValues?: {
@@ -84,7 +84,7 @@ export const UserForm = ({ defaultValues, isDisabled, onSubmitForm = () => {}, }
   } = useForm<FormValues>({
 		resolver: yupResolver(schema),
     defaultValues,
-  });
+  })
 
   return (
     <Flex as='form' onSubmit={handleSubmit(onSubmitForm)}>
@@ -116,5 +116,5 @@ export const UserForm = ({ defaultValues, isDisabled, onSubmitForm = () => {}, }
         </FormControl>
       </Box>
     </Flex>
-  );
-};
+  )
+}

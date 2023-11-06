@@ -1,4 +1,5 @@
 import {
+  Box,
   Flex,
   Select, 
   SystemStyleObject
@@ -21,9 +22,9 @@ export const ProfileSelectField = ({ name, control, error, disabled }: ProfileSe
       fontWeight: 'bold',
     },
   }
-  
+
   return(
-    <div>
+    <Box>
       <Flex sx={styles?.inputLabel}>Profile</Flex>
       <Controller
         name={name}
@@ -50,5 +51,5 @@ export const ProfileSelectField = ({ name, control, error, disabled }: ProfileSe
           </>
         )}
       />
-    </div>
+    </Box>
 )}

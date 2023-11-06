@@ -1,4 +1,9 @@
-import { Box, Flex, SystemStyleObject, Text } from '@chakra-ui/react';
+import { 
+  Box, 
+  Flex, 
+  SystemStyleObject, 
+  Text 
+} from '@chakra-ui/react'
 
 export const Welcome = () => {
   const styles: Record<string, SystemStyleObject> = {
@@ -34,5 +39,5 @@ export const Welcome = () => {
         <Box data-testid='welcome-message' sx={styles?.welcomeParagraph}>Start managing your users right now!</Box>
       </Box>
     </Flex>
-  );
-};
+  )
+}

@@ -1,30 +1,28 @@
 import {
   Box,
-  Button, 
-  ButtonGroup, 
-  CircularProgress, 
-  Flex, 
+  Button,
+  ButtonGroup,
+  CircularProgress,
+  Flex,
   Input,
-  Select, 
-  SystemStyleObject, 
-  Table, 
-  TableContainer, 
-  Tbody, 
-  Td, 
-  Text, 
-  Th, 
-  Thead, 
+  Select,
+  SystemStyleObject,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
   Tr
 } from '@chakra-ui/react'
-import React from 'react'
-import { useForm, Controller } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import InputMask from 'react-input-mask'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { DECREMENT, INCREMENT, PAGE_SIZE, PROFILES } from '../../config/constants'
-import { INPUT_PHONE_MASK } from '../../config/constants';
+import { DECREMENT, INCREMENT, INPUT_PHONE_MASK, PAGE_SIZE, PROFILES } from '../../config/constants'
 import { ROUTES } from '../../routes/routes'
 import { deleteUser, getUsers } from '../../services/http/user'
 import { Welcome } from '../Welcome/Welcome'
@@ -100,7 +98,7 @@ export const UsersTable = () => {
   const { data, isLoading, isError, refetch: refetchUser } = useQuery<User[], Error>(
     ['users'],
     () => getUsers(getValues()),
-  );
+  )
 
   const {mutate: deleteUserMutate} = useMutation(deleteUser, {
     onSuccess: () => {
@@ -110,7 +108,7 @@ export const UsersTable = () => {
     onError: error => {
       toast.error('Error on delete user')
     }
-  });
+  })
 
   const navigate = useNavigate()
 
@@ -127,7 +125,7 @@ export const UsersTable = () => {
   }
 
   if (isError) {
-    return <div>Error fetching data</div>;
+    return <Box>Error fetching data</Box>;
   }
 
   const changePage = (index: number) => {
@@ -267,7 +265,7 @@ export const UsersTable = () => {
       <Box><CircularProgress /></Box>
     )}
     </>
-  );
-};
+  )
+}
 
 

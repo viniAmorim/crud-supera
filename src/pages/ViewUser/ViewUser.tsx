@@ -1,9 +1,15 @@
-import { CircularProgress, Container, Flex, SystemStyleObject } from '@chakra-ui/react';
-import { useQuery } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { UserForm } from '../../components/layout/Form/UserForm';
-import { getUserById, User } from '../../services/http/user';
+import { 
+  Box, 
+  CircularProgress, 
+  Container, 
+  Flex, 
+  SystemStyleObject 
+} from '@chakra-ui/react'
+import { useQuery } from 'react-query'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { UserForm } from '../../components/layout/Form/UserForm'
+import { getUserById, User } from '../../services/http/user'
 
 export const ViewUser = () => {
   const styles: Record<string, SystemStyleObject> = {
@@ -29,6 +35,7 @@ export const ViewUser = () => {
   }
 
   const navigate = useNavigate()
+  
   const { id } = useParams()
 
   const { data: user, isLoading, isError } = useQuery<User | null>(['user', id], () => getUserById(Number(id)), {
@@ -38,7 +45,7 @@ export const ViewUser = () => {
   if (isError) {
     toast.error('Something is wrong... id not provided')
     navigate('/')
-    return <div>Something is wrong... id not provided</div>
+    return <Box>Something is wrong... id not provided</Box>
   }
 
   return (
@@ -60,8 +67,8 @@ export const ViewUser = () => {
           </Flex>
         </Container>
       ): (
-        <div><CircularProgress /></div>
+        <Box><CircularProgress /></Box>
       )}
     </>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { ENDPOINTS } from './endpoints';
+import axios from 'axios'
+import { ENDPOINTS } from './endpoints'
 
 export interface FormValues {
   id: number;

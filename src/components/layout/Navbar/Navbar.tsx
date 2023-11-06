@@ -1,6 +1,6 @@
-import { Flex, SystemStyleObject } from '@chakra-ui/react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../routes/routes';
+import { Flex, SystemStyleObject } from '@chakra-ui/react'
+import { Link, useNavigate } from 'react-router-dom'
+import { ROUTES } from '../../../routes/routes'
 
 export const Navbar = () => {
   const styles: Record<string, SystemStyleObject> = {
@@ -42,7 +42,9 @@ export const Navbar = () => {
       }
     }
   }
-  const navigate = useNavigate();
+
+  const navigate = useNavigate()
+  
   return (
     <Flex sx={styles?.wrapper}>
       <Flex sx={styles?.nav}>
@@ -52,7 +54,7 @@ export const Navbar = () => {
         </Flex>
       </Flex>
     </Flex>
-  );
+  )
 }
 
 

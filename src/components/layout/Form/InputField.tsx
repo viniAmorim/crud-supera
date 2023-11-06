@@ -42,7 +42,7 @@ export const InputField = ({ name, control, placeholder, type, error, mask, disa
   }
   
   return (
-    <div>
+    <Box>
       <Flex sx={styles?.inputLabel}>{placeholder}</Flex>
       <Controller
         name={name}
@@ -75,6 +75,6 @@ export const InputField = ({ name, control, placeholder, type, error, mask, disa
           </>
         )}
       />
-    </div>
+    </Box>
   )
 }
