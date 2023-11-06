@@ -1,7 +1,20 @@
 import {
   Box,
-  Button, ButtonGroup, CircularProgress, Flex, Input,
-  Select, SystemStyleObject, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr
+  Button, 
+  ButtonGroup, 
+  CircularProgress, 
+  Flex, 
+  Input,
+  Select, 
+  SystemStyleObject, 
+  Table, 
+  TableContainer, 
+  Tbody, 
+  Td, 
+  Text, 
+  Th, 
+  Thead, 
+  Tr
 } from '@chakra-ui/react'
 import React from 'react'
 import { useForm, Controller } from 'react-hook-form'
@@ -10,7 +23,7 @@ import InputMask from 'react-input-mask'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { PROFILES } from '../../config/constants'
+import { DECREMENT, INCREMENT, PAGE_SIZE, PROFILES } from '../../config/constants'
 import { INPUT_PHONE_MASK } from '../../config/constants';
 import { ROUTES } from '../../routes/routes'
 import { deleteUser, getUsers } from '../../services/http/user'
@@ -32,8 +45,8 @@ interface IUserConfig {
   pageSize: number
 }
 
-export const UsersTable: React.FC = () => {
-  const pageSize = 5
+export const UsersTable = () => {
+  const pageSize = PAGE_SIZE
   const queryClient = useQueryClient()
 
   const styles: Record<string, SystemStyleObject> = {
@@ -50,7 +63,12 @@ export const UsersTable: React.FC = () => {
       flexDirection: 'row',
     },
     inputTable: {
-      margin: '0.3125rem'
+      margin: '0.3125rem',
+      width: "25rem"
+    },
+    wrapperSelectUser: {
+      margin: '0.3125rem',
+      width: "30%"
     },
     editButton: {
       color: '#4444f3',
@@ -69,26 +87,22 @@ export const UsersTable: React.FC = () => {
   const {
     control,
     getValues,
-    register,
+    setValue,
     reset,
     watch,
   } = useForm<IUserConfig>({
     defaultValues: {
       currentPage: '1',
-      pageSize: 5,
+      pageSize: PAGE_SIZE,
     }
   })
 
-  const { data = [], isLoading, isError, refetch: refetchUser } = useQuery<User[], Error>(
+  const { data, isLoading, isError, refetch: refetchUser } = useQuery<User[], Error>(
     ['users'],
     () => getUsers(getValues()),
   );
 
-  const handleDeleteUser = (id: number) => {
-    deleteUserMutation.mutate(id)
-  };
-
-  const deleteUserMutation = useMutation(deleteUser, {
+  const {mutate: deleteUserMutate} = useMutation(deleteUser, {
     onSuccess: () => {
       queryClient.invalidateQueries('users')
       toast.success('User deleted')
@@ -99,6 +113,10 @@ export const UsersTable: React.FC = () => {
   });
 
   const navigate = useNavigate()
+
+  const handleDeleteUser = (id: number) => {
+    deleteUserMutate(id)
+  };
 
   const handleEdit = (id: string) => {
     navigate(ROUTES.editUser(id));
@@ -112,17 +130,18 @@ export const UsersTable: React.FC = () => {
     return <div>Error fetching data</div>;
   }
 
-  const incrementPage = () => {
+  const changePage = (index: number) => {
     const {currentPage, ...formValues} = getValues()
-    const newPage = Number(currentPage) + 1
+    const newPage = Number(currentPage) + index
     reset({...formValues, currentPage: String(newPage)})
     refetchUser()
   }
 
-  const decrementPage = () => {
-    const {currentPage, ...formValues} = getValues()
-    const newPage = Number(currentPage) - 1
-    reset({...formValues, currentPage: String(newPage)})
+  const searchUser = () => {
+    setValue('currentPage', '1')
+
+    const formValues = getValues()
+    reset({...formValues, currentPage: '1', pageSize: PAGE_SIZE})
     refetchUser()
   }
 
@@ -137,15 +156,16 @@ export const UsersTable: React.FC = () => {
                 name="name" 
                 control={control} 
                 render={({field: {onChange, value}}) => (
+                  //Todas as estilizações devem estar na variavel style
+                  //Se você está usando um Controller, não precisa de um register
                   <Input
-                    width="12.5rem"
                     placeholder="Search by name"
-                    {...register('name')}
                     onChange={event => {
                       onChange(event)
-                      refetchUser()
+                      searchUser()
+                      
                     }}
-                    value={value}
+                    value={value || ''}
                     sx={styles?.inputTable}
                   />
                 )}
@@ -155,45 +175,42 @@ export const UsersTable: React.FC = () => {
                 control={control} 
                 render={({field: {onChange, value}}) => (
                   <Input
-                    width="12.5rem"
                     placeholder="Search by email"
-                    {...register('email')}
                     onChange={event => {
                       onChange(event)
-                      refetchUser()
+                      searchUser()
                     }}
-                    value={value}
+                    value={value || ''}
                     sx={styles?.inputTable}
                   />
                 )}
               />
-              <Controller 
-                name="profile" 
-                control={control} 
-                render={({field: {onChange, value}}) => (
-                  <Select
-                    placeholder="Select Profile"
-                    width="12.5rem"
-                    {...register('profile')}
-                    sx={styles?.inputTable}
-                    onChange={event => {
-                      onChange(event)
-                      refetchUser()
-                    }}
-                    value={value}
-                  >
-                    {Object.keys(PROFILES)?.map((key) => {
-                      const option = PROFILES[key];
-                  
-                      return (
-                        <option key={key} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      )
-                    })}
-                  </Select>
-                )}
-              />
+              <Box sx={styles?.wrapperSelectUser}>
+                <Controller 
+                  name="profile" 
+                  control={control} 
+                  render={({field: {onChange, value}}) => (
+                    <Select
+                      placeholder="Select Profile"
+                      onChange={event => {
+                        onChange(event)
+                        refetchUser()
+                      }}
+                      value={value}
+                    >
+                      {Object.keys(PROFILES)?.map((key) => {
+                        const option = PROFILES[key];
+                    
+                        return (
+                          <option key={key} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        )
+                      })}
+                    </Select>
+                  )}
+                />
+              </Box>
             </Flex>
             <Table>
               <Thead>
@@ -229,15 +246,17 @@ export const UsersTable: React.FC = () => {
             </Table>
             <Box>
             <Button
-              onClick={decrementPage}
+              //onClick={decrementPage}
+              onClick={() => changePage(DECREMENT)}
               isDisabled={Number(watch('currentPage')) === 1}
             >
               Previous
             </Button>
             <Text sx={styles?.page} as='span'>Page {watch('currentPage')}</Text>
             <Button
-              onClick={incrementPage}
-              isDisabled={data.length < pageSize}
+              //onClick={incrementPage}
+              onClick={() => changePage(INCREMENT)}
+              isDisabled={data && data?.length < pageSize}
             >
               Next
             </Button>

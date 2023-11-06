@@ -1,16 +1,19 @@
 import {
   Flex,
-  Select, SystemStyleObject
-} from '@chakra-ui/react';
-import { Controller } from 'react-hook-form';
-import { PROFILES } from '../../../config/constants';
+  Select, 
+  SystemStyleObject
+} from '@chakra-ui/react'
+import { Controller } from 'react-hook-form'
+import { PROFILES } from '../../../config/constants'
 
-export const ProfileSelectField: React.FC<{
+interface ProfileSelectFielddProps {
   name: string;
   control?: any;
   error?: string | null;
   disabled?: boolean;
-}> = ({ name, control, error, disabled }) => {
+}
+
+export const ProfileSelectField = ({ name, control, error, disabled }: ProfileSelectFielddProps) => {
   const styles: Record<string, SystemStyleObject> = {
     inputLabel: {  
       marginBottom: '0.3125rem',
@@ -18,6 +21,7 @@ export const ProfileSelectField: React.FC<{
       fontWeight: 'bold',
     },
   }
+  
   return(
     <div>
       <Flex sx={styles?.inputLabel}>Profile</Flex>

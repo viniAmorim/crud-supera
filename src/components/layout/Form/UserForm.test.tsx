@@ -45,7 +45,7 @@ describe('UserForm Component', () => {
     
     render(
       <BrowserRouter>
-        <UserForm defaultValues={defaultValues} isDisabled={true} onSubmitForm={jest.fn()} />
+        <UserForm defaultValues={defaultValues} isDisabled onSubmitForm={jest.fn()} />
       </BrowserRouter>
     );
 

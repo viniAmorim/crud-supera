@@ -1,7 +1,7 @@
-import { Box, Flex, Input, SystemStyleObject } from '@chakra-ui/react';
-import { Controller } from 'react-hook-form';
-import InputMask from 'react-input-mask';
-import { INPUT_PHONE_MASK } from '../../../config/constants';
+import { Box, Flex, Input, SystemStyleObject } from '@chakra-ui/react'
+import { Controller } from 'react-hook-form'
+import InputMask from 'react-input-mask'
+import { INPUT_PHONE_MASK } from '../../../config/constants'
 
 interface InputFieldProps {
   name: string;

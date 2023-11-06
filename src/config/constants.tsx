@@ -9,4 +9,10 @@ export const PROFILES: Record<string, { label: string; value: string }> = {
     label: "user",
     value: "user",
   },
-};
+}
+
+export const PAGE_SIZE = 5 
+
+export const INCREMENT = 1
+
+export const DECREMENT = -1

@@ -55,7 +55,7 @@ export const ViewUser = () => {
                 age: user?.age || 0,
                 phone: user?.phone || '',
               }} 
-              isDisabled={true} 
+              isDisabled
             /> 
           </Flex>
         </Container>

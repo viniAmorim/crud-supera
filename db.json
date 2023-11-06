@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "name": "Maria Aparecida teste",
+      "name": "Maria Aparecida",
       "email": "maria@mail.com",
       "profile": "user",
       "age": 67,
@@ -233,14 +233,6 @@
       "id": 33
     },
     {
-      "age": 20,
-      "phone": "(55) 6 2995-3460",
-      "profile": "user",
-      "email": "amorimm.vinicius@gmail.com",
-      "name": "Vinícius 3 Amorim da Silva",
-      "id": 34
-    },
-    {
       "age": null,
       "phone": "(55) 6 2995-3460",
       "profile": "admin",
@@ -455,6 +447,14 @@
       "email": "amorimm.vinicius@gmail.com",
       "name": "Vinícius 3 Amorim da Silva",
       "id": 61
+    },
+    {
+      "age": 55,
+      "phone": "(55) 6 2995-3460",
+      "profile": "admin",
+      "email": "amorimm.vinicius@gmail.com",
+      "name": "Vinícius 3 Amorim da Silva",
+      "id": 62
     }
   ]
 }

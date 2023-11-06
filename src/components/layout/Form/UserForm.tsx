@@ -96,7 +96,7 @@ export const UserForm = ({ defaultValues, isDisabled, onSubmitForm = () => {}, }
 
           <ProfileSelectField name="profile" control={control} disabled={isDisabled} error={errors?.profile?.message}  />
 
-          <InputField name="phone" control={control} placeholder="Phone" type="text" mask={true} disabled={isDisabled} />
+          <InputField name="phone" control={control} placeholder="Phone" type="text" mask disabled={isDisabled} />
 
           <InputField name="age" control={control} placeholder="Age" type="number" disabled={isDisabled} error={errors?.age?.message}  />
 
