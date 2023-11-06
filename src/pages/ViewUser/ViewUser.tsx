@@ -1,15 +1,15 @@
-import { 
-  Box, 
-  CircularProgress, 
-  Container, 
-  Flex, 
-  SystemStyleObject 
+import {
+  Box,
+  CircularProgress,
+  Container,
+  Flex,
+  SystemStyleObject
 } from '@chakra-ui/react'
 import { useQuery } from 'react-query'
-import { useNavigate, useParams } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { useParams } from 'react-router-dom'
 import { UserForm } from '../../components/layout/Form/UserForm'
-import { getUserById, User } from '../../services/http/user'
+import { DEFAULT_AGE } from '../../config/constants'
+import { getUserById, IProfile, User } from '../../services/http/user'
 
 export const ViewUser = () => {
   const styles: Record<string, SystemStyleObject> = {
@@ -23,6 +23,9 @@ export const ViewUser = () => {
       border: '1px solid #c4c4c4',
       borderRadius: '0.3125rem',
     },
+    container: {
+      maxWidth: "sm"
+    },
     title: {
       textAlign: 'center',
       fontSize: '1.875rem',
@@ -33,33 +36,25 @@ export const ViewUser = () => {
       textDecoration: 'underline',
     }
   }
-
-  const navigate = useNavigate()
   
   const { id } = useParams()
 
-  const { data: user, isLoading, isError } = useQuery<User | null>(['user', id], () => getUserById(Number(id)), {
+  const { data: user, isLoading } = useQuery<User | null>(['user', id], () => getUserById(Number(id)), {
     enabled: !!id,
   })
-
-  if (isError) {
-    toast.error('Something is wrong... id not provided')
-    navigate('/')
-    return <Box>Something is wrong... id not provided</Box>
-  }
 
   return (
     <>
       {!isLoading ? (
-        <Container maxWidth="sm">
+        <Container sx={styles?.container}>
           <Flex sx={styles?.wrapper}>
             <Flex sx={styles?.title}>View <Flex sx={styles?.titleSpan}>User</Flex></Flex>
             <UserForm 
               defaultValues={{
                 name: user?.name || '',
                 email: user?.email || '',
-                profile: user?.profile as 'Admin' | 'User',
-                age: user?.age || 0,
+                profile: user?.profile as IProfile,
+                age: user?.age || DEFAULT_AGE,
                 phone: user?.phone || '',
               }} 
               isDisabled

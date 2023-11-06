@@ -40,7 +40,7 @@ interface IUserConfig {
   name: string
   email: string
   currentPage: string
-  pageSize: number
+  pageSize: number,
 }
 
 export const UsersTable = () => {

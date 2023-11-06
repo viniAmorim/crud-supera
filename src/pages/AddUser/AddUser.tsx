@@ -23,6 +23,9 @@ export const AddUser = () => {
       border: '1px solid #c4c4c4',
       borderRadius: '0.3125rem',
     },
+    container: {
+      maxWidth: "sm"
+    },
     title: {
       textAlign: 'center',
       fontSize: '1.875rem',
@@ -54,9 +57,8 @@ export const AddUser = () => {
 
   return (
     <>
-      <Container maxWidth="sm">
+      <Container sx={styles?.container}>
         <Flex sx={styles?.wrapper}>
-
           <Flex sx={styles?.title}>Add <Flex sx={styles?.titleSpan}>User</Flex></Flex>
             <UserForm onSubmitForm={onSubmit} /> 
         </Flex>

@@ -3,7 +3,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
-import { FormValues } from '../../../services/http/user'
+import { MAX_USER_INPUT, MIN_USER_INPUT } from '../../../config/constants'
+import { FormValues, IProfile } from '../../../services/http/user'
 import { InputField } from './InputField'
 import { ProfileSelectField } from './ProfileSelectedField'
 
@@ -11,7 +12,7 @@ interface UserFormProps {
   defaultValues?: {
     name?: string;
     email?: string;
-    profile?: 'Admin' | 'User';
+    profile?: IProfile;
     age?: number | null;
     phone?: string;
   };
@@ -22,8 +23,8 @@ interface UserFormProps {
 const schema = yup.object().shape({
   name: yup
     .string()
-    .min(3, 'Name must have at least 3 characters')
-    .max(100, 'Name must have a maximum of 100 characters')
+    .min(MIN_USER_INPUT, 'Name must have at least 3 characters') 
+    .max(MAX_USER_INPUT, 'Name must have a maximum of 100 characters')
     .required('Name is required'),
   email: yup
     .string()

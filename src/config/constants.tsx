@@ -18,3 +18,9 @@ export const INCREMENT = 1
 export const DECREMENT = -1
 
 export const INITIAL_PAGE = '1'
+
+export const DEFAULT_AGE = 0
+
+export const MIN_USER_INPUT = 3
+
+export const MAX_USER_INPUT = 100

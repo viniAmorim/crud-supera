@@ -19,6 +19,7 @@ export const App = () => {
           <Route path={ROUTES.registerUser} element={<AddUser />} />
           <Route path={ROUTES.editUser()} element={<EditUser />} />
           <Route path={ROUTES.viewUser()} element={<ViewUser /> } />
+          <Route path="*" element={<UsersTable />} /> 
         </Routes>
       </Router>
     </QueryClientProvider>

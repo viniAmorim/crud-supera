@@ -27,15 +27,19 @@ interface IRequestGetUsers {
   pageSize: number,
 }
 
+export type IProfile = 'Admin' | 'User'
+
 const baseUrl = process.env.REACT_APP_BASE_URL
 
+const apiUser = axios.create({baseURL: baseUrl})
+
 export const getUserById = async (id: number): Promise<User | null> => {
-  const response = await axios.get(`${baseUrl}/users/${id}`);
+  const response = await apiUser.get(`${ENDPOINTS.users}/${id}`);
   return response.data;
 };
 
 export const createUser = async (data: FormValues) => {
-  const response = await axios.post(`${baseUrl}/${ENDPOINTS.createUser}`, data)
+  const response = await apiUser.post(`/${ENDPOINTS.createUser}`, data)
   return response.data;
 }
 
@@ -56,17 +60,35 @@ export const getUsers = async ({profile, name, email, currentPage, pageSize}: IR
   queryParams.append('_start', start?.toString());
   queryParams.append('_limit', pageSize?.toString());
 
-  const response = await axios.get(`${baseUrl}/users?${queryParams.toString()}`);
+  const response = await apiUser.get(`${ENDPOINTS.users}?${queryParams.toString()}`);
   
   return response.data;
 };
 
+// // Tentar implementar a função assim de acordo com o modelo abaixo
+// export const getUsers = async (params: IRequestGetUsers): Promise<User[]> => {
+//  // Remove as chaves vazias
+//   Object.keys(params).forEach(key => {
+// 		const filter = params[key as keyof typeof params];
+// 		if (!filter) delete params[key as keyof typeof params];
+// 	})
+
+//   const start = (Number(params.currentPage) - 1) * params.pageSize
+
+//   params['_start'] = start.toString()
+//   params['_limit'] = params.pageSize.toString()
+  
+//   const response = await apiUser.get(`/users`, {params});
+  
+//   return response.data;
+// };
+
 export const deleteUser = async (id: number) => {
-  const response = await axios.delete(`${baseUrl}/users/${id}`)
+  const response = await apiUser.delete(`${ENDPOINTS.users}/${id}`)
   return response.data
 }
 
 export const editUser = async (data: FormValues) => {
-  const response = await axios.put(`${baseUrl}/users/${data.id}`, data)
+  const response = await apiUser.put(`${ENDPOINTS.users}/${data.id}`, data)
   return response.data;
 }

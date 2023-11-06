@@ -1,9 +1,9 @@
-import { 
-  Box, 
-  CircularProgress, 
-  Container, 
-  Flex, 
-  SystemStyleObject 
+import {
+  Box,
+  CircularProgress,
+  Container,
+  Flex,
+  SystemStyleObject
 } from '@chakra-ui/react'
 import { AxiosError } from 'axios'
 import { SubmitHandler } from 'react-hook-form'
@@ -11,8 +11,9 @@ import { useMutation, useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { UserForm } from '../../components/layout/Form/UserForm'
+import { DEFAULT_AGE } from '../../config/constants'
 import { IResponseError } from '../../services/http/error'
-import { editUser, FormValues, getUserById, User } from '../../services/http/user'
+import { editUser, FormValues, getUserById, IProfile, User } from '../../services/http/user'
 
 export const EditUser = () =>  {
   const navigate = useNavigate()
@@ -30,6 +31,9 @@ export const EditUser = () =>  {
       border: '1px solid #c4c4c4',
       borderRadius: '0.3125rem',
     },
+    container: {
+      maxWidth: "sm",
+    },
     title: {
       textAlign: 'center',
       fontSize: '1.875rem',
@@ -41,7 +45,7 @@ export const EditUser = () =>  {
     }
   }
 
-  const { data: user, isLoading, isError } = useQuery<User | null>(['user', id], () => getUserById(Number(id)), {
+  const { data: user, isLoading } = useQuery<User | null>(['user', id], () => getUserById(Number(id)), {
     enabled: !!id,
   })
 
@@ -66,24 +70,18 @@ export const EditUser = () =>  {
     }
   }
 
-  if (isError) {
-    toast.error('Something is wrong... id not provided')
-    navigate('/')
-    return <Box>Something is wrong... id not provided</Box>
-  }
-
   return (
     <>
       {!isLoading ? (
-      <Container maxWidth="sm">
+      <Container sx={styles?.container}>
         <Flex sx={styles?.wrapper}>
           <Flex sx={styles?.title}>Edit <Flex sx={styles?.titleSpan}>User</Flex></Flex>
             <UserForm 
               defaultValues={{
                 name: user?.name || '',
                 email: user?.email || '',
-                profile: user?.profile as 'Admin' | 'User',
-                age: user?.age || 0,
+                profile: user?.profile as IProfile,
+                age: user?.age || DEFAULT_AGE,
                 phone: user?.phone || '',
               }} 
               onSubmitForm={onSubmit} 

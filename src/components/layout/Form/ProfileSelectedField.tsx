@@ -21,6 +21,9 @@ export const ProfileSelectField = ({ name, control, error, disabled }: ProfileSe
       marginTop: '0.625rem',
       fontWeight: 'bold',
     },
+    errorMessage: {
+      color: 'red'
+    }
   }
 
   return(
@@ -47,7 +50,7 @@ export const ProfileSelectField = ({ name, control, error, disabled }: ProfileSe
                 )
               })}
             </Select>
-            {error && <span style={{ color: 'red' }}>{error}</span>}
+            {error && <Box as="span" sx={styles?.errorMessage}>{error}</Box>}
           </>
         )}
       />
