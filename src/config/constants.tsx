@@ -16,3 +16,5 @@ export const PAGE_SIZE = 5
 export const INCREMENT = 1
 
 export const DECREMENT = -1
+
+export const INITIAL_PAGE = '1'

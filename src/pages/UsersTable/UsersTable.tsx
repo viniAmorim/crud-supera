@@ -22,7 +22,7 @@ import InputMask from 'react-input-mask'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { DECREMENT, INCREMENT, INPUT_PHONE_MASK, PAGE_SIZE, PROFILES } from '../../config/constants'
+import { DECREMENT, INCREMENT, INITIAL_PAGE, INPUT_PHONE_MASK, PAGE_SIZE, PROFILES } from '../../config/constants'
 import { ROUTES } from '../../routes/routes'
 import { deleteUser, getUsers } from '../../services/http/user'
 import { Welcome } from '../Welcome/Welcome'
@@ -53,8 +53,11 @@ export const UsersTable = () => {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      margin: '0 auto'
-      
+      margin: '0 auto',
+      maxW: '68.75rem'      
+    },
+    tableContainer: {
+      maxWidth: '100%',
     },
     filterWrapper: {
       display: 'flex',
@@ -99,7 +102,7 @@ export const UsersTable = () => {
     watch,
   } = useForm<IUserConfig>({
     defaultValues: {
-      currentPage: '1',
+      currentPage: INITIAL_PAGE,
       pageSize: PAGE_SIZE,
     }
   })
@@ -145,19 +148,19 @@ export const UsersTable = () => {
   }
 
   const searchUser = () => {
-    setValue('currentPage', '1')
+    setValue('currentPage', INITIAL_PAGE)
 
     const formValues = getValues()
-    reset({...formValues, currentPage: '1', pageSize: PAGE_SIZE})
+    reset({...formValues, currentPage: INITIAL_PAGE, pageSize: PAGE_SIZE})
     refetchUser()
   }
 
   return (
     <>
     {!isLoading ? (
-      <Flex sx={styles?.wrapper} maxW='68.75rem'>
+      <Flex sx={styles?.wrapper}>
         <Welcome />
-          <TableContainer maxWidth={'100%'}>
+          <TableContainer sx={styles?.tableContainer}>
             <Flex sx={styles?.filterWrapper}>
               <Controller 
                 name="name" 
