@@ -69,13 +69,22 @@ export const UsersTable = () => {
       width: "30%"
     },
     editButton: {
-      color: '#4444f3',
+      '&:hover': {
+        backgroundColor:'#fe7e00',
+        color: '#fff'
+      },
     },
     deleteButton: {
-      color: '#ee4c4c'
+      '&:hover': {
+        backgroundColor:'#fe7e00',
+        color: '#fff'
+      },
     },
     viewButton: {
-      color: '#208920'
+      '&:hover': {
+        backgroundColor:'#fe7e00',
+        color: '#fff'
+      },
     },
     page: {
       padding: '0.625rem 0.625rem'
@@ -154,8 +163,6 @@ export const UsersTable = () => {
                 name="name" 
                 control={control} 
                 render={({field: {onChange, value}}) => (
-                  //Todas as estilizações devem estar na variavel style
-                  //Se você está usando um Controller, não precisa de um register
                   <Input
                     placeholder="Search by name"
                     onChange={event => {
@@ -244,7 +251,6 @@ export const UsersTable = () => {
             </Table>
             <Box>
             <Button
-              //onClick={decrementPage}
               onClick={() => changePage(DECREMENT)}
               isDisabled={Number(watch('currentPage')) === 1}
             >
@@ -252,7 +258,6 @@ export const UsersTable = () => {
             </Button>
             <Text sx={styles?.page} as='span'>Page {watch('currentPage')}</Text>
             <Button
-              //onClick={incrementPage}
               onClick={() => changePage(INCREMENT)}
               isDisabled={data && data?.length < pageSize}
             >
