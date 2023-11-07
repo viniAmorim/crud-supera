@@ -53,28 +53,6 @@ export const createUser = async (data: FormValues) => {
   return response.data;
 }
 
-// export const getUsers = async ({profile, name, email, currentPage, pageSize}: IRequestGetUsers): Promise<User[]> => {
-//   const queryParams = new URLSearchParams();
-//   const start = (Number(currentPage) - 1) * pageSize;
-
-//   if (name) {
-//     queryParams.append('name_like', name);
-//   }
-//   if (email) {
-//     queryParams.append('email_like', email);
-//   }
-//   if (profile) {
-//     queryParams.append('profile', profile);
-//   }
-
-//   queryParams.append('_start', start?.toString());
-//   queryParams.append('_limit', pageSize?.toString());
-
-//   const response = await apiUser.get(`${ENDPOINTS.users}?${queryParams.toString()}`);
-  
-//   return response.data;
-// }
-
 export const getUsers = async (params: IRequestGetUsers): Promise<User[]> => {
   Object.keys(params).forEach(key => {
 		const filter = params[key as keyof typeof params];
