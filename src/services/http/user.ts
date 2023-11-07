@@ -25,6 +25,16 @@ interface IRequestGetUsers {
   email?: string,
   currentPage: string,
   pageSize: number,
+  _start?: string,
+  _limit?: string,
+}
+
+interface IRequestGetUsersParams {
+  profile?: string;
+  name?: string;
+  email?: string;
+  _start: string;
+  _limit: string;
 }
 
 export type IProfile = 'Admin' | 'User'
@@ -43,45 +53,51 @@ export const createUser = async (data: FormValues) => {
   return response.data;
 }
 
-export const getUsers = async ({profile, name, email, currentPage, pageSize}: IRequestGetUsers): Promise<User[]> => {
-  const queryParams = new URLSearchParams();
-  const start = (Number(currentPage) - 1) * pageSize;
+// export const getUsers = async ({profile, name, email, currentPage, pageSize}: IRequestGetUsers): Promise<User[]> => {
+//   const queryParams = new URLSearchParams();
+//   const start = (Number(currentPage) - 1) * pageSize;
 
-  if (name) {
-    queryParams.append('name_like', name);
-  }
-  if (email) {
-    queryParams.append('email_like', email);
-  }
-  if (profile) {
-    queryParams.append('profile', profile);
-  }
+//   if (name) {
+//     queryParams.append('name_like', name);
+//   }
+//   if (email) {
+//     queryParams.append('email_like', email);
+//   }
+//   if (profile) {
+//     queryParams.append('profile', profile);
+//   }
 
-  queryParams.append('_start', start?.toString());
-  queryParams.append('_limit', pageSize?.toString());
+//   queryParams.append('_start', start?.toString());
+//   queryParams.append('_limit', pageSize?.toString());
 
-  const response = await apiUser.get(`${ENDPOINTS.users}?${queryParams.toString()}`);
-  
-  return response.data;
-};
-
-// // Tentar implementar a função assim de acordo com o modelo abaixo
-// export const getUsers = async (params: IRequestGetUsers): Promise<User[]> => {
-//  // Remove as chaves vazias
-//   Object.keys(params).forEach(key => {
-// 		const filter = params[key as keyof typeof params];
-// 		if (!filter) delete params[key as keyof typeof params];
-// 	})
-
-//   const start = (Number(params.currentPage) - 1) * params.pageSize
-
-//   params['_start'] = start.toString()
-//   params['_limit'] = params.pageSize.toString()
-  
-//   const response = await apiUser.get(`/users`, {params});
+//   const response = await apiUser.get(`${ENDPOINTS.users}?${queryParams.toString()}`);
   
 //   return response.data;
-// };
+// }
+
+export const getUsers = async (params: IRequestGetUsers): Promise<User[]> => {
+  Object.keys(params).forEach(key => {
+		const filter = params[key as keyof typeof params];
+		if (!filter) delete params[key as keyof typeof params];
+	})
+
+  const start = (Number(params.currentPage) - 1) * params.pageSize
+
+  params['_start'] = start.toString()
+  params['_limit'] = params.pageSize.toString()
+
+  const { currentPage, pageSize, ...filteredParams } = params
+
+  const requestParams: IRequestGetUsersParams = {
+    _start: String((Number(currentPage) - 1) * pageSize),
+    _limit: String(pageSize),
+    ...filteredParams,
+  }
+
+  const response = await apiUser.get(`${ENDPOINTS.users}`, {params: requestParams});
+  
+  return response.data;
+}
 
 export const deleteUser = async (id: number) => {
   const response = await apiUser.delete(`${ENDPOINTS.users}/${id}`)
