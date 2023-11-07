@@ -6,7 +6,7 @@ import {
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { UserForm } from '../../components/layout/Form/UserForm'
+import { UserForm } from '../../components/layout/Form/UserForm/UserForm'
 import { createUser, FormValues } from '../../services/http/user'
 import { AxiosError } from 'axios'
 import { IResponseError } from '../../services/http/error'

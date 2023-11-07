@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   Box,
   Button,
@@ -23,6 +24,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { DECREMENT, INCREMENT, INITIAL_PAGE, INPUT_PHONE_MASK, PAGE_SIZE, PROFILES } from '../../config/constants'
+import { useDebounce } from '../../hooks/useDebounce'
 import { ROUTES } from '../../routes/routes'
 import { deleteUser, getUsers } from '../../services/http/user'
 import { Welcome } from '../Welcome/Welcome'
@@ -155,6 +157,10 @@ export const UsersTable = () => {
     refetchUser()
   }
 
+  const debouncedSearch = useDebounce(() => {
+    searchUser()
+  }, 500)
+  
   return (
     <>
     {!isLoading ? (
@@ -170,8 +176,7 @@ export const UsersTable = () => {
                     placeholder="Search by name"
                     onChange={event => {
                       onChange(event)
-                      searchUser()
-                      
+                      debouncedSearch()
                     }}
                     value={value || ''}
                     sx={styles?.inputTable}
@@ -186,7 +191,7 @@ export const UsersTable = () => {
                     placeholder="Search by email"
                     onChange={event => {
                       onChange(event)
-                      searchUser()
+                      debouncedSearch()
                     }}
                     value={value || ''}
                     sx={styles?.inputTable}

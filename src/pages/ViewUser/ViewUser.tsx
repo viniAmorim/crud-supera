@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { UserForm } from '../../components/layout/Form/UserForm'
+import { UserForm } from '../../components/layout/Form/UserForm/UserForm'
 import { DEFAULT_AGE } from '../../config/constants'
 import { getUserById, IProfile, User } from '../../services/http/user'
 

@@ -5,7 +5,7 @@ import {
   SystemStyleObject
 } from '@chakra-ui/react'
 import { Controller } from 'react-hook-form'
-import { PROFILES } from '../../../config/constants'
+import { PROFILES } from '../../../../config/constants'
 
 interface ProfileSelectFielddProps {
   name: string;

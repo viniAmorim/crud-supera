@@ -3,10 +3,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
-import { MAX_USER_INPUT, MIN_USER_INPUT } from '../../../config/constants'
-import { FormValues, IProfile } from '../../../services/http/user'
-import { InputField } from './InputField'
-import { ProfileSelectField } from './ProfileSelectedField'
+import { MAX_USER_INPUT, MIN_USER_INPUT } from '../../../../config/constants'
+import { FormValues, IProfile } from '../../../../services/http/user'
+import { InputField } from '../Input/InputField'
+import { ProfileSelectField } from '../Select/ProfileSelectedField'
 
 interface UserFormProps {
   defaultValues?: {
