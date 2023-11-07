@@ -59,11 +59,6 @@ export const getUsers = async (params: IRequestGetUsers): Promise<User[]> => {
 		if (!filter) delete params[key as keyof typeof params];
 	})
 
-  const start = (Number(params.currentPage) - 1) * params.pageSize
-
-  params['_start'] = start.toString()
-  params['_limit'] = params.pageSize.toString()
-
   const { currentPage, pageSize, ...filteredParams } = params
 
   const requestParams: IRequestGetUsersParams = {
