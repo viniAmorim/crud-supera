@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-export function useDebounce(func: any, delay = 1000) {
+export const useDebounce = (func: any, delay = 1000) =>  {
 	const timer = useRef<any>();
 
 	useEffect(() => {
