@@ -61,4 +61,29 @@ describe('UserForm Component', () => {
     expect(ageInput).toBeDisabled();
     expect(submitButton).not.toBeInTheDocument();
   });
+
+  it('should show message error when user try submit with no values', async () => {
+    const defaultValues = {
+      name: '',
+      email: '',
+      profile: '' as 'User', 
+      age: 0,
+      phone: '',
+    };
+    
+    render(
+      <BrowserRouter>
+        <UserForm defaultValues={defaultValues} onSubmitForm={jest.fn()} />
+      </BrowserRouter>
+    );
+
+    // eslint-disable-next-line testing-library/no-unnecessary-act
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('submit-button'));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Name must have at least 3 characters')).toBeVisible();
+    })
+  });
 });
