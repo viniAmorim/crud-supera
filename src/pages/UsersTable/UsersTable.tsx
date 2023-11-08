@@ -248,9 +248,9 @@ export const UsersTable = () => {
                   <Td>{user?.profile}</Td>
                   <Td>
                     <ButtonGroup>
-                      <Button sx={styles?.editButton} onClick={() => handleEdit(String(user?.id))}><FaEdit /></Button>
-                      <Button sx={styles?.deleteButton} onClick={() => handleDeleteUser(user?.id)}><FaTrash  /></Button>
-                      <Button sx={styles?.viewButton} onClick={() => handleViewUser(String(user?.id))}><FaEye /></Button>
+                      <Button data-testid={`edit-button-${user?.id}`} sx={styles?.editButton} onClick={() => handleEdit(String(user?.id))}><FaEdit /></Button>
+                      <Button data-testid={`delete-button-${user?.id}`} sx={styles?.deleteButton} onClick={() => handleDeleteUser(user?.id)}><FaTrash  /></Button>
+                      <Button data-testid={`view-button-${user?.id}`} sx={styles?.viewButton} onClick={() => handleViewUser(String(user?.id))}><FaEye /></Button>
                     </ButtonGroup>
                   </Td>
                 </Tr>

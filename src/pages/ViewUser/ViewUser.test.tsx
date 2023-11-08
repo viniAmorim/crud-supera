@@ -53,6 +53,16 @@ describe('ViewUser Component', () => {
       </QueryClientProvider>
     );
 
+    const nameInput = await screen.findByPlaceholderText('Name');
+    const emailInput = await screen.findByPlaceholderText('Email');
+    const phoneInput = await screen.findByPlaceholderText('Phone');
+    const ageInput = await screen.findByPlaceholderText('Age');
+
+    expect(nameInput).toBeDisabled();
+    expect(emailInput).toBeDisabled();
+    expect(phoneInput).toBeDisabled();
+    expect(ageInput).toBeDisabled();
+
     await waitFor(() => {
       expect(screen.getByDisplayValue(userData.name)).toHaveValue('John Doe')
       expect(screen.getByDisplayValue(userData.email)).toHaveValue('john@example.com')

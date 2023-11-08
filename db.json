@@ -193,14 +193,6 @@
       "id": 30
     },
     {
-      "age": 1,
-      "phone": "(55) 6 2995-3460",
-      "profile": "user",
-      "email": "amorimm.vinicius@gmail.com",
-      "name": "Vinícius 3 Amorim da Silva",
-      "id": 31
-    },
-    {
       "age": 20,
       "phone": "(55) 6 2995-3460",
       "profile": "admin",
@@ -431,6 +423,14 @@
       "email": "amorimm.vinicius@gmail.com",
       "name": "Vinícius 3 Amorim da Silva",
       "id": 62
+    },
+    {
+      "age": null,
+      "phone": "",
+      "profile": "admin",
+      "email": "amorimm.vinicius@gmail.com",
+      "name": "Vinícius 3 Amorim da Silva",
+      "id": 63
     }
   ]
 }
