@@ -49,49 +49,7 @@ describe('UsersTable', () => {
     await screen.findByText('User2');
   });
 
-  it('should handle filters correctly', async () => {
-    const queryClient = new QueryClient();
-    const mockUsers = [
-      { id: 1, name: 'User1', email: 'user1@example.com', phone: '123-456-7890', profile: 'Admin', currentPage: '1'},
-      { id: 2, name: 'User2', email: 'user2@example.com', phone: '987-654-3210', profile: 'User', currentPage: '1' },
-    ];
-
-    const getUserMock = jest.spyOn(userApi, 'getUsers').mockImplementation(() => Promise.resolve(mockUsers));
-    
-    // eslint-disable-next-line testing-library/no-unnecessary-act
-    await act(async () => {
-      renderComponent(queryClient);
-    });
-
-    await screen.findByText('Page 1');
-
-    await screen.findByText('User1');
-    await screen.findByText('User2');
-    
-    const nameFilterInput = screen.getByPlaceholderText('Search by name') as HTMLInputElement;
-    fireEvent.change(nameFilterInput, { target: { value: 'User1' } });
-
-    await waitFor(() => expect(getUserMock).toBeCalledWith({
-      currentPage: "1",
-      pageSize: 5,
-      name: 'User1'
-    }))    
-
-    const emailFilterInput = screen.getByPlaceholderText('Search by email') as HTMLInputElement;
-    fireEvent.change(emailFilterInput, { target: { value: 'user1@example.com' } });
-
-    expect(nameFilterInput.value).toBe('User1');
-    expect(emailFilterInput.value).toBe('user1@example.com');
-
-    await waitFor(() => expect(getUserMock).toBeCalledWith({
-      currentPage: "1",
-      pageSize: 5,
-      name: 'User1',
-      email: 'user1@example.com'
-    }))    
-  });
-
-  it('should handle pagination correctly', async () => {
+  it('should handle pagination and filters correctly', async () => {
     const queryClient = new QueryClient();
     const mockUsers = [
       { id: 1, name: 'User1', email: 'user1@example.com', phone: '123-456-7890', profile: 'Admin' },
@@ -117,7 +75,7 @@ describe('UsersTable', () => {
     await waitFor(() => expect(getUserMock).toBeCalledWith({
       currentPage: "1",
       pageSize: 5,
-    }))    
+    }))  
 
     const nextButton = screen.getByText('Next');
     fireEvent.click(nextButton);
@@ -127,10 +85,23 @@ describe('UsersTable', () => {
         currentPage: "2",
         pageSize: 5,
       },
-    ))    
+    ))  
 
     await screen.findByText('Page 2');
     await screen.findByText('User6');
+    
+    const nameFilterInput = screen.getByPlaceholderText('Search by name') as HTMLInputElement;
+    fireEvent.change(nameFilterInput, { target: { value: 'User1' } });
+
+    const emailFilterInput = screen.getByPlaceholderText('Search by email') as HTMLInputElement;
+    fireEvent.change(emailFilterInput, { target: { value: 'user1@example.com' } });
+
+    await waitFor(() => expect(getUserMock).toBeCalledWith({
+      currentPage: "1",
+      pageSize: 5,
+      name: 'User1',
+      email: 'user1@example.com'
+    }))    
   });
 });
 
