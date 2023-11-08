@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-wait-for-multiple-assertions */
 import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
@@ -84,6 +85,29 @@ describe('UserForm Component', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Name must have at least 3 characters')).toBeVisible();
+      expect(screen.getByText('Email is required')).toBeVisible();
+      expect(screen.getByText('Profile is required')).toBeVisible();
     })
+  });
+
+  it('should submit form with correct values', async () => {
+    const defaultValues = {
+      name: '',
+      email: '',
+      profile: '' as 'User', 
+      age: 0,
+      phone: '',
+    };
+    
+    render(
+      <BrowserRouter>
+        <UserForm defaultValues={defaultValues} onSubmitForm={jest.fn()} />
+      </BrowserRouter>
+    );
+
+    // eslint-disable-next-line testing-library/no-unnecessary-act
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('submit-button'));
+    });
   });
 });
